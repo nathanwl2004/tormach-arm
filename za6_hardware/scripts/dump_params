@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+#
+# Dump all drive params
+#
+# Run as follows:
+# ros2 run za6_hardware dump_params <drive_pos> [<drive_alias>]
+
+from hal_plumber.hw_device_mgr import ZADrives
+from hw_device_mgr.config_io import ConfigIO
+from hw_device_mgr.logging import Logging
+from ament_index_python.packages import get_package_share_directory
+import sys
+import os
+
+# Hard-code bits to find device config YAML
+CONFIG_PKG = "za6_hardware"
+CONFIG_PATH = "config/hal_device_config.yaml"
+
+
+def main(args=None):
+    # Quiet logger
+    Logging.getLogger("hw_device_mgr").setLevel("warning")
+
+    # Get drive position from cmdline (assume bus 0)
+    if len(sys.argv) < 2 or len(sys.argv) > 3:
+        sys.stderr.write(
+            f"Usage:  {sys.argv[0]} <drive position> [<drive alias>]\n"
+        )
+        sys.exit(1)
+
+    pos = int(sys.argv[1])
+    alias = int(sys.argv[2]) if len(sys.argv) == 3 else 0
+    address = ZADrives.config_class.canon_address((0, pos, alias))
+
+    # Set device configuration
+    config_pkg_path = get_package_share_directory(CONFIG_PKG)
+    config_yaml_path = os.path.join(config_pkg_path, CONFIG_PATH)
+    device_config = ConfigIO.load_yaml_path(config_yaml_path)
+    ZADrives.set_device_config(device_config)
+
+    # Read SDO info
+    ZADrives.add_device_sdos_from_esi()
+
+    # Dump drive params to stdout
+    devs = ZADrives.scan_devices()
+    for dev in devs:
+        if address in dev.config.address_variants(dev.address):
+            break
+    else:
+        sys.stdout.write(f"ERROR:  Unable to find device at {address}\n")
+        sys.exit(1)
+    sys.stdout.write(f"# {str(dev)}\n")
+    sys.stdout.write("# sdo: value\n")
+    for sdo, val in dev.config.dump_param_values().items():
+        # Convert to str() to ensure pretty printing
+        sys.stdout.write(f"{str(sdo)}:  {str(val)}\n")
+
+
+if __name__ == "__main__":
+    sys.exit(main())

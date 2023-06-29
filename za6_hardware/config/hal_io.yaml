@@ -1,0 +1,6 @@
+/hal_io:
+  ros__parameters:
+    startup_timeout: 10  # s. to wait for successful startup
+
+    # I/O main loop publish rate in Hz
+    update_rate: 10

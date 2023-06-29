@@ -1,0 +1,40 @@
+component latency "system identification";
+license "Tormach internal license";
+
+pin in s32 curr_period "current thread period";
+pin out float curr_periodf "current thread period";
+
+pin out s32 min "min period";
+pin out s32 max "max period";
+pin out s32 diff "max jitter";
+
+pin in bit clear=1 "clear";
+
+function _;
+
+;;
+
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+//#define MAX(a, b) (((a) > (b)) ? (a) : (b))  // Redefined from machinekit/hal_priv.h
+#define ABS(a) (((a) < 0.0) ? -(a) : (a))
+#define LIMIT(x, lowhigh) (((x) > (lowhigh)) ? (lowhigh) : (((x) < (-(lowhigh))) ? (-(lowhigh)) : (x)))
+#define CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#define SIGN(a) (((a) < 0.0) ? (-1.0) : (((a) > 0.0) ? (1.0) : (0.0)))
+#define SIGN2(a, b) (CLAMP((a) / (b), -1, 1))
+
+FUNCTION(_) {
+
+  max = MAX(max, curr_period);
+  min = MIN(min, curr_period);
+
+  if(clear){
+    min = curr_period;
+    max = curr_period;
+  }
+
+  diff = max - min;
+
+  curr_periodf = curr_period * 0.000000001;
+
+  return(0);
+}

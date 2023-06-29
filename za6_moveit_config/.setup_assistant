@@ -1,0 +1,26 @@
+#                                             -*-yaml-*-
+moveit_setup_assistant_config:
+  urdf:
+    package: za6_description
+    relative_path: urdf/za6.xacro
+  srdf:
+    relative_path: config/za6.srdf
+  package_settings:
+    author_name: John Morris
+    author_email: jmorris@tormach.com
+    generated_timestamp: 1683056147
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity

@@ -1,0 +1,4 @@
+/hw_device_mgr:
+  ros__parameters:
+    init_timeout: 20.0  # seconds
+    goal_state_timeout: 5.0  # seconds

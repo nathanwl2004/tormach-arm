@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+
+from hal_plumber.drive_state import DriveState
+import sys
+import logging
+
+if __name__ == "__main__":
+    logging.basicConfig(
+        format="%(asctime)s [%(levelname)s]%(name)s: %(message)s",
+        level=logging.INFO,
+    )
+    ds = DriveState(argv=sys.argv[1:])
+    ds.main()

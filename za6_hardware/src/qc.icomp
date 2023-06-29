@@ -1,0 +1,163 @@
+component qc "system identification and feedforward";
+license "Tormach internal license";
+
+pin in float pos_in=0 "position input [rad]";
+pin out float pos_out=0 "position output [rad]";
+pin in float vel_in=0 "velocity input [rad/s]";
+pin out float vel_out=0 "velocity output [rad/s]";
+pin in float acc_in=0 "acceleration input [rad/s^2]";
+pin out float acc_out=0 "acceleration output [rad/s^2]";
+
+pin in float pos_fb=0 "position feedback [rad]";
+pin in float vel_fb=0 "velocity feedback [rad/s]";
+pin in float acc_fb=0 "acceleration feedback [rad/s]";
+pin in float torque_fb=0 "torque feedback [Nm]";
+
+pin out float torque_ff=0 "torque feedforward [Nm]";
+
+pin out float torque_comp=0 "compensated torque [Nm]";
+
+pin io float ext_pos_offset=0 "position offset";
+pin io float ext_vel_offset=0 "position offset";
+pin out float pos_target=0 "position offset target";
+pin out float vel_target=0 "velocity offset target";
+pin in float max_pos=0 "max position offset";
+pin in float min_pos=0 "min position offset";
+pin in float max_vel=0 "max velocity offset";
+pin in float max_acc=0 "max acceleration offset";
+pin out float pos_offset=0 "position offset";
+pin out float vel_offset=0 "velocity offset";
+pin out float acc_offset=0 "acceleration offset";
+
+pin io float amp=0 "sin amp target [rad]";
+pin in float freq=1 "sin freq [1/s]";
+pin out float amp_out=0 "sin amp [rad]";
+pin in float amp_rate=0.2 "sin amp change rate [rad/s]";
+
+pin out float vel_error=0 "velocity error";
+pin io float error_sum=0 "abs position error sum";
+
+pin io float load=0 "load torque [Nm]";
+pin io float inertia=0 "inertia [kg/m^2]";
+pin io float friction=0 "friction torque [Nm]";
+pin io float damping=0 "damping [Nm/rad/s]";
+pin io float ripple=0 "avg. abs. torque ripple [Nm]";
+
+pin in float li=0.05 "load integral gain";
+pin in float ji=0.0005 "inertia integral gain";
+pin in float fi=0.1 "friction integral gain";
+pin in float di=0.05 "damping integral gain";
+pin in float ri=0.25 "ripple integral gain";
+
+pin in float ff_scale=1 "0: ff disabled, 1: ff enabled";
+pin in float learn_scale=0 "learn parameters";
+
+pin io float timer=0 "cmd gen timer";
+pin io float watchdog=0 "cmd offset watchdog";
+
+pin in bit enable=0 "enable";
+pin io bit clear=0 "clear";
+
+pin in float periodf=0.001 "period";
+
+function _;
+
+;;
+
+#include<math.h>
+
+#define ABS(a) (((a) < 0.0) ? -(a) : (a))
+#define LIMIT(x, lowhigh) (((x) > (lowhigh)) ? (lowhigh) : (((x) < (-(lowhigh))) ? (-(lowhigh)) : (x)))
+#define CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#define SIGN(a) (((a) < 0.0) ? (-1.0) : (((a) > 0.0) ? (1.0) : (0.0)))
+#define SIGN2(a, b) (CLAMP((a) / (b), -1, 1))
+
+FUNCTION(_) {
+  watchdog -= periodf;
+  watchdog = MAX(watchdog, 0);
+  if(watchdog <= 0.0){
+    amp = 0.0;
+    ext_pos_offset = 0.0;
+    ext_vel_offset = 0.0;
+  }
+
+  float omega = 2.0 * M_PI * freq;
+  timer +=  omega * periodf;
+  if(timer >= 2.0 * M_PI){
+    timer -= 2.0 * M_PI;
+  }
+
+  amp_out = CLAMP(amp, amp_out - amp_rate * periodf, amp_out + amp_rate * periodf);
+  if(omega > 0.0){
+    amp_out = CLAMP(amp_out, 0, max_vel / omega);
+    amp_out = CLAMP(amp_out, 0, max_acc / (omega * omega));
+  }
+
+
+  if(!enable){
+    amp = 0.0;
+    amp_out = 0.0;
+    timer = 0.0;
+    error_sum = 0.0;
+    ext_pos_offset = 0.0;
+    ext_vel_offset = 0.0;
+    pos_target = 0.0;
+    vel_target = 0.0;
+    pos_offset = 0.0;
+    vel_offset = 0.0;
+    acc_offset = 0.0;
+  }
+
+  vel_target = CLAMP(LIMIT(ext_vel_offset, max_vel), vel_target - max_acc * 0.99 * periodf, vel_target + max_acc * 0.99 * periodf);
+  ext_pos_offset += vel_target * periodf;
+  ext_pos_offset = CLAMP(ext_pos_offset, min_pos, max_pos);
+  pos_target = CLAMP(ext_pos_offset, min_pos, max_pos);
+
+  pos_offset += vel_offset * periodf + acc_offset * periodf * periodf / 2.0;
+  vel_offset += acc_offset * periodf;
+  float to_go = pos_target - pos_offset;
+  float time_to_go = sqrtf(2.0 * ABS(to_go) / max_acc);
+  float acc = max_acc * SIGN(to_go);
+  float vel = LIMIT(acc * time_to_go, max_vel);
+  acc_offset = LIMIT((vel - vel_offset) / periodf, max_acc);
+
+  if(time_to_go < periodf && vel_offset <= periodf * max_acc){
+    acc_offset = 0.0;
+    vel_offset = 0.0;
+    pos_offset = pos_target;
+  }
+
+  pos_out = pos_in + pos_offset + amp_out * sin(timer);
+  vel_out = vel_in + vel_offset + amp_out * omega * cos(timer);
+  acc_out = acc_in + acc_offset - amp_out * omega * omega * sin(timer);
+
+  vel_error = vel_out - vel_fb;
+
+  error_sum += ABS(vel_error) * periodf;
+
+  torque_comp = torque_fb - torque_ff;
+  float torque_error = ff_scale * learn_scale * torque_comp;
+  load += li * torque_error * periodf;
+  inertia += ji * torque_error * acc_out * periodf;
+  friction += fi * torque_error * SIGN2(vel_out, 0.05) * periodf;
+  damping += di * torque_error * vel_out * periodf;
+  ripple = ripple * (1.0 - ri * periodf * learn_scale) + ri * periodf * learn_scale * ABS(torque_comp);
+
+  if(clear){
+    clear = 0;
+    load = 0.0;
+    inertia = 0.0;
+    friction = 0.0;
+    damping = 0.0;
+    ripple = 0.0;
+  }
+
+  torque_ff = 0.0;
+  torque_ff += load;
+  torque_ff += damping * vel_out;
+  torque_ff += friction * SIGN2(vel_out, 0.05);
+  torque_ff += inertia * acc_out;
+  torque_ff *= CLAMP(ff_scale, 0, 1);
+
+  return(0);
+}

@@ -1,0 +1,5 @@
+hal_thread:
+  name:  robot_hw_thread
+  period:  1000000  # ns
+  rt_cgname:  /rt
+hal_wait_timeout:  30.0  # Seconds to wait for HAL components to become ready

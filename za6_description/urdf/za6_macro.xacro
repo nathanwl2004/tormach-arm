@@ -1,0 +1,268 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="za6" params="
+    prefix tool0_trans tool0_rot tool0_fixed
+
+    limit_joint_1_lower:=-2.96
+    limit_joint_1_upper:=2.96
+    limit_joint_1_velocity:=2.0
+    limit_joint_1_effort:=1000.0
+
+    limit_joint_2_lower:=-1.74
+    limit_joint_2_upper:=2.35
+    limit_joint_2_velocity:=3.1
+    limit_joint_2_effort:=1000.0
+
+    limit_joint_3_lower:=-3.7
+    limit_joint_3_upper:=1.15
+    limit_joint_3_velocity:=3.9
+    limit_joint_3_effort:=1000.0
+
+    limit_joint_4_lower:=-2.6
+    limit_joint_4_upper:=2.6
+    limit_joint_4_velocity:=3.0
+    limit_joint_4_effort:=1000.0
+
+    limit_joint_5_lower:=-2.49
+    limit_joint_5_upper:=2.49
+    limit_joint_5_velocity:=3.8
+    limit_joint_5_effort:=1000.0
+
+    limit_joint_6_lower:=-6.283
+    limit_joint_6_upper:=6.283
+    limit_joint_6_velocity:=6.2
+    limit_joint_6_effort:=1000.0
+    ">
+
+    <!-- link list -->
+    <link name="${prefix}base_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/visual/base_link.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/collision/base_link_collision.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_1">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/visual/link_1.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/collision/link_1_collision.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="100"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+
+    <link name="${prefix}link_2">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/visual/link_2.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/collision/link_2_collision.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="100"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+
+    <link name="${prefix}link_3">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/visual/link_3.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/collision/link_3_collision.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="100"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+
+    <link name="${prefix}link_4">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/visual/link_4.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/collision/link_4_collision.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="100"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+
+    <link name="${prefix}link_5">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/visual/link_5.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/collision/link_5_collision.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="100"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+
+    <link name="${prefix}link_6">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/visual/link_6.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_description/meshes/collision/link_6_collision.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="100"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+
+    <!-- joint list -->
+    <joint name="${prefix}joint_1" type="revolute">
+      <origin rpy="0.0 0.0 0.0" xyz="0 0 0.45"/>
+      <axis xyz="0 0 1"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}link_1"/>
+      <limit
+          effort="${limit_joint_1_effort}"
+          lower="${limit_joint_1_lower}"
+          upper="${limit_joint_1_upper}"
+          velocity="${limit_joint_1_velocity}"
+          />
+    </joint>
+
+    <joint name="${prefix}joint_2" type="revolute">
+      <origin rpy="0.0 0.0 0.0" xyz="0.025 0 0.0"/>
+      <axis xyz="0 1 0"/>
+      <parent link="${prefix}link_1"/>
+      <child link="${prefix}link_2"/>
+      <limit
+          effort="${limit_joint_2_effort}"
+          lower="${limit_joint_2_lower}"
+          upper="${limit_joint_2_upper}"
+          velocity="${limit_joint_2_velocity}"
+          />
+    </joint>
+
+    <joint name="${prefix}joint_3" type="revolute">
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.454"/>
+      <axis xyz="0 1 0"/>
+      <parent link="${prefix}link_2"/>
+      <child link="${prefix}link_3"/>
+      <limit
+          effort="${limit_joint_3_effort}"
+          lower="${limit_joint_3_lower}"
+          upper="${limit_joint_3_upper}"
+          velocity="${limit_joint_3_velocity}"
+          />
+    </joint>
+
+    <joint name="${prefix}joint_4" type="revolute">
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.035"/>
+      <axis xyz="1 0 0"/>
+      <parent link="${prefix}link_3"/>
+      <child link="${prefix}link_4"/>
+      <limit
+          effort="${limit_joint_4_effort}"
+          lower="${limit_joint_4_lower}"
+          upper="${limit_joint_4_upper}"
+          velocity="${limit_joint_4_velocity}"
+          />
+    </joint>
+
+    <joint name="${prefix}joint_5" type="revolute">
+      <origin rpy="0.0 0.0 0.0" xyz="0.4195 0.0 0.0"/>
+      <axis xyz="0 1 0"/>
+      <parent link="${prefix}link_4"/>
+      <child link="${prefix}link_5"/>
+      <limit
+          effort="${limit_joint_5_effort}"
+          lower="${limit_joint_5_lower}"
+          upper="${limit_joint_5_upper}"
+          velocity="${limit_joint_5_velocity}"
+          />
+    </joint>
+
+    <joint name="${prefix}joint_6" type="revolute">
+      <origin rpy="0.0 0.0 0.0" xyz="0.1175 0.0 0.0"/>
+      <axis xyz="1 0 0"/>
+      <parent link="${prefix}link_5"/>
+      <child link="${prefix}link_6"/>
+      <limit
+          effort="${limit_joint_6_effort}"
+          lower="${limit_joint_6_lower}"
+          upper="${limit_joint_6_upper}"
+          velocity="${limit_joint_6_velocity}"
+          />
+    </joint>
+
+
+    <!-- ROS-Industrial 'base' frame: base_link to Fanuc World Coordinates transform -->
+    <link name="${prefix}base" />
+    <joint name="${prefix}base_link-base" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base"/>
+    </joint>
+
+    <!-- ROS-Industrial 'flange' frame: attachment point for EEF models -->
+    <link name="${prefix}flange" />
+    <joint name="${prefix}joint_6-flange" type="fixed">
+      <origin xyz="0 0 0" rpy="${pi*1} ${-pi*0.5} 0" />
+      <parent link="${prefix}link_6" />
+      <child link="${prefix}flange" />
+    </joint>
+
+    <!-- ROS-Industrial 'tool0' frame: all-zeros tool frame -->
+    <link name="${prefix}tool0" />
+    <xacro:if value="${tool0_fixed}">
+      <joint name="${prefix}link_6_tool0" type="fixed">
+        <!-- marker -->
+        <origin xyz="${tool0_trans}" rpy="${tool0_rot}" />
+        <parent link="${prefix}flange" />
+        <child link="${prefix}tool0" />
+      </joint>
+    </xacro:if>
+    <xacro:unless value="${tool0_fixed}">
+      <joint name="${prefix}link_6_tool0" type="floating">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="${prefix}flange" />
+        <child link="${prefix}tool0" />
+      </joint>
+    </xacro:unless>
+
+  </xacro:macro>
+</robot>

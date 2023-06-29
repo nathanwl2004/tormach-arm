@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>za6_bringup</name>
+  <version>0.0.1</version>
+  <description>Bring up the ZA6 robot hardware and MoveIt config</description>
+  <author email="jmorris@tormach.com">John Morris</author>
+  <maintainer email="jmorris@tormach.com">John Morris</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>za6_moveit_config</exec_depend>
+  <exec_depend>za6_description</exec_depend>
+  <exec_depend>za6_hardware</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

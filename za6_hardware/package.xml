@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>za6_hardware</name>
+  <version>0.0.1</version>
+  <description>Tormach ZA robot hardware configuration</description>
+
+  <maintainer email="bdebruijn@luminize.nl">Bas de Bruijn</maintainer>
+  <author email="alex@machinekoder.com">Alexander Rössler</author>
+
+  <license>BSD</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <build_depend>hal_hw_interface</build_depend>
+  <build_export_depend>hal_hw_interface</build_export_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>hw_device_mgr</exec_depend>
+  <exec_depend>hal_hw_interface</exec_depend>
+  <exec_depend>linuxcnc-ethercat</exec_depend>
+  <exec_depend>etherlabmaster-tools</exec_depend>
+  <!-- <exec_depend>joint_state_controller</exec_depend> -->
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>joint_trajectory_controller</exec_depend>
+  <exec_depend>position_controllers</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>za6_description</exec_depend>
+  <exec_depend>za6_moveit_config</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>machinekit</exec_depend>
+  <!-- <exec_depend>ros_machinetalk</exec_depend> -->
+  <exec_depend>python3-pandas</exec_depend>
+
+  <test_depend>ament_cmake_cppcheck</test_depend>
+  <test_depend>ament_cmake_cpplint</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>ament_cmake_xmllint</test_depend>
+
+  <test_depend>python3-pytest</test_depend>
+  <test_depend>python3-mock</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

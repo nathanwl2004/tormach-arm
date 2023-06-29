@@ -1,0 +1,23 @@
+/**:
+  ros__parameters:
+    hardware_interface:
+      # Configuration for resetting ROS controllers:  enable is false, and
+      # - abs(velocity) less than this tolerance
+      stopped_velocity_tolerance: 0.005
+      # - abs(cmd_pos - fb_pos) less than this tolerance
+      command_feedback_equal_tolerance: 0.005
+
+      # Safety input
+      # - when tripped, scale max_vel by this factor
+      max_vel_safety_scale: 0.1
+
+/controller_manager:
+  ros__parameters:
+    update_rate:  1000  # updates/second
+    # robot_description:  Calculated in launch file
+    #
+    # Unused params:
+    # configure_components_on_start
+    # activate_components_on_start
+    # controllername[].type
+    # use_sim_time

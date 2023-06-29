@@ -1,0 +1,198 @@
+component ppi "dual cascaded pid with feedforward and dynamic integrator clamping";
+license "Tormach internal license";
+
+pin in float pos_ff "position feedforward";
+pin out float pos_cmd "position command";
+pin in float pos_fb "position feedback";
+pin out float pos_error "position error";
+pin out float avg_vel_error "avg. velocity error";
+pin out float avg_abs_vel_error "avg. abs. velocity error";
+pin out float at_scale=1 "auto tuning gain scale";
+pin in float vel_ff "velocity feedforward";
+pin out float vel_cmd "velocity command";
+pin in float vel_fb "velocity feedback";
+pin out float vel_error "velocity error";
+pin in float acc_ff "acceleration feedforward";
+pin out float acc_cmd "acceleration command";
+pin in float acc_fb "acceleration feedback";
+pin out float acc_error "acceleration error";
+pin in float torque_ff=0 "torque feedforward [Nm]";
+pin out float torque_loop_cmd "torque feedback command";
+pin out float torque_ff_cmd "torque feedforward command";
+pin out float torque_cmd "torque command";
+pin out float torque_sum "torque sum";
+pin out float sat_time "saturation time";
+//pin out float en_time "en time";
+pin out bit error "error";
+
+pin in float pos_p=1 "position proportional gain [1/s]";
+pin in float pos_g=0.1 "max pid velocity";
+pin in float vel_p=1 "velocity proportional gain [1/s]";
+pin in float vel_i=1 "velocity integrator gain [Nm/rad]";
+pin in float acc_p=0 "acceleration proportional gain [Nm/rad/s^2]";
+pin in float acc_i=0 "acceleration integrator gain [Nm/rad/s]";
+pin in float static_scale=1 "";
+pin in float dynamic_scale=1 "";
+
+pin in float inertia=0.00001 "inertia [kgm^2]";
+pin in float friction=0 "friction feedforward [Nm]";
+pin in float damping=0 "damping feedforward [Nm/rad/s]";
+pin in float load=0 "load feedforward [Nm]";
+
+pin in float max_pos=7 "max position";
+pin in float min_pos=-7 "min position";
+pin in float max_vel=10 "max velocity";
+pin in float max_acc=100 "max accerleration";
+pin in float max_torque=1 "max torque";
+pin in float torque_boost=1.1 "max torque boost";
+pin in float pos_deadband=0.00005 "position deadband";
+pin in float max_pos_error=0.1 "max position error";
+pin in float max_vel_error=0.2 "max velocity error / max velocity";
+pin in float max_sat=0.1 "max saturation time";
+
+pin in bit en "enable";
+
+pin out float old_vel_ffl "internal veloctiy feedforward memory";
+
+pin in float periodf=0.001 "period";
+
+function _;
+
+;;
+
+#define ABS(a) (((a) < 0.0) ? -(a) : (a))
+#define LIMIT(x, lowhigh) (((x) > (lowhigh)) ? (lowhigh) : (((x) < (-(lowhigh))) ? (-(lowhigh)) : (x)))
+#define CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#define SIGN2(a, b) (CLAMP((a) / (b), -1, 1))
+
+FUNCTION(_) {
+  //periodf = period * 0.000000001;
+
+  // limit cmd input
+  float pos_ffl = pos_ff;
+  if(min_pos <= max_pos){
+    pos_ffl = CLAMP(pos_ff, min_pos, max_pos);
+  }
+
+  float vel_ffl = LIMIT(vel_ff, max_vel);
+  vel_ffl = CLAMP(vel_ffl, old_vel_ffl - max_acc * periodf, old_vel_ffl + max_acc * periodf);
+  old_vel_ffl = vel_ffl;
+
+  float acc_ffl = LIMIT(acc_ff, max_acc);
+
+  // pos loop
+  pos_cmd = pos_ffl;
+  pos_error = pos_cmd - pos_fb;
+  if(ABS(pos_error) < pos_deadband){
+    pos_error = 0.0;
+  }
+  float tmp_vel_cmd = pos_error * pos_p * static_scale;
+
+  // vel loop
+  tmp_vel_cmd = LIMIT(tmp_vel_cmd, max_vel * pos_g);
+  tmp_vel_cmd += vel_ffl;
+  vel_cmd = CLAMP(tmp_vel_cmd, vel_cmd - max_acc * periodf, vel_cmd + max_acc * periodf);
+  vel_cmd = LIMIT(vel_cmd, max_vel);
+
+  vel_error = CLAMP(vel_cmd - vel_fb, vel_error - max_acc * periodf * 2.0, vel_error + max_acc * periodf * 2.0);
+  acc_cmd = vel_error * vel_p * dynamic_scale * at_scale;
+
+  // autotuning
+  avg_vel_error = periodf / 1.0 * vel_error + (1.0 - periodf / 1.0) * avg_vel_error;
+  avg_abs_vel_error = periodf / 1.0 * ABS(vel_error) + (1.0 - periodf / 1.0) * avg_abs_vel_error;
+  if(avg_abs_vel_error > max_vel * max_vel_error / 50.0){ // oscillation, tune down
+    at_scale -= 0.1;
+    avg_abs_vel_error *= 0.75;
+    avg_vel_error = 0.0;
+  }
+  else if(ABS(avg_vel_error) > max_vel * max_vel_error / 250.0){ // bad tracking, tune up
+    at_scale += 0.05;
+    avg_vel_error *= 0.75;
+  }
+
+  at_scale = CLAMP(at_scale, 0.25, 1.0);
+
+  if(en){
+    torque_sum += vel_error * vel_i * static_scale * at_scale * periodf;
+
+    // acc loop
+    acc_error = LIMIT(acc_cmd + acc_ffl, max_acc) - acc_fb;
+    torque_sum += acc_error * acc_i * static_scale * at_scale * periodf;
+    torque_loop_cmd = (acc_cmd + acc_error * acc_p) * inertia;
+
+    // torque loop
+    torque_loop_cmd = LIMIT(torque_loop_cmd, max_torque);
+    torque_sum = CLAMP(torque_sum, -max_torque - torque_loop_cmd, max_torque - torque_loop_cmd);
+    torque_loop_cmd += torque_sum;
+
+    torque_ff_cmd = torque_ff;
+    torque_ff_cmd += load;
+    torque_ff_cmd += friction * SIGN2(vel_cmd, max_vel * 0.01);
+    torque_ff_cmd += damping * vel_cmd;
+    torque_ff_cmd += acc_ffl * inertia;
+
+    torque_cmd = torque_loop_cmd + torque_ff_cmd;
+    torque_cmd = LIMIT(torque_cmd, max_torque);
+
+//    en_time = 0.5;
+  }
+
+  if(ABS(torque_cmd) > max_torque / torque_boost){
+    sat_time += periodf * ABS(torque_cmd) / max_torque;
+  }
+  else{
+    sat_time *= 0.99;
+  }
+
+  error = 0;
+
+  if(sat_time > max_sat){
+    sat_time = max_sat;
+    if(error == 0){
+      rtapi_print("sat fault\n");
+    }
+    error = 1;
+  }
+
+  if(ABS(pos_error) > max_pos_error){
+    if(error == 0){
+      rtapi_print("pos fault\n");
+    }
+    error = 1;
+  }
+
+  if(ABS(vel_error) > max_vel * max_vel_error){
+    if(error == 0){
+      rtapi_print("vel fault\n");
+    }
+    error = 1;
+  }
+
+  if(error == 1){
+    //vel_cmd = 0.0;
+    //acc_cmd = 0.0;
+    //torque_cmd = 0.0;
+    //torque_sum = 0.0;
+    //torque_cmd *= 0.9995;
+  }
+
+  if(!en){
+    vel_cmd = 0.0;
+    torque_ff_cmd = 0.0;
+    acc_cmd = 0.0;
+    torque_sum = 0.0;
+    sat_time = 0.0;
+    avg_vel_error = 0;
+    avg_abs_vel_error = 0;
+    at_scale = 1.0;
+  //  en_time -= periodf;
+    error = 0;
+    torque_cmd = 0.0;
+  }
+
+//  if(en_time <= 0.0){
+//    en_time = 0.0;
+//    torque_cmd = 0.0;
+//  }
+  return(0);
+}

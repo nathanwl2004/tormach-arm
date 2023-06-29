@@ -1,0 +1,62 @@
+component est "system identification";
+license "Tormach internal license";
+
+pin in float vel_fb=0 "velocity feedback";
+pin in float acc_fb=0 "velocity feedback";
+pin in float torque_fb=0 "torque feedback";
+
+pin in float load_in=0 "load torque input [Nm]";
+pin in float inertia_in=0 "inertia intput [kg/m^2]";
+pin in float friction_in=0 "friction torque input [Nm]";
+pin in float damping_in=0 "damping input [Nm/rad/s]";
+
+pin io float load=0 "load torque [Nm]";
+pin io float inertia=0 "inertia [kg/m^2]";
+pin io float friction=0 "friction torque [Nm]";
+pin io float damping=0 "damping [Nm/rad/s]";
+
+pin in float li=0.01 "load integral gain";
+pin in float ji=0.005 "inertia integral gain";
+pin in float fi=0.01 "friction integral gain";
+pin in float di=0.01 "damping integral gain";
+
+pin in float max_delta=0.2 "max parameter delta";
+
+pin in bit en "enable";
+pin in bit clear=1 "clear";
+
+pin in float periodf=0.001 "period";
+
+function _;
+
+;;
+
+#define ABS(a) (((a) < 0.0) ? -(a) : (a))
+#define LIMIT(x, lowhigh) (((x) > (lowhigh)) ? (lowhigh) : (((x) < (-(lowhigh))) ? (-(lowhigh)) : (x)))
+#define CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#define SIGN(a) (((a) < 0.0) ? (-1.0) : (((a) > 0.0) ? (1.0) : (0.0)))
+#define SIGN2(a, b) (CLAMP((a) / (b), -1, 1))
+
+FUNCTION(_) {
+  //float periodf = period * 0.000000001;
+
+  if(en){
+    load += li * torque_fb * periodf;
+    load = CLAMP(load, load_in * (1.0 - max_delta), load_in * (1.0 + max_delta));
+    inertia += ji * torque_fb * acc_fb * periodf;
+    inertia = CLAMP(inertia, inertia_in * (1.0 - max_delta), inertia_in * (1.0 + max_delta));
+    friction += fi * torque_fb * SIGN(vel_fb) * periodf;
+    friction = CLAMP(friction, friction_in * (1.0 - max_delta), friction_in * (1.0 + max_delta));
+    damping += di * torque_fb * vel_fb * periodf;
+    damping = CLAMP(damping, damping_in * (1.0 - max_delta), damping_in * (1.0 + max_delta));
+  }
+
+  if(clear){
+    load = load_in;
+    inertia = inertia_in;
+    friction = friction_in;
+    damping = damping_in;
+  }
+
+  return(0);
+}

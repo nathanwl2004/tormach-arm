@@ -1,0 +1,148 @@
+component drive_safety """Drive safety RT helper
+
+This component performs several safety-related functions based on the
+safety switch and enabling device inputs:
+
+- When the safety input is high, no restrictions on control word or
+  velocity limit
+
+- When the safety input is low, set the max velocity limit scale,
+  normally 100%, to the unsafe velocity limit; this allows limited
+  motion when enabling input is high
+
+- Upon the safety input falling edge, set the soft-stop pin (this hack
+  allows higher-level controls, when the max velocity limit scale is
+  applied unexpectedly, to do something reasonable instead of throwing
+  a ferror fault)
+
+- When both safety input and enabling input are low, force control
+  word quick stop (see below)
+
+- When the external quick stop input goes high, force control word
+  quick stop (see below)
+
+- When any drive goes into fault, force control word quick stop (see
+  below)
+
+Normally, each drive's control word output is copied directly from the
+raw control word input.  During unsafe conditions, drives are forced
+into quick stop mode by applying the quick stop mask to the control
+word.  A logical AND of the raw control word and the 0xFFF2 quick stop
+mask allows these base control words (represented in binary, only bits
+0-3 & 7 significant):
+
+- 0xxx xx0x:  Disable voltage (Drives -> SWITCH ON DISABLED)
+- 0xxx x01x:  Quick stop (Drives -> QUICK STOP ACTIVE)
+- 1xxx xxxx:  Fault reset (Drives -> SWITCH ON DISABLED @ rising edge)
+
+This ensures transition from unsafe to safe states in all cases:
+  Start state         control word        Transition # & final state
+                      before    after
+- SWITCH ON DISABLED  0x0000 -> 0x0000    (No change) SWITCH ON DISABLED
+- READY TO SWITCH ON  0x0006 -> 0x0002    7 -> SWITCH ON DISABLED
+- SWITCHED ON         0x0007 -> 0x0002    10 -> SWITCH ON DISABLED
+- OPERATION ENABLED   0x000F -> 0x0002    11 -> QUICK STOP ACTIVE
+- QUICK STOP ACTIVE   0x0002 -> 0x0002    (No change) QUICK STOP ACTIVE
+- FAULT               (any)  -> 0x0000/2  (No change) FAULT
+
+Afterwards, the bitmask allows recovering drives to SWITCH ON DISABLED
+state:
+  Start state         control word        Transition #
+- SWITCH ON DISABLED  0x0000              (No change)
+- QUICK STOP ACTIVE   0x0000              12
+- FAULT               0x0080              15
+
+When recovering drives, drives in non-fault state should be
+handled BEFORE the drive in fault.  Recovering the faulted
+drive first will cause original control words to be restored
+with possible unintented state transitions.
+
+The drivecount parameter (default 6) specifies the number of fault,
+control-word, etc. inputs and outputs.
+""";
+
+instanceparam int drivecount = 6;
+
+// Input Pins
+pin_ptr in bit safety_input=1 "Safety switch input";
+pin_ptr in bit enabling_input=1 "Enabling device input";
+pin_ptr in float unsafe_vel_limit=0.10 "Unsafe velocity limit (default 0.1)";
+pin_ptr in u32 quick_stop_command_value=4 "Quick stop command value; default 3";
+pin_ptr in bit quick_stop_ext=0 "External quick stop input";
+pin_ptr io bit soft_stop=0 "External soft stop input";
+pin_ptr in u32 status_word#.[drivecount] "Drive status word (per drive)";
+pin_ptr in u32 raw_control_word#.[drivecount]
+  "Raw control word input (per drive)";
+pin_ptr in u32 quick_stop_mask=0xFFF2 "Quick stop mask";
+
+// Output/IO pins
+pin_ptr out float vel_limit "Max velocity limit scale";
+pin_ptr out u32 control_word#.[drivecount] "Control word (per drive)";
+pin_ptr io u32 state_cmd "Drive state command (for issuing quick stop)";
+pin_ptr out bit quick_stop "Quick stop output pin";
+
+// Debugging output pins
+pin_ptr out bit quick_stop_active "Quick stop active when set";
+pin_ptr out u32 quick_stop_mask_fb "Quick stop mask currently applied";
+pin_ptr out bit drive_fault "Some drive in fault when set";
+pin_ptr out bit voltage_enabled "Motor power in all drives";
+
+variable int prev_safety_input=0;
+
+option MAXCOUNT 16;
+
+license "BSD";
+
+author "John Morris";
+
+function _;
+;;
+
+
+FUNCTION(_)
+{
+  // Check voltage enabled
+  bool all_drive_voltage_enabled = 1;
+  for (int i=0; i<local_drivecount; i++)
+    all_drive_voltage_enabled &= (bool)(gu(status_word_(i)) & 0x0010);
+  sb(voltage_enabled, all_drive_voltage_enabled);
+
+  // Set vel-limit to unsafe-vel-limit when safety-input is low
+  sf(vel_limit, gb(safety_input) ? 1.0 : gf(unsafe_vel_limit));
+
+  // Apply quick stop safety mask to control words upon:
+  bool apply_quick_stop = 0;
+  // - any drive has no motor power
+  apply_quick_stop |= ! all_drive_voltage_enabled;
+  // - external quick-stop pin
+  apply_quick_stop |= gb(quick_stop_ext);
+  // - any drive fault
+  bool fault = 0;
+  for (int i=0; i<local_drivecount; i++)
+    fault |= (bool)(gu(status_word_(i)) & 0x0008);
+  apply_quick_stop |= fault;
+  // - safety input and enabling input both low
+  apply_quick_stop |= !gb(safety_input) && !gb(enabling_input);
+
+  // Apply the safe control word mask if applicable
+  u32 mask = apply_quick_stop ? gu(quick_stop_mask) : 0xFFFF;
+  for (int i=0; i<local_drivecount; i++)
+    su(control_word_(i), gu(raw_control_word_(i)) & mask);
+
+  // Set quick_stop pin and issue state_cmd quick stop once if applicable
+  if (apply_quick_stop && !gb(quick_stop))
+    su(state_cmd, gu(quick_stop_command_value));
+  sb(quick_stop, apply_quick_stop);
+
+  // Issue soft stop once at safety_input falling edge if no quick stop
+  if (!apply_quick_stop && prev_safety_input && !gb(safety_input))
+    sb(soft_stop, 1);
+  prev_safety_input = gb(safety_input);
+
+  // Set debug pins
+  sb(quick_stop_active, apply_quick_stop);
+  su(quick_stop_mask_fb, mask);
+  sb(drive_fault, fault);
+
+  return 0;
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"
+?>
+<package format="3">
+  <name>za6_description</name>
+  <version>0.0.0</version>
+  <description>Tormach ZA6 robot URDF files and meshes</description>
+
+  <maintainer email="john@dovetail-automata.com">John Morris</maintainer>
+  <author email="alex@machinekoder.com">Alexander Rössler</author>
+  <author email="bdebruijn@luminize.nl">Bas de Bruijn</author>
+  <author email="john@dovetail-automata.com">John Morris</author>
+
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <!-- Add `check_urdf` tool for verification -->
+  <buildtool_depend>liburdfdom-tools</buildtool_depend>
+
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>joint_state_publisher_gui</exec_depend>
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <!-- rviz2 packages don't pull in Ogre libs -->
+  <exec_depend>rviz_ogre_vendor</exec_depend>
+
+  <build_export_depend>xacro</build_export_depend>
+
+  <test_depend>ament_cmake_pytest</test_depend>
+  <test_depend>launch_testing_ament_cmake</test_depend>
+  <test_depend>launch_testing_ros</test_depend>
+  <test_depend>liburdfdom-tools</test_depend>
+  <test_depend>xacro</test_depend>
+  <!-- Qt isn't directly a dependency, but this fixes a warning: -->
+  <!-- "Unknown config option: qt_api" -->
+  <test_depend>python-pytest-qt-pip</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

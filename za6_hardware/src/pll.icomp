@@ -1,0 +1,106 @@
+component pll "pll/observer based veloctiy and acceleration estimation";
+license "Tormach internal license";
+
+pin in float pos_in=0 "position input";
+pin in float vel_in=0 "velocity input";
+pin in float acc_in=0 "acceleration input";
+
+pin out float pos_out=0 "position output";
+pin out float vel_out=0 "velocity output";
+pin out float acc_out=0 "acceleration output";
+
+pin in float bandwidth=500 "filter bandwidth";
+pin in float max_pos=0 "max position";
+pin in float min_pos=0 "min positon";
+pin in float max_vel=0 "max velocity";
+pin in float max_acc=0 "max acceleration";
+
+pin in bit en=0 "enable";
+pin in s32 mode=0 "mode: 0 = path-through, 1 = clamping, 2 = pll, 3 = observer";
+
+pin out float pos_error=0 "position error";
+pin out float old_vel_in=0 "internal velocity input memory";
+pin out float acc_sum=0 "internal acceleration integrator";
+
+pin in float periodf=0.001 "period";
+
+function _;
+
+;;
+
+#define ABS(a) (((a) < 0.0) ? -(a) : (a))
+#define LIMIT(x, lowhigh) (((x) > (lowhigh)) ? (lowhigh) : (((x) < (-(lowhigh))) ? (-(lowhigh)) : (x)))
+#define CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#define SIGN(a) (((a) < 0.0) ? (-1.0) : (((a) > 0.0) ? (1.0) : (0.0)))
+#define SIGN2(a, b) (CLAMP((a) / (b), -1, 1))
+
+FUNCTION(_) {
+  //float periodf = period * 0.000000001;
+
+  float pos_input = pos_in;
+  float vel_input = vel_in;
+  float acc_input = acc_in;
+
+  // limit input
+  if(mode > 0){
+      if(min_pos <= max_pos){
+      pos_input = CLAMP(pos_in, min_pos, max_pos);
+    }
+
+    vel_input = LIMIT(vel_in, max_vel);
+    vel_input = CLAMP(vel_input, old_vel_in - max_acc * periodf, old_vel_in + max_acc * periodf);
+
+    acc_input = LIMIT(acc_in, max_acc);
+  }
+  old_vel_in = vel_input;
+
+
+  // filter
+  switch(mode){
+    case 0: // no filter
+    case 1: // limit
+      pos_out = pos_input;
+      vel_out = vel_input;
+      acc_out = acc_input;
+      acc_sum = 0.0;
+    break;
+
+    case 2: // pll
+      pos_error = pos_input - pos_out;
+      pos_error = LIMIT(pos_error, periodf * max_vel);
+      float vel_error = vel_input - vel_out;
+      acc_out = acc_input + bandwidth * bandwidth * pos_error + 2.0 * bandwidth * vel_error;
+      acc_out = LIMIT(acc_out, max_acc * 1.1);
+      vel_out += periodf * acc_out;
+      vel_out = LIMIT(vel_out, max_vel * 1.1);
+      pos_out += periodf * vel_out;
+      acc_sum = 0.0;
+    break;
+
+    case 3: // velocity observer
+      pos_out += periodf * vel_out;
+      pos_error = pos_input - pos_out;
+      pos_error = LIMIT(pos_error, periodf * max_vel);
+      acc_out = acc_input + bandwidth * bandwidth * pos_error;
+      acc_out = LIMIT(acc_out, max_acc * 1.1);
+      acc_sum += periodf * acc_out;
+      vel_out = vel_input + acc_sum;
+      vel_out = LIMIT(vel_out, max_vel * 1.1);
+      pos_out += periodf * 2.0 * bandwidth * pos_error;
+    break;
+
+    case 4:
+        vel_out = bandwidth * vel_out + (1.0 - bandwidth) * (pos_input - pos_out) / periodf;
+        pos_out = pos_input;
+    break;
+  }
+
+  if(!en){
+    pos_out = pos_input;
+    vel_out = vel_input;
+    acc_out = acc_input;
+    acc_sum = 0.0;
+  }
+
+  return(0);
+}

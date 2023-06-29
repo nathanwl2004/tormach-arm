@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Bring up the ZA HAL hardware and MoveIt -->
+
+  <!-- ******************************************************************* -->
+  <!-- Common configuration for HAL hardware and MoveIt launch -->
+
+  <!-- - Common args -->
+  <arg
+      name="prefix"
+      default=""
+      description="Prefix of joint names for multi-robot setup"
+      />
+  <arg
+      name="description_package"
+      default="za6_description"
+      description="Description package with robot URDF/XACRO files"
+      />
+  <arg
+      name="hardware_package"
+      default="za6_hardware"
+      description="Hardware package with robot HAL configuration"
+      />
+
+  <!-- - Local variables -->
+  <let
+      name="description_package_share"
+      value="$(find-pkg-share $(var description_package))"
+      />
+  <let
+      name="description_package_launch"
+      value="$(var description_package_share)/launch"
+      />
+  <let
+      name="description_package_config"
+      value="$(var description_package_share)/config"
+      />
+  <let
+      name="hardware_package_share"
+      value="$(find-pkg-share $(var hardware_package))"
+      />
+  <let
+      name="hardware_package_launch"
+      value="$(var hardware_package_share)/launch"
+      />
+  <let
+      name="hardware_package_config"
+      value="$(var hardware_package_share)/config"
+      />
+  <let
+      name="moveit_config_package_share"
+      value="$(find-pkg-share za6_moveit_config)"
+      />
+  <let
+      name="moveit_config_package_launch"
+      value="$(var moveit_config_package_share)/launch"
+      />
+  <let
+      name="moveit_config_package_config"
+      value="$(var moveit_config_package_share)/config"
+      />
+
+
+  <!-- ******************************************************************* -->
+  <!-- Launch HAL hardware -->
+  <!-- Include za6_hardware/launch/hal_hardware.launch.py -->
+  <arg
+      name="description_file"
+      default="za6.xacro"
+      description="URDF/XACRO description file with the robot."
+      />
+  <arg
+      name="sim_mode"
+      default="false"
+      description="Run robot with sim HAL hardware"
+      />
+  <arg
+      name="hal_debug_output"
+      default="true"
+      description="Output HAL debug messages to screen (console)"
+      />
+  <arg
+      name="hal_debug_level"
+      default="1"
+      description="Set HAL debug level, 0-5"
+      />
+  <arg
+      name="hal_file_dir"
+      default="$(var hardware_package_share)/halfiles"
+      description="Directory containing HAL configuration files."
+      />
+  <arg
+      name="hal_file"
+      default="za6.hal.py"
+      description="HAL file to load from hal_file_dir."
+      />
+  <arg
+      name="hal_wait_timeout"
+      default="30"
+      description="Timeout for loading HAL components; default 30s"
+      />
+  <arg
+      name="hal_device_config_path"
+      default="$(var hardware_package_config)/hal_device_config.yaml"
+      description="Path to HAL device config"
+      />
+  <arg
+      name="hardware_settings_yaml"
+      default="$(var hardware_package_config)/hardware_settings.yaml"
+      description="YAML param file with per-joint hardware_settings"
+      />
+  <arg
+      name="sim_device_data_path"
+      default="$(var hardware_package_config)/hal_sim_devices.yaml"
+      description="Path to sim device configuration YAML file"
+      />
+  <arg
+      name="hal_hw_interface_yaml"
+      default="$(var hardware_package_config)/hal_hw_interface.yaml"
+      description="YAML param file with hal_mgr and hardware_interface."
+      />
+  <arg
+      name="joint_limits_yaml"
+      default="$(var moveit_config_package_config)/joint_limits.yaml"
+      description="Robot joint limits YAML file."
+      />
+  <include file="$(var hardware_package_launch)/hal_hardware.launch.py">
+    <arg name="description_package" value="$(var description_package)"/>
+    <arg name="description_file" value="$(var description_file)"/>
+    <arg name="prefix" value="$(var prefix)"/>
+    <arg name="sim_mode" value="$(var sim_mode)"/>
+    <arg name="hal_debug_output" value="$(var hal_debug_output)"/>
+    <arg name="hal_debug_level" value="$(var hal_debug_level)"/>
+    <arg name="hal_file_dir" value="$(var hal_file_dir)"/>
+    <arg name="hal_file" value="$(var hal_file)"/>
+    <arg name="hal_wait_timeout" value="$(var hal_wait_timeout)"/>
+    <arg name="hal_device_config_path" value="$(var hal_device_config_path)"/>
+    <arg name="hardware_settings_yaml" value="$(var hardware_settings_yaml)"/>
+    <arg name="sim_device_data_path" value="$(var sim_device_data_path)"/>
+    <arg name="hal_hw_interface_yaml" value="$(var hal_hw_interface_yaml)"/>
+    <arg name="joint_limits_yaml" value="$(var joint_limits_yaml)"/>
+  </include>
+
+
+  <!-- ******************************************************************* -->
+  <!-- Launch MoveIt config -->
+  <!-- This duplicates much of za6_moveit_config/launch/demo.launch.py -->
+
+  <!-- - Include launch for robot_description -->
+  <arg
+      name="include_ros2_control"
+      default="true"
+      description="If true, include the HAL hardware ros2_control URDF"
+      />
+  <arg
+      name="ros2_control_name"
+      default="ZA_HAL"
+      description="ros2_control hardware name"
+      />
+  <arg
+      name="ros2_control_plugin"
+      default="hal_system_interface/HalSystemInterface"
+      description="ros2_control plugin; default HAL hw interface"
+      />
+  <arg
+      name="initial_positions_file"
+      default="$(var description_package_config)/initial_positions.yaml"
+      description="Path to initial positions YAML (for fake hardware)"
+      />
+  <include file="$(var description_package_launch)/robot_description.launch.py">
+    <arg name="include_ros2_control" value="$(var include_ros2_control)"/>
+    <arg name="ros2_control_name" value="$(var ros2_control_name)"/>
+    <arg name="ros2_control_plugin" value="$(var ros2_control_plugin)"/>
+    <arg name="initial_positions_file" value="$(var initial_positions_file)"/>
+  </include>
+
+
+  <!-- - Include launch for virtual joint broadcast static tfs -->
+  <include file="$(var moveit_config_package_launch)/static_virtual_joint_tfs.launch.py"/>
+
+  <!-- - Include launch for robot state publisher (rsp) -->
+  <arg
+      name="publish_frequency"
+      default="15.0"
+      description="Robot state publisher publish frequency"
+      />
+  <include file="$(var moveit_config_package_launch)/rsp.launch.py">
+    <arg name="publish_frequency" value="$(var publish_frequency)"/>
+  </include>
+
+  <!-- - Include launch for Move group -->
+  <arg
+      name="debug_move_group"
+      default="false"
+      description="Run move_group in debug mode; default False"
+      />
+  <arg
+      name="allow_trajectory_execution"
+      default="true"
+      description="Enable execution of paths"
+      />
+  <arg
+      name="publish_monitored_planning_scene"
+      default="true"
+      description="Publish physical robot planning scene for RViz plugin"
+      />
+  <arg
+      name="monitor_dynamics"
+      default="false"
+      description="Copy dynamics info fm /joint_states to int. robot monitoring"
+      />
+  <arg
+      name="capabilities"
+      default=""
+      description="Non-default MoveGroup capabilities (space separated)"
+      />
+  <arg
+      name="disable_capabilities"
+      default=""
+      description="Inhibit default MoveGroup capabilities (space separated)"
+      />
+  <include file="$(var moveit_config_package_launch)/move_group.launch.py">
+    <arg name="debug" value="$(var debug_move_group)"/>
+    <arg name="publish_robot_description_semantic" value="true"/>
+    <arg name="allow_trajectory_execution" value="$(var allow_trajectory_execution)"/>
+    <arg name="capabilities" value="$(var capabilities)"/>
+    <arg name="disable_capabilities" value="$(var disable_capabilities)"/>
+    <arg name="publish_monitored_planning_scene" value="$(var publish_monitored_planning_scene)"/>
+    <arg name="monitor_dynamics" value="$(var monitor_dynamics)"/>
+  </include>
+
+  <!-- - Include launch for RViz -->
+  <arg
+      name="use_rviz"
+      default="true"
+      description="Launch RViz"
+      />
+  <arg
+      name="rviz_config"
+      default="$(var moveit_config_package_config)/moveit.rviz"
+      description="RViz config file"
+      />
+  <arg
+      name="debug_rviz"
+      default="false"
+      description="Run RViz in debug mode; default False"
+      />
+  <include
+      file="$(var moveit_config_package_launch)/moveit_rviz.launch.py"
+      if="$(var use_rviz)"
+      >
+    <arg name="rviz_config" value="$(var rviz_config)"/>
+    <arg name="debug" value="$(var debug_rviz)"/>
+  </include>
+
+  <!-- - Include launch for database, if enabled -->
+  <arg
+      name="db"
+      default="false"
+      description="Start database; default False (may be large)"
+      />
+  <include
+      file="$(var moveit_config_package_launch)/warehouse_db.launch.py"
+      if="$(var db)"
+      />
+
+</launch>
