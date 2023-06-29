@@ -161,7 +161,7 @@
   </link>
 
   <joint name="table_joint" type="fixed">
-    <parent link="base_link" />
+    <parent link="world" />
     <child link="environment" />
     <origin rpy="0 0 0" xyz="0 0 -0.05" />
   </joint>
