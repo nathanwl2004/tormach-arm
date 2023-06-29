@@ -1,0 +1,13 @@
+- name: Grab
+  description: ""
+  favorite: true
+  joint_state:
+    header:
+      frame_id: world
+      stamp:
+        sec: 0
+        nanosec: 0
+    name: [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]
+    position: [2.7712432925819273, -1.4531914890259676, -1.96615025453015, -1.0617789845470658, 1.5878968566255958, -0.07080028000697597]
+    velocity: []
+    effort: []
