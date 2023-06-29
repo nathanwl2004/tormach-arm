@@ -1,0 +1,137 @@
+####################################################################
+#
+#  This configures the Ally Arm One robot to work with MoveIt Studio
+#
+####################################################################
+
+hardware:
+  # Used by some hardware description packages.
+  type: "tormach"
+
+  # Whether or not the arm is running in simulation mode.
+  simulated: False
+  launch_control_node: True
+
+  # Specify additional launch file for running the robot with real hardware.
+  # Depending on where your drivers are running, you may start the robot here.
+  hardware_launch_file:
+    package: "tormach_za6_base_config"
+    path: "launch/armone.launch.py"
+  robot_driver_persist_launch_file:
+    package: "tormach_za6_base_config"
+    path: "launch/armone_drivers_to_persist.launch.py"
+
+  # Specify any additional launch file for running the robot in simulation mode.
+  # Used when simulation is True.
+  simulated_robot_driver_persist_launch_file:
+    package: "tormach_za6_base_config"
+    path: "launch/sim/robot_drivers_to_persist.launch.py"
+  simulated_robot_driver_restart_launch_file:
+    package: "tormach_za6_base_config"
+    path: "launch/sim/robot_drivers_to_restart.launch.py"
+  simulated_hardware_launch_file:
+    package: "tormach_za6_base_config"
+    path: "launch/sim/hardware.launch.py"
+
+  # Parameters for the robot description. A URDF and SRDF are both required.
+  robot_description:
+    urdf:
+      package: "tormach_za6_base_config"
+      path: "description/armone.urdf.xacro"
+    srdf:
+      package: "tormach_za6_base_config"
+      path: "config/moveit/za6.srdf"
+    # Add any additional parameters required for the xacro file here
+    urdf_params:
+      - use_mock_hardware: False
+
+# Sets ROS global params for launch
+ros_global_params:
+  use_sim_time: False #"%>> hardware.simulated"  # Whether or not to use simulated ROS time
+
+# Optional parameters
+optional_feature_params:
+  use_joystick: False
+  use_external_webcam: False
+  use_formant_bridge: False
+
+# This Configures moveit params that are in moveit_config.py
+# The majority of these files should live in the moveit/ directory.
+moveit_params:
+  joint_group_name: "arm_one_arm"
+
+  ompl_planning:
+    package: "tormach_za6_base_config"
+    path: "config/moveit/ompl_planning.yaml"
+  kinematics:
+    package: "tormach_za6_base_config"
+    path: "config/moveit/kinematics.yaml"
+  servo:
+    package: "tormach_za6_base_config"
+    path: "config/moveit/armone_servo.yaml"
+  servo_kinematics:
+    package: "tormach_za6_base_config"
+    path: "config/moveit/kinematics.yaml"
+  sensors_3d:
+    package: "tormach_za6_base_config"
+    path: "config/moveit/sensors_3d.yaml"
+  pilz_cartesian_limits:
+    package: "tormach_za6_base_config"
+    path: "config/moveit/pilz_cartesian_limits.yaml"
+  joint_limits:
+    package: "tormach_za6_base_config"
+    path: "config/moveit/joint_limits.yaml"
+
+  publish:
+    planning_scene: True
+    geometry_updates: True
+    state_updates: True
+    transforms_updates: True
+
+  trajectory_execution:
+    manage_controllers: True
+    allowed_execution_duration_scaling: 2.0
+    allowed_goal_duration_margin: 5.0
+    allowed_start_tolerance: 0.01
+
+# Additional parameters for the Studio User interface
+ui_params:
+  servo_endpoint_frame_id: "manual_grasp_link"  # Specify the grasp pose
+
+# Configuration for ROS 2 controllers.
+# MoveIt Studio can manage spawning any controllers required for operation.
+ros2_control:
+  config:
+    package: "tormach_za6_base_config"
+    path: "config/control/ros2_controllers.yaml"
+  # Load and start these controllers so they can be used immediately.
+  controllers_active_at_startup:
+    - "joint_state_broadcaster"
+    - "arm_one_arm_controller"
+
+  # Load these controllers but leave them in the inactive state.
+  controllers_inactive_at_startup: []
+
+  # Any controllers here will not be spawned by MoveIt Studio
+  controllers_not_managed: []
+
+# Configuration for loading objectives. Add additional plugin loaders as needed.
+objectives:
+  # List of plugins for loading custom behaviors.
+  behavior_loader_plugins:
+    core:
+      - "moveit_studio::behaviors::CoreBehaviorsLoader"  # Always load MoveIt Studio core behaviors
+  # Specify source folder for objectives and the tree_nodes_model.xml
+  objective_library_paths:
+    core:
+      package_name: "tormach_za6_base_config"
+      relative_path: "objectives"
+  # Specify location of the waypoints file.
+  waypoints_file:
+    package_name: "tormach_za6_base_config"
+    relative_path: "waypoints/waypoints.yaml"
+
+octomap_manager:
+  # Input point cloud topic name. The *output* point cloud topic published by
+  # the Octomap manager node is defined in sensors_3d.yaml.
+  input_point_cloud_topic: "/wrist_mounted_camera/depth/color/points"
