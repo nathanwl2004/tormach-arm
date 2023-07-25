@@ -6,7 +6,7 @@ if test "$1" != sim; then
     ETHERCAT=1
 fi
 NIC=enp2s0
-MAC=$(ip link show $NIC | awk '/link\/ether/{print $2}')
+MAC=$(ip link show $NIC 2>/dev/null | awk '/link\/ether/{print $2}')
 DISPLAY=${DISPLAY:-:0}
 case "$(cat /sys/devices/virtual/dmi/id/board_name)" in
 *H310M*) RT_CPUS=5 ;;      # Beta controller
