@@ -6,10 +6,7 @@ find_package(ament_cmake REQUIRED)
 install(
   DIRECTORY
     config
-    description
     objectives
-    rviz
-    waypoints
   DESTINATION
     share/${PROJECT_NAME}
 )

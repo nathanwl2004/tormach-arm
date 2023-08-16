@@ -15,11 +15,11 @@ hardware:
   # Parameters for the robot description. A URDF and SRDF are both required.
   robot_description:
     urdf:
-      package: "tormach_za6_base_config"
-      path: "description/za6.xacro"
+      package: "za6_description"
+      path: "urdf/za6.xacro"
     srdf:
-      package: "tormach_za6_base_config"
-      path: "config/moveit/za6.srdf"
+      package: "za6_moveit_config"
+      path: "config/za6.srdf"
     # Add any additional parameters required for the xacro file here
     urdf_params:
       - use_mock_hardware: False
@@ -43,20 +43,20 @@ moveit_params:
     package: "tormach_za6_base_config"
     path: "config/moveit/ompl_planning.yaml"
   kinematics:
-    package: "tormach_za6_base_config"
-    path: "config/moveit/kinematics.yaml"
+    package: "za6_moveit_config"
+    path: "config/kinematics.yaml"
   servo:
     package: "tormach_za6_base_config"
     path: "config/moveit/za6_servo.yaml"
   servo_kinematics:
-    package: "tormach_za6_base_config"
-    path: "config/moveit/kinematics.yaml"
+    package: "za6_moveit_config"
+    path: "config/kinematics.yaml"
   pilz_cartesian_limits:
-    package: "tormach_za6_base_config"
-    path: "config/moveit/pilz_cartesian_limits.yaml"
+    package: "za6_moveit_config"
+    path: "config/pilz_cartesian_limits.yaml"
   joint_limits:
-    package: "tormach_za6_base_config"
-    path: "config/moveit/joint_limits.yaml"
+    package: "za6_moveit_config"
+    path: "config/joint_limits.yaml"
   sensors_3d:
     package: "tormach_za6_base_config"
     path: "config/moveit/sensors_3d.yaml"
@@ -91,7 +91,7 @@ objectives:
   # Specify location of the waypoints file.
   waypoints_file:
     package_name: "tormach_za6_base_config"
-    relative_path: "waypoints/waypoints.yaml"
+    relative_path: "config/waypoints.yaml"
 
 # Configuration for launching ros2_control processes.
 # [Required, if using ros2_control]
