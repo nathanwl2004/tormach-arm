@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>tormach_za6_base_config</name>
+  <name>za6_moveit_studio_config</name>
   <version>1.0.0</version>
 
   <description>Base studio configuration package for Tormach ZA6</description>
@@ -12,7 +12,8 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>za6_description</depend>
+  <exec_depend>za6_description</exec_depend>
+  <exec_depend>za6_moveit_config</exec_depend>
 
   <exec_depend>picknik_accessories</exec_depend>
   <exec_depend>realsense2_description</exec_depend>
