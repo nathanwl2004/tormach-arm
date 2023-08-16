@@ -5,6 +5,7 @@
 if test "$1" != sim; then
     ETHERCAT=1
 fi
+ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-1}
 NIC=enp2s0
 MAC=$(ip link show $NIC 2>/dev/null | awk '/link\/ether/{print $2}')
 DISPLAY=${DISPLAY:-:0}
@@ -50,6 +51,7 @@ exec docker run \
     -e MAC=$MAC \
     -e DISPLAY=$DISPLAY \
     -e RT_CPUS=$RT_CPUS \
+    -e ROS_DOMAIN_ID=$ROS_DOMAIN_ID \
     -v /etc/timezone:/etc/timezone:ro \
     -v /etc/localtime:/etc/localtime:ro \
     -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/dri:/dev/dri \
