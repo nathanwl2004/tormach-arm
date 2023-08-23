@@ -16,16 +16,19 @@ def generate_launch_description():
         "moveit_simple_controller_manager", {}
     )
     controller_names = controller_mgr_config.get("controller_names", [])
+    controller_args = controller_mgr_config.get("controller_args", dict())
 
     ld = LaunchDescription()
 
     for controller in controller_names + ["joint_state_broadcaster"]:
         params = controller_mgr_config.get(controller, dict())
+        arguments = list(controller_args.get(controller, list()))
+        arguments.append(controller)
         ld.add_action(
             Node(
                 package="controller_manager",
                 executable="spawner",
-                arguments=[controller],
+                arguments=arguments,
                 parameters=[params],
                 output="screen",
             )
