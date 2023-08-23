@@ -75,7 +75,7 @@ moveit_params:
 
 # Additional parameters for the Studio User interface
 ui_params:
-  servo_endpoint_frame_id: "manual_grasp_link"  # Specify the grasp pose
+  servo_endpoint_frame_id: "tool0"  # Specify the grasp pose
 
 # Configuration for loading objectives. Add additional plugin loaders as needed.
 objectives:
