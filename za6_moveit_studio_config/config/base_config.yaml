@@ -1,6 +1,6 @@
 ####################################################################
 #
-#  This configures the Ally Arm One robot to work with MoveIt Studio
+#  This configures the Tormach ZA6 robot to work with MoveIt Studio
 #
 ####################################################################
 
@@ -82,7 +82,8 @@ objectives:
   # List of plugins for loading custom behaviors.
   behavior_loader_plugins:
     core:
-      - "moveit_studio::behaviors::CoreBehaviorsLoader"  # Always load MoveIt Studio core behaviors
+      # Always load MoveIt Studio core behaviors
+      - "moveit_studio::behaviors::CoreBehaviorsLoader"
   # Specify source folder for objectives and the tree_nodes_model.xml
   objective_library_paths:
     core:
