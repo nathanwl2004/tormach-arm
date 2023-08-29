@@ -8,6 +8,10 @@ MoveIt Studio
 Run the ZA6, either real hardware or in sim mode, in a separate Docker
 container using the instructions in this section.
 
+NOTE:  Running ROS 2 will update the EtherCAT master, causing the ROS
+1 controller to stop working.  See "Restore ROS 1 compatibility" below
+for more info and a fix.
+
 ### Log into PathPilot Docker registry
 
 First, create an account at https://hub.pathpilot.com/ and ask John
@@ -70,3 +74,13 @@ Disable drives with another ROS service.
 
 If drives fail to enable, look for clues in the main shell console
 logs.
+
+## Restore ROS 1 compatibility
+
+The ROS 1 containers depend on an older EtherCAT master running on
+the host.  The ROS 2 container updates the master when the Docker
+container starts.  To revert the EtherCAT master to the older
+version for running ROS 1, run this script with the `fix-ethercat`
+argument.
+
+  launch_za_dist_image.sh fix-ethercat

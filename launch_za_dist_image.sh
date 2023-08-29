@@ -2,6 +2,12 @@
 #
 # See the README.md for usage
 
+if test "$1" = fix-ethercat; then
+    PKG_VER=$(dpkg-query -W etherlabmaster-dkms | awk '{print $2}')
+    sudo dkms install --force -m etherlabmaster -v $PKG_VER
+    exit
+fi
+
 if test "$1" != sim; then
     ETHERCAT=1
 fi
