@@ -84,3 +84,28 @@ version for running ROS 1, run this script with the `fix-ethercat`
 argument.
 
   launch_za_dist_image.sh fix-ethercat
+
+## Launch MoveIt Studio with ZA6 in simulation mode
+
+- Start the ZA6 container as described above:
+
+        ./launch_za_dist_image.sh sim
+
+- Launch the ZA6 drivers:
+
+        source /opt/ros/$ROS_DISTRO/setup.bash
+        ros2 launch za6_bringup bringup.launch sim_mode:=true
+
+In a new terminal:
+
+- Remove previous MoveIt Studio configuration files
+
+        rm -rf ~/.config/moveit_studio
+
+- Build the ZA6 site config (from your moveit_studio folder):
+
+       ./moveit_studio build
+
+- Start MoveIt Studio (without launching drivers, they are launched in the ZA6 container):
+
+       ./moveit_studio run --no-drivers
