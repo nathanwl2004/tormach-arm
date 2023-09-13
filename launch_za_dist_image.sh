@@ -5,6 +5,7 @@
 if test "$1" = fix-ethercat; then
     PKG_VER=$(dpkg-query -W etherlabmaster-dkms | awk '{print $2}')
     sudo dkms install --force -m etherlabmaster -v $PKG_VER
+    sudo systemctl restart ethercat
     exit
 fi
 
