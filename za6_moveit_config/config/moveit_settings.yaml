@@ -19,7 +19,7 @@ moveit:
   pose_reference_frame: 'world'
   # Specify which reference frame to use for tool frames, also used as
   # end effector link
-  tool_reference_frame: 'tool0'
+  tool_reference_frame: 'manual_grasp_link'
   # position tolerance that is used for reaching the goal when moving
   # to a pose
   goal_position_tolerance: 0.000001
