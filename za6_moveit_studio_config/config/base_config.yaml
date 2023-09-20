@@ -10,7 +10,15 @@ hardware:
 
   # Whether or not the arm is running in simulation mode.
   simulated: False
-  launch_control_node: True
+
+  # If the MoveIt Studio Agent should launch the ros2 controller node.
+  # [Optional, default=True]
+  launch_control_node: False
+
+  # If the MoveIt Studio Agent should launch the robot state publisher.
+  # This should be false if you are launching the robot state publisher as part of drivers.
+  # [Optional, default=True]
+  launch_robot_state_publisher: False
 
   # Parameters for the robot description. A URDF and SRDF are both required.
   robot_description:

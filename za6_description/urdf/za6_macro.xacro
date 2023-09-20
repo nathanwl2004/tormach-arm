@@ -265,7 +265,7 @@
     </xacro:unless>
 
     <!-- MoveIt Studio 'manual_grasp_link' for planning -->
-    <link name="manual_grasp_link"/>
+    <link name="manual_grasp_link" />
     <joint name="${prefix}manual_grasp_link-tool0" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="${prefix}tool0" />
