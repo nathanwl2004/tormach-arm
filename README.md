@@ -94,7 +94,12 @@ argument.
 - Build a custom branch:
 
         rm -rf build/ log
-        sudo -HE PYTHONPATH=$PYTHONPATH bash -c "colcon build --install-base /opt/ros/${ROS_DISTRO} --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --event-handlers console_cohesion+ --packages-skip za6_moveit_studio_config"
+        sudo -HE PYTHONPATH=$PYTHONPATH bash -c "
+            colcon build --install-base /opt/ros/${ROS_DISTRO} \
+                --merge-install --cmake-args
+                -DCMAKE_BUILD_TYPE=Release \
+                --event-handlers console_cohesion+ \
+                --packages-skip za6_moveit_studio_config"
 
 - Launch the ZA6 drivers:
 
@@ -111,6 +116,7 @@ In a new terminal:
 
        ./moveit_studio build
 
-- Start MoveIt Studio (without launching drivers, they are launched in the ZA6 container):
+- Start MoveIt Studio (without launching drivers, they are launched in
+  the ZA6 container):
 
        ./moveit_studio run -v --no-drivers

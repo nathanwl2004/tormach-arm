@@ -16,8 +16,9 @@ hardware:
   launch_control_node: False
 
   # If the MoveIt Studio Agent should launch the robot state publisher.
-  # This should be false if you are launching the robot state publisher as part of drivers.
-  # [Optional, default=True]
+  #
+  # This should be false if you are launching the robot state
+  # publisher as part of drivers.  [Optional, default=True]
   launch_robot_state_publisher: False
 
   # Parameters for the robot description. A URDF and SRDF are both required.

@@ -4,8 +4,14 @@ planner_configs:
     shortcut: 1  # Attempt to shortcut all new solution paths
     hybridize: 1  # Compute hybrid solution trajectories
     max_hybrid_paths: 32  # Number of hybrid paths generated per iteration
-    num_planners: 16  # The number of default planners to use for planning
-    planners: "RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect"  # A comma-separated list of planner types (e.g., "PRM,EST,RRTConnect"Optionally, planner parameters can be passed to change the default:"PRM[max_nearest_neighbors=5],EST[goal_bias=.5],RRT[range=10. goal_bias=.1]"
+    num_planners: 16  # The number of default planners to use for
+    # planning A comma-separated list of planner types (e.g.,
+    # "PRM,EST,RRTConnect"
+    #
+    # Optionally, planner parameters can be passed to change the
+    # default:
+    # "PRM[max_nearest_neighbors=5],EST[goal_bias=.5],RRT[range=10. goal_bias=.1]"
+    planners: "RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect"
   SBLkConfigDefault:
     type: geometric::SBL
     range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
@@ -75,7 +81,8 @@ manipulator:
     - PRMkConfigDefault
     - PRMstarkConfigDefault
   enforce_constrained_state_space: true
-  ##Note: commenting the following line lets moveit chose RRTConnect as default planner rather than LBKPIECE
+  ## Note: commenting the following line lets moveit chose RRTConnect
+  ## as default planner rather than LBKPIECE
   projection_evaluator: joints(joint_1,joint_2)
   longest_valid_segment_fraction: 0.01
 gripper:
