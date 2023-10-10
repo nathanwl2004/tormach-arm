@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>moveit_studio_za6_tending_config</name>
+  <version>2.6.0</version>
+
+  <description>Tormach PCNC1100 environment for Tormach ZA6 arm in sim mode</description>
+
+  <maintainer email="studio.maintainers@picknik.ai">MoveIt Studio Maintainer</maintainer>
+  <maintainer email="jmorris@tormach.com">John Morris</maintainer>
+
+  <license>BSD-3-Clause</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>moveit_studio_za6_base_config</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

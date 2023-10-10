@@ -1,0 +1,28 @@
+based_on_package: "moveit_studio_za6_base_config"
+
+hardware:
+
+  # Update robot description for machine tending world.
+  robot_description:
+    urdf:
+      package: "moveit_studio_za6_tending_config"
+      path: "description/picknik_za6_machine_tending.xacro"
+    srdf:
+      package: "moveit_studio_za6_tending_config"
+      path: "config/moveit/picknik_za6_machine_tending.srdf"
+
+moveit_params:
+  servo:
+    package: "moveit_studio_za6_base_config"
+    path: "config/moveit/za6_servo.yaml"
+
+objectives:
+  waypoints_file:
+    package_name: "moveit_studio_za6_tending_config"
+    relative_path: "waypoints/machine_tending_waypoints.yaml"
+  objective_library_paths:
+    # You must use a unique key for each package.
+    # The moveit_studio_za6_base_config uses "core"
+    mock_hardware_objectives:
+      package_name: "moveit_studio_za6_tending_config"
+      relative_path: "objectives"
