@@ -2,7 +2,9 @@
 <root BTCPP_format="4" main_tree_to_execute="Move to Known Pose">
   <BehaviorTree ID="Move to Known Pose" _description="Move to a known pose">
     <Control ID="Sequence" name="root">
-      <!-- When the user clicks on different pose buttons on Endpoint tab, the frontend sets move_to_known_pose.target_state_name parameter value-->
+      <!-- When the user clicks on different pose buttons on Endpoint
+           tab, the frontend sets move_to_known_pose.target_state_name
+           parameter value-->
       <Control ID="Fallback" name="log_error_if_parameter_not_set">
         <Action
             ID="GetStringFromUser"
