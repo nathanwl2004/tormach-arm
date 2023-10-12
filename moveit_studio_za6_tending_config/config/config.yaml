@@ -6,10 +6,10 @@ hardware:
   robot_description:
     urdf:
       package: "moveit_studio_za6_tending_config"
-      path: "description/picknik_za6_machine_tending.xacro"
+      path: "description/za6_machine_tending.xacro"
     srdf:
       package: "moveit_studio_za6_tending_config"
-      path: "config/moveit/picknik_za6_machine_tending.srdf"
+      path: "config/moveit/za6_machine_tending.srdf"
 
 moveit_params:
   servo:
