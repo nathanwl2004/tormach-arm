@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<robot name="za6" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find za6_tools)/urdf/robotiq_hand_e_macro.xacro"/>
+  <xacro:robotiq_hand_e_macro prefix=""/>
+
+  <material name="main_Red">
+    <color rgba="0.7 0.0 0.0 0.99"/>
+  </material>
+
+  <link name="world"/>
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.1" radius="0.02"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.05"/>
+      <material name="main_Red"/>
+    </visual>
+  </link>
+
+  <joint name="world-base" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+
+  <joint name="base-adapter" type="fixed">
+    <parent link="base_link"/>
+    <child link="za6_robotiq_adapter"/>
+    <origin rpy="0 0 0" xyz="0 0 0.1"/>
+  </joint>
+
+</robot>

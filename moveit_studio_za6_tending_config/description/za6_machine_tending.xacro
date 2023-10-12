@@ -43,33 +43,9 @@
   <xacro:arg name="limit_joint_6_effort" default="1000.0"/>
 
   <!-- Other parameters -->
-  <!-- <xacro:arg name="use_fake_hardware" default="false" /> -->
-  <xacro:arg name="has_tool_changer" default="true" />
-  <xacro:arg name="use_pinch_links" default="true" />
-  <xacro:arg name="name" default="" />
-  <xacro:arg name="joint_limits_parameters_file" default="" />
-  <xacro:arg name="kinematics_parameters_file" default="" />
-  <xacro:arg name="physical_parameters_file" default="" />
-  <xacro:arg name="visual_parameters_file" default="" />
-
-  <xacro:arg name="headless_mode" default="false" />
-  <xacro:arg name="robot_ip" default="0.0.0.0" />
-
-  <xacro:if value="$(arg has_tool_changer)">
-    <xacro:property name="camera_adapter_parent" value="tool_changer_tool0" />
-  </xacro:if>
-  <xacro:unless value="$(arg has_tool_changer)">
-    <xacro:property name="camera_adapter_parent" value="tool0" />
-  </xacro:unless>
+  <xacro:property name="camera_adapter_parent" value="tool0" />
 
   <!-- Import macros for main hardware components -->
-  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
-  <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
-  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/mtc_ur_tool_changer/mtc_ur_tool_changer.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
-  <xacro:include filename="$(find picknik_ur_base_config)/description/pinch_links.xacro" />
   <xacro:include
       filename="$(find za6_description)/urdf/za6_macro.xacro"/>
 
@@ -79,38 +55,6 @@
       default="$(arg initial_positions_file)"/>
 
   <link name="world" />
-
-  <xacro:if value="$(arg has_tool_changer)">
-    <!-- tool changer-->
-    <xacro:mtc_ur_tool_changer prefix="" connected_to="tool0" rotation="0" />
-  </xacro:if>
-
-  <!-- pinch geometry for moveit motion planning. see https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/issues/611 -->
-  <xacro:if value="$(arg use_pinch_links)">
-    <xacro:forearm_pinch_link />
-    <xacro:wrist_3_pinch_link />
-  </xacro:if>
-
-  <!-- wrist camera adapter and camera-->
-  <xacro:ur_realsense_camera_adapter prefix="" connected_to="${camera_adapter_parent}" rotation="0" />
-
-  <xacro:realsense_d415 parent="d415_mount_link" name="wrist_mounted_camera">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:realsense_d415>
-
-  <!-- Gripper and UR adapter-->
-  <xacro:ur_to_robotiq prefix="" connected_to="realsense_camera_adapter_tool0" rotation="0" />
-
-  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="" 
-    parent="gripper_mount_link" use_fake_hardware="$(arg use_fake_hardware)" com_port="/dev/ttyUSB0">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:robotiq_gripper>
-
-  <link name="grasp_link" />
-  <joint name="grasp_link_joint" type="fixed">
-    <parent link="gripper_mount_link" />
-    <child link="grasp_link" />
-    <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}" />
   <joint name="world-$(arg prefix)base_link" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 -${pi/2}"/>
     <axis xyz="0 0 1"/>
@@ -154,15 +98,65 @@
       limit_joint_6_velocity="$(arg limit_joint_6_velocity)"
       limit_joint_6_effort="$(arg limit_joint_6_effort)"
       />
+
+  <!-- ros2_control -->
+  <xacro:if value="$(arg include_ros2_control)">
+    <xacro:include filename="$(find za6_description)/urdf/za6.ros2_control.xacro"/>
+    <xacro:za6_ros2_control
+        name="$(arg ros2_control_name)"
+        prefix="$(arg prefix)"
+        initial_positions_file="$(arg initial_positions_file)"
+        use_mock_hardware="$(arg use_mock_hardware)"
+        ros2_control_plugin="$(arg ros2_control_plugin)"
+
+        limit_joint_1_lower="$(arg limit_joint_1_lower)"
+        limit_joint_1_upper="$(arg limit_joint_1_upper)"
+        limit_joint_1_velocity="$(arg limit_joint_1_velocity)"
+
+        limit_joint_2_lower="$(arg limit_joint_2_lower)"
+        limit_joint_2_upper="$(arg limit_joint_2_upper)"
+        limit_joint_2_velocity="$(arg limit_joint_2_velocity)"
+
+        limit_joint_3_lower="$(arg limit_joint_3_lower)"
+        limit_joint_3_upper="$(arg limit_joint_3_upper)"
+        limit_joint_3_velocity="$(arg limit_joint_3_velocity)"
+
+        limit_joint_4_lower="$(arg limit_joint_4_lower)"
+        limit_joint_4_upper="$(arg limit_joint_4_upper)"
+        limit_joint_4_velocity="$(arg limit_joint_4_velocity)"
+
+        limit_joint_5_lower="$(arg limit_joint_5_lower)"
+        limit_joint_5_upper="$(arg limit_joint_5_upper)"
+        limit_joint_5_velocity="$(arg limit_joint_5_velocity)"
+
+        limit_joint_6_lower="$(arg limit_joint_6_lower)"
+        limit_joint_6_upper="$(arg limit_joint_6_upper)"
+        limit_joint_6_velocity="$(arg limit_joint_6_velocity)"
+        />
+  </xacro:if>
+
+  <!-- Gripper -->
+  <xacro:include
+      filename="$(find za6_tools)/urdf/pivot_gripper_macro.xacro" />
+  <!-- Attach Pivot gripper to ZA6 "flange" link -->
+  <xacro:pivot_gripper_macro
+      prefix="$(arg prefix)"
+      connected_to="$(arg prefix)flange"/>
+  <!-- Attach grasp_link to gripper base for now -->
+  <link name="grasp_link" />
+  <joint name="grasp_link_joint" type="fixed">
+    <parent link="$(arg prefix)pivot_gripper_base" />
+    <child link="grasp_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <!-- Moveit Studio requires a link name called manual_grasp_link to
+       perform quick tasks such as inspect surface -->
   <link name="manual_grasp_link" />
   <joint name="manual_grasp_joint" type="fixed">
     <parent link="grasp_link" />
     <child link="manual_grasp_link" />
-    <origin xyz="0 0 0" rpy="${pi / 180.0 * 5} 0 0" />
-  <joint name="$(arg prefix)manual_grasp_link-tool0" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="$(arg prefix)tool0" />
-    <child link="$(arg prefix)manual_grasp_link" />
   </joint>
 
   <!-- CNC machine -->

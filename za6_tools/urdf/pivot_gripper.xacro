@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<robot name="za6" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="prefix" default=""/>
+  <xacro:include filename="$(find za6_tools)/urdf/pivot_gripper_macro.xacro"/>
+  <xacro:pivot_gripper_macro
+      prefix="$(arg prefix)"
+      connected_to="flange-$(arg prefix)za6_pivot_adapter"/>
+
+  <!-- 'flange' frame: default pose reference frame -->
+  <link name="flange" />
+  <joint name="flange-$(arg prefix)za6_pivot_adapter" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+    <axis xyz="0 0 1"/>
+    <parent link="flange"/>
+  </joint>
+</robot>

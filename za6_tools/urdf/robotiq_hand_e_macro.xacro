@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="robotiq_hand_e_macro" params="prefix">
+
+    <material name="${prefix}Aluminium">
+      <color rgba="0.9 0.9 0.9 0.99"/>
+    </material>
+
+    <material name="${prefix}Black">
+      <color rgba="0.1 0.1 0.1 0.99"/>
+    </material>
+
+    <!-- link list -->
+    <link name="${prefix}hand_e_body">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/robotiq_hand-e_gripper.stl"/>
+        </geometry>
+        <origin rpy="0.0 0.0 0.0" xyz="0 0 0"/>
+        <material name="${prefix}Black">
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/robotiq_hand-e_gripper_collision.stl"/>
+        </geometry>
+        <origin rpy="0.0 0.0 0.0" xyz="0 0 0"/>
+      </collision>
+      <inertial>
+        <mass value="100"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+
+    <link name="${prefix}hand_e_finger_left">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/robotiq_hand-e_finger.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="${prefix}Aluminium"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/robotiq_hand-e_finger_collision.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0.0"/>
+      </collision>
+    </link>
+
+    <link name="${prefix}hand_e_finger_right">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/robotiq_hand-e_finger.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="${prefix}Aluminium"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/robotiq_hand-e_finger_collision.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0.0"/>
+      </collision>
+    </link>
+
+    <!-- joint list -->
+    <joint name="${prefix}hand_e_body-hand_e_finger_left" type="fixed">
+      <parent link="${prefix}hand_e_body" />
+      <child link="${prefix}hand_e_finger_left" />
+      <axis xyz="0 0 1"/>
+      <origin xyz="0.025 0 0.0965" rpy="0 0 ${pi/2.0}" />
+    </joint>
+
+    <joint name="${prefix}hand_e_body-hand_e_finger_right" type="fixed">
+      <parent link="${prefix}hand_e_body" />
+      <child link="${prefix}hand_e_finger_right" />
+      <axis xyz="0 0 1"/>
+      <origin xyz="-0.025 0 0.0965" rpy="0 0 -${pi/2.0}" />
+    </joint>
+
+  </xacro:macro>
+</robot>

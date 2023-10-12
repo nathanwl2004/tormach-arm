@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="za6" params="
-    prefix tool0_trans tool0_rot tool0_fixed
+    prefix tool0_trans tool0_rot
+
+    tool0_fixed:=True
 
     limit_joint_1_lower:=-2.96
     limit_joint_1_upper:=2.96

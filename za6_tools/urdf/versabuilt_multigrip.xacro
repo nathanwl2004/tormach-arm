@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<robot name="za6" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="prefix" default=""/>
+  <xacro:include filename="$(find za6_tools)/urdf/versabuilt_multigrip_macro.xacro"/>
+  <xacro:versabuilt_multigrip_macro prefix="$(arg prefix)"/>
+
+  <!-- 'flange' frame: default pose reference frame -->
+  <link name="flange" />
+  <joint name="flange-$(arg prefix)za6_multigrip_adapter" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+    <axis xyz="0 0 1"/>
+    <parent link="flange"/>
+    <child link="$(arg prefix)za6_multigrip_adapter"/>
+  </joint>
+
+</robot>

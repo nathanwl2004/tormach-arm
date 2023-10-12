@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"
+?>
+<package format="3">
+  <name>za6_tools</name>
+  <version>0.0.0</version>
+  <description>Tormach ZA tool URDF files and meshes</description>
+
+  <maintainer email="alex@machinekoder.com">Alexander Rössler</maintainer>
+  <author email="alex@machinekoder.com">Alexander Rössler</author>
+  <author email="bdebruijn@luminize.nl">Bas de Bruijn</author>
+  <author email="john@dovetail-automata.com">John Morris</author>
+
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <!-- Add `check_urdf` tool for verification -->
+  <buildtool_depend>liburdfdom-tools</buildtool_depend>
+
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <build_export_depend>xacro</build_export_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

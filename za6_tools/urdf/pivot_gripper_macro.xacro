@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="pivot_gripper_macro" params="prefix connected_to">
+
+    <material name="${prefix}Aluminium">
+      <color rgba="0.9 0.9 0.9 0.99"/>
+    </material>
+
+    <!-- link list -->
+    <link name="${prefix}pivot_gripper_base">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/pivot_gripper_base.stl"/>
+        </geometry>
+        <origin rpy="0.0 0.0 0.0" xyz="0 0 0"/>
+        <material name="${prefix}Aluminium">
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/pivot_gripper_base_collision.stl"/>
+        </geometry>
+        <origin rpy="0.0 0.0 0.0" xyz="0 0 0"/>
+      </collision>
+      <inertial>
+        <mass value="100"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+
+    <link name="${prefix}pivot_gripper_finger_left1">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/pivot_gripper_finger_left.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="${prefix}Aluminium"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/pivot_gripper_finger_left_collision.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0.0"/>
+      </collision>
+    </link>
+
+    <link name="${prefix}pivot_gripper_finger_right1">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/pivot_gripper_finger_right.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="${prefix}Aluminium"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/pivot_gripper_finger_right_collision.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0.0"/>
+      </collision>
+    </link>
+
+    <link name="${prefix}pivot_gripper_finger_left2">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/pivot_gripper_finger_left.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="${prefix}Aluminium"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/pivot_gripper_finger_left_collision.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0.0"/>
+      </collision>
+    </link>
+
+    <link name="${prefix}pivot_gripper_finger_right2">
+      <visual>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/pivot_gripper_finger_right.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="${prefix}Aluminium"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://za6_tools/meshes/pivot_gripper_finger_right_collision.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0.0"/>
+      </collision>
+    </link>
+
+    <!-- joint list -->
+    <joint name="${prefix}adapter-pivot_gripper_base" type="fixed">
+      <parent link="${connected_to}"/>
+      <child link="${prefix}pivot_gripper_base"/>
+      <axis xyz="0 0 0"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0 0 0"/>
+    </joint>
+
+    <joint
+        name="${prefix}pivot_gripper_base-pivot_gripper_finger_left1"
+        type="fixed">
+      <parent link="${prefix}pivot_gripper_base" />
+      <child link="${prefix}pivot_gripper_finger_left1" />
+      <axis xyz="0 0 1"/>
+      <origin xyz="0.048 0 0.0723" rpy="0 0 -${pi/2.0}" />
+    </joint>
+
+    <joint
+        name="${prefix}pivot_gripper_base-pivot_gripper_finger_right1"
+        type="fixed">
+      <parent link="${prefix}pivot_gripper_base" />
+      <child link="${prefix}pivot_gripper_finger_right1" />
+      <axis xyz="0 0 1"/>
+      <origin xyz="0.048 0 0.0723" rpy="0 0 -${pi/2.0}" />
+    </joint>
+
+    <joint
+        name="${prefix}pivot_gripper_base-pivot_gripper_finger_left2"
+        type="fixed">
+      <parent link="${prefix}pivot_gripper_base" />
+      <child link="${prefix}pivot_gripper_finger_left2" />
+      <axis xyz="0 0 1"/>
+      <origin xyz="-0.0843 -0.0053 0.031" rpy="0 -${pi/2.0} 0" />
+    </joint>
+
+    <joint
+        name="${prefix}pivot_gripper_base-pivot_gripper_finger_right2"
+        type="fixed">
+      <parent link="${prefix}pivot_gripper_base" />
+      <child link="${prefix}pivot_gripper_finger_right2" />
+      <axis xyz="0 0 1"/>
+      <origin xyz="-0.0843 -0.0053 0.031" rpy="0 -${pi/2.0} 0" />
+    </joint>
+
+  </xacro:macro>
+</robot>
