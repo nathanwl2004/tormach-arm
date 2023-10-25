@@ -2,8 +2,9 @@
 <robot name="za6" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="prefix" default=""/>
   <xacro:arg name="fixed_tool" default="True"/>
-  <xacro:arg name="include_ros2_control" default="False"/>
+  <xacro:arg name="include_ros2_control" default="false"/>
   <xacro:arg name="ros2_control_name" default="hal_hw_interface"/>
+  <xacro:arg name="use_mock_hardware" default="false"/>
   <xacro:arg name="ros2_control_plugin"
              default="hal_system_interface/HalSystemInterface"/>
   <!-- Used by ros2_control fake hardware -->
@@ -85,6 +86,7 @@
         name="$(arg ros2_control_name)"
         prefix="$(arg prefix)"
         initial_positions_file="$(arg initial_positions_file)"
+        use_mock_hardware="$(arg use_mock_hardware)"
         ros2_control_plugin="$(arg ros2_control_plugin)"
 
         limit_joint_1_lower="$(arg limit_joint_1_lower)"

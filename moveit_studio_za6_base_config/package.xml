@@ -12,12 +12,21 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <!-- ZA6 URDF and MoveIt config -->
   <exec_depend>za6_description</exec_depend>
   <exec_depend>za6_moveit_config</exec_depend>
 
+  <!-- PickNik MoveIt Studio dependencies -->
+  <exec_depend>moveit_studio_agent</exec_depend>
+  <exec_depend>moveit_studio_behavior</exec_depend>
+
+  <!-- PickNik accessory URDFs -->
   <exec_depend>picknik_accessories</exec_depend>
+  <!-- Realsense URDF -->
   <exec_depend>realsense2_description</exec_depend>
+  <!-- ros-gazebo dependencies -->
   <exec_depend>ros_gz</exec_depend>
+  <!-- ignition gazebo sim interfaces to ros2_control -->
   <exec_depend>ign_ros2_control</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>

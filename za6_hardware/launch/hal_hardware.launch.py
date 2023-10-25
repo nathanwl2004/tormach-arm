@@ -1,5 +1,6 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.conditions import IfCondition, UnlessCondition
 from launch.substitutions import (
     LaunchConfiguration,
     PathJoinSubstitution,
@@ -50,6 +51,17 @@ def generate_launch_description():
         ["'", LaunchConfiguration("sim_mode"), "' == 'true'"]
     )
 
+    # Set ros2_control hardware plugin to HAL or fake hardware, depending on
+    # `use_fake_hardware` launch arg value
+    ros2_control_plugin = PythonExpression(
+        [
+            "'mock_components/GenericSystem' if '",
+            LaunchConfiguration("use_fake_hardware"),
+            "' == 'true' else ",
+            "'hal_system_interface/HalSystemInterface'",
+        ]
+    )
+
     launch_entities = [
         DeclareLaunchArgument(
             "description_package",
@@ -70,12 +82,19 @@ def generate_launch_description():
                 "must also be updated"
             ),
         ),
+        DeclareLaunchArgument(
+            "use_fake_hardware",
+            default_value="false",
+            description="Use ros2_control mock_components/GenericSystem plugin",
+        ),
         IncludeLaunchDescription(
             description_launch_py,
             launch_arguments=dict(
                 description_package=LaunchConfiguration("description_package"),
                 description_file=LaunchConfiguration("description_file"),
                 prefix=prefix,
+                description_package=LaunchConfiguration("description_package"),
+                ros2_control_plugin=ros2_control_plugin,
             ).items(),
         ),
         DeclareLaunchArgument(
@@ -357,7 +376,24 @@ def generate_launch_description():
                     ],
                 ),
             ],
+            condition=UnlessCondition(LaunchConfiguration("use_fake_hardware")),
         ),
+        # Fake hardware configuration & controller manager
+        Node(
+            package="controller_manager",
+            executable="ros2_control_node",
+            parameters=[
+                dict(
+                    # Expanded robot description URDF
+                    robot_description=ParameterValue(
+                        robot_description_content, value_type=str
+                    ),
+                    initial_joint_controllers
+                ),
+            ],
+            output="screen",
+            condition=IfCondition(LaunchConfiguration("use_fake_hardware")),
+        )
         # Launch joint_trajectory_controller and joint_state_broadcaster
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(

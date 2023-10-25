@@ -43,8 +43,12 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "ros2_control_plugin",
             default_value="hal_system_interface/HalSystemInterface",
-            description=("ros2_control plugin; default HAL hw interface"),
+            description=(
+                "ros2_control plugin; default HAL hw interface;"
+                " fake hardware use `mock_components/GenericSystem`"
+            ),
         ),
+
         DeclareLaunchArgument(
             "initial_positions_file",
             default_value=PathJoinSubstitution(

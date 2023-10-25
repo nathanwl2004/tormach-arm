@@ -72,10 +72,18 @@ def generate_launch_description():
             ),
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "ros2_control_plugin",
+            default_value="mock_components/GenericSystem",
+            description=("ros2_control plugin; default HAL hw interface"),
+        )
+    )
 
     description_package = LaunchConfiguration("description_package")
     description_file = LaunchConfiguration("description_file")
     prefix = LaunchConfiguration("prefix")
+    ros2_control_plugin = LaunchConfiguration("ros2_control_plugin")
 
     # Load URDF content via robot_description.launch.py
     # FIXME This is the right way to do this, but it causes some kind of
@@ -101,6 +109,7 @@ def generate_launch_description():
                 description_package=description_package,
                 description_file=description_file,
                 prefix=prefix,
+                ros2_control_plugin=ros2_control_plugin,
             ).items(),
         )
     )

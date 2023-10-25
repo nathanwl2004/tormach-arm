@@ -6,20 +6,20 @@
 
 hardware:
   # Used by some hardware description packages.
-  type: "tormach"
+  type: "ZA6"
 
   # Whether or not the arm is running in simulation mode.
-  simulated: False
+  simulated: ${MOCK_HARDWARE:-false}
 
   # If the MoveIt Studio Agent should launch the ros2 controller node.
   # [Optional, default=True]
-  launch_control_node: False
+  launch_control_node: ${MOCK_HARDWARE:-false}
 
   # If the MoveIt Studio Agent should launch the robot state publisher.
   #
   # This should be false if you are launching the robot state
   # publisher as part of drivers.  [Optional, default=True]
-  launch_robot_state_publisher: False
+  launch_robot_state_publisher: ${MOCK_HARDWARE:-false}
 
   # Parameters for the robot description. A URDF and SRDF are both required.
   robot_description:
@@ -31,7 +31,8 @@ hardware:
       path: "config/za6.srdf"
     # Add any additional parameters required for the xacro file here
     urdf_params:
-      - use_mock_hardware: False
+      - use_mock_hardware: ${MOCK_HARDWARE:-false}
+      - include_ros2_control:  true
 
 # Sets ROS global params for launch
 ros_global_params:
@@ -106,3 +107,31 @@ objectives:
 # Configuration for launching ros2_control processes.
 # [Required, if using ros2_control]
 ros2_control:
+  config:
+    package: "za6_moveit_config"
+    path: "config/ros2_controllers.yaml"
+  # MoveIt Studio will load and activate these controllers at start up
+  # to ensure they are available.
+  #
+  # If not specified, it is up to the user to ensure the appropriate
+  # controllers are active and available for running the application.
+  #
+  # [Optional, default=[]]
+  controllers_active_at_startup:
+    - "joint_state_broadcaster"
+    - "streaming_controller"
+  # Load but do not start these controllers so they can be activated
+  # later if needed.
+  #
+  # [Optional, default=[]]
+  controllers_inactive_at_startup:
+    - "joint_trajectory_controller"
+  # Any controllers here will not be spawned by MoveIt Studio.
+  #
+  # [Optional, default=[]]
+  controllers_not_managed: []
+  # Optionally configure remapping rules to let multiple controllers
+  # receive commands on the same topic.
+  #
+  # [Optional, default=[]]
+  controller_shared_topics: []

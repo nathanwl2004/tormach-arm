@@ -5,6 +5,7 @@
   <xacro:arg name="fixed_tool" default="True"/>
   <xacro:arg name="include_ros2_control" default="False"/>
   <xacro:arg name="ros2_control_name" default="hal_hw_interface"/>
+  <xacro:arg name="use_mock_hardware" default="false"/>
   <xacro:arg name="ros2_control_plugin"
              default="hal_system_interface/HalSystemInterface"/>
   <!-- Used by ros2_control fake hardware -->
