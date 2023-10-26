@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>za6_moveit_studio_config</name>
+  <name>moveit_studio_za6_base_config</name>
   <version>1.0.0</version>
 
   <description>Base studio configuration package for Tormach ZA6</description>

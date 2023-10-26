@@ -99,7 +99,7 @@ argument.
                 --merge-install --cmake-args
                 -DCMAKE_BUILD_TYPE=Release \
                 --event-handlers console_cohesion+ \
-                --packages-skip za6_moveit_studio_config"
+                --packages-skip moveit_studio_za6_base_config"
 
 - Launch the ZA6 drivers:
 

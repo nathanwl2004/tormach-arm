@@ -49,13 +49,13 @@ moveit_params:
   joint_group_name: "manipulator"
 
   ompl_planning:
-    package: "za6_moveit_studio_config"
+    package: "moveit_studio_za6_base_config"
     path: "config/moveit/ompl_planning.yaml"
   kinematics:
     package: "za6_moveit_config"
     path: "config/kinematics.yaml"
   servo:
-    package: "za6_moveit_studio_config"
+    package: "moveit_studio_za6_base_config"
     path: "config/moveit/za6_servo.yaml"
   servo_kinematics:
     package: "za6_moveit_config"
@@ -67,7 +67,7 @@ moveit_params:
     package: "za6_moveit_config"
     path: "config/joint_limits.yaml"
   sensors_3d:
-    package: "za6_moveit_studio_config"
+    package: "moveit_studio_za6_base_config"
     path: "config/moveit/sensors_3d.yaml"
 
   publish:
@@ -96,11 +96,11 @@ objectives:
   # Specify source folder for objectives and the tree_nodes_model.xml
   objective_library_paths:
     core:
-      package_name: "za6_moveit_studio_config"
+      package_name: "moveit_studio_za6_base_config"
       relative_path: "objectives"
   # Specify location of the waypoints file.
   waypoints_file:
-    package_name: "za6_moveit_studio_config"
+    package_name: "moveit_studio_za6_base_config"
     relative_path: "config/waypoints.yaml"
 
 # Configuration for launching ros2_control processes.

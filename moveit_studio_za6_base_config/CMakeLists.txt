@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16.3)
-project(za6_moveit_studio_config)
+project(moveit_studio_za6_base_config)
 
 find_package(ament_cmake REQUIRED)
 
