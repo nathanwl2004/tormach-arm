@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
 <robot name="za6" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <!-- ZA6-specific parameters -->
   <xacro:arg name="prefix" default=""/>
-  <xacro:arg name="fixed_tool" default="True"/>
-  <xacro:arg name="include_ros2_control" default="False"/>
+  <xacro:arg name="fixed_tool" default="true"/>
+  <xacro:arg name="include_ros2_control" default="false"/>
   <xacro:arg name="ros2_control_name" default="hal_hw_interface"/>
   <xacro:arg name="use_mock_hardware" default="false"/>
   <xacro:arg name="ros2_control_plugin"
@@ -42,31 +41,23 @@
   <xacro:arg name="limit_joint_6_velocity" default="6.2"/>
   <xacro:arg name="limit_joint_6_effort" default="1000.0"/>
 
-  <!-- Other parameters -->
-  <xacro:property name="camera_adapter_parent" value="tool0" />
+  <xacro:arg name="gripper" default=""/>
 
-  <!-- Import macros for main hardware components -->
-  <xacro:include
-      filename="$(find za6_description)/urdf/za6_macro.xacro"/>
+  <xacro:property name="gripper" value="$(arg gripper)"/>
+  <xacro:unless value="${gripper == '' or gripper == 'none'}">
+    <!-- MoveIt Studio web preview gripper model -->
+    <xacro:attribute
+        name="web_ui_gripper"
+        value="$(find za6_tools)/urdf/${gripper}_macro.xacro"/>
+  </xacro:unless>
 
-  <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
-  <xacro:property
-      name="initial_positions_file"
-      default="$(arg initial_positions_file)"/>
-
-  <link name="world" />
-  <joint name="world-$(arg prefix)base_link" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 -${pi/2}"/>
-    <axis xyz="0 0 1"/>
-    <parent link="world"/>
-    <child link="$(arg prefix)base_link"/>
-  </joint>
-  <!-- arm -->
+  <xacro:include filename="$(find za6_description)/urdf/za6_macro.xacro"/>
   <xacro:za6
       prefix="$(arg prefix)"
       tool0_trans="0 0 0"
       tool0_rot="0 0 0"
       tool0_fixed="$(arg fixed_tool)"
+      gripper="${gripper}"
 
       limit_joint_1_lower="$(arg limit_joint_1_lower)"
       limit_joint_1_upper="$(arg limit_joint_1_upper)"
@@ -135,29 +126,27 @@
         />
   </xacro:if>
 
-  <!-- Gripper -->
-  <xacro:include
-      filename="$(find za6_tools)/urdf/pivot_gripper_macro.xacro" />
-  <!-- Attach Pivot gripper to ZA6 "flange" link -->
-  <xacro:pivot_gripper_macro
-      prefix="$(arg prefix)"
-      connected_to="$(arg prefix)flange"/>
-  <!-- Attach grasp_link to gripper base for now -->
-  <link name="grasp_link" />
-  <joint name="grasp_link_joint" type="fixed">
-    <parent link="$(arg prefix)pivot_gripper_base" />
-    <child link="grasp_link" />
-    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  <!-- 'world' frame: default pose reference frame -->
+  <link name="world" />
+  <joint name="world-$(arg prefix)base_link" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 -${pi/2}"/>
+    <axis xyz="0 0 1"/>
+    <parent link="world"/>
+    <child link="$(arg prefix)base_link"/>
   </joint>
 
   <!-- Moveit Studio requires a link name called manual_grasp_link to
        perform quick tasks such as inspect surface -->
   <link name="manual_grasp_link" />
-  <joint name="manual_grasp_joint" type="fixed">
-    <parent link="grasp_link" />
-    <child link="manual_grasp_link" />
+  <joint name="$(arg prefix)manual_grasp_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="$(arg prefix)grasp_link" />
+    <child link="$(arg prefix)manual_grasp_link" />
   </joint>
+
+  <xacro:attribute
+      name="web_ui_gripper"
+      value="file://$(find za6_tools)/urdf/$(arg gripper).urdf"/>
 
   <!-- CNC machine -->
   <link name="cnc_machine">

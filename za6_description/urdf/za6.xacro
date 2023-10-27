@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <robot name="za6" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="prefix" default=""/>
   <xacro:arg name="fixed_tool" default="true"/>
@@ -124,9 +124,10 @@
     <child link="$(arg prefix)base_link"/>
   </joint>
 
-  <!-- MoveIt Studio 'manual_grasp_link' for planning -->
+  <!-- Moveit Studio requires a link name called manual_grasp_link to
+       perform quick tasks such as inspect surface -->
   <link name="manual_grasp_link" />
-  <joint name="$(arg prefix)manual_grasp_link-tool0" type="fixed">
+  <joint name="$(arg prefix)manual_grasp_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
     <parent link="$(arg prefix)tool0" />
     <child link="$(arg prefix)manual_grasp_link" />
