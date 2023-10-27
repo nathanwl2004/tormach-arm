@@ -3,7 +3,7 @@
   <xacro:macro name="versabuilt_multigrip_macro" params="prefix connected_to">
 
     <material name="${prefix}Aluminium">
-      <color rgba="0.9 0.9 0.9 0.99"/>
+      <color rgba="0.9 0.9 0.9 1.0"/>
     </material>
 
     <!-- link list -->
@@ -72,6 +72,14 @@
       <child link="${prefix}multigrip_moving_jaw" />
       <axis xyz="0 0 1"/>
       <origin xyz="0.0 0 0.0" rpy="0 0 ${pi}" />
+    </joint>
+
+    <!-- Attach grasp_link to multigrip base for now -->
+    <link name="grasp_link" />
+    <joint name="grasp_joint" type="fixed">
+      <parent link="$(arg prefix)multigrip_base_and_fixed_jaw" />
+      <child link="grasp_link" />
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
     </joint>
 
   </xacro:macro>

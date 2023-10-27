@@ -136,5 +136,13 @@
       <origin xyz="-0.0843 -0.0053 0.031" rpy="0 -${pi/2.0} 0" />
     </joint>
 
+    <!-- Attach grasp_link to gripper base for now -->
+    <link name="grasp_link" />
+    <joint name="grasp_joint" type="fixed">
+      <parent link="$(arg prefix)pivot_gripper_base" />
+      <child link="grasp_link" />
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    </joint>
+
   </xacro:macro>
 </robot>

@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <robot name="za6" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="prefix" default=""/>
-  <xacro:include filename="$(find za6_tools)/urdf/robotiq_hand_e_macro.xacro"/>
+  <xacro:include filename="$(cwd)/urdf/robotiq_hand_e_macro.xacro"/>
 
   <!-- 'flange' frame: default pose reference frame -->
   <link name="flange" />

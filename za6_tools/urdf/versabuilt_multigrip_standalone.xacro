@@ -4,7 +4,7 @@
       filename="$(find za6_tools)/urdf/versabuilt_multigrip_macro.xacro"/>
 
   <material name="main_Red">
-    <color rgba="0.7 0.0 0.0 0.99"/>
+    <color rgba="0.7 0.0 0.0 1.0"/>
   </material>
 
   <link name="world"/>
