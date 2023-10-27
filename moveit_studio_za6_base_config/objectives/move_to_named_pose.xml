@@ -21,7 +21,8 @@
           joint_state="{target_joint_state}"
           name="SetupMTCMoveToJointState"
           planning_group_name="manipulator"
-          task="{move_to_waypoint_task}"/>
+          task="{move_to_waypoint_task}"
+          use_all_planners="false"/>
       <Action
           ID="PlanMTCTask"
           solution="{move_to_waypoint_solution}"
