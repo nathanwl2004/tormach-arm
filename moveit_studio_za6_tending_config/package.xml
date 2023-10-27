@@ -3,7 +3,7 @@
   <name>moveit_studio_za6_tending_config</name>
   <version>2.6.0</version>
 
-  <description>Tormach PCNC1100 environment for Tormach ZA6 arm in sim mode</description>
+  <description>Tormach PCNC1100 environment for Tormach ZA6 arm</description>
 
   <maintainer email="studio.maintainers@picknik.ai">MoveIt Studio Maintainer</maintainer>
   <maintainer email="jmorris@tormach.com">John Morris</maintainer>
