@@ -8,12 +8,12 @@
         nanosec: 0
         sec: 0
     name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
     position:
       - -1.483921129263475
       - -2.46201364140547
@@ -33,12 +33,12 @@
         nanosec: 0
         sec: 0
     name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
     position:
       - 0.06985069152408796
       - -1.4672882628347366
@@ -58,12 +58,12 @@
         nanosec: 0
         sec: 0
     name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
     position:
       - 0
       - -1.41
@@ -83,12 +83,12 @@
         nanosec: 0
         sec: 0
     name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
     position:
       - 1.8388098170804708
       - -2.443292149016804
@@ -108,12 +108,12 @@
         nanosec: 0
         sec: 0
     name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
     position:
       - -2.2335834056138996e-05
       - -0.7800858658974525
@@ -133,12 +133,12 @@
         nanosec: 0
         sec: 0
     name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
     position:
       - -1.5707963267948966
       - -2.0943951023931953
@@ -158,12 +158,12 @@
         nanosec: 0
         sec: 0
     name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
     position:
       - 0
       - -0.78
@@ -183,12 +183,12 @@
         nanosec: 0
         sec: 0
     name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
     position:
       - 1.6966397903773711
       - -2.0432638182120124
@@ -208,12 +208,12 @@
         nanosec: 0
         sec: 0
     name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
     position:
       - 0.5509848570442806
       - -0.9919020912742678
@@ -233,12 +233,12 @@
         nanosec: 0
         sec: 0
     name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
     position:
       - -2.2335834056138996e-05
       - -0.7800858658974525
@@ -258,12 +258,12 @@
         nanosec: 0
         sec: 0
     name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
     position:
       - 0.11111391121840652
       - -2.5862044847356653
