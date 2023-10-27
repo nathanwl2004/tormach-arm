@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="robotiq_hand_e_macro" params="prefix">
+  <xacro:macro name="robotiq_hand_e_macro" params="prefix connected_to">
 
     <material name="${prefix}Aluminium">
       <color rgba="0.9 0.9 0.9 0.99"/>
@@ -65,6 +65,13 @@
     </link>
 
     <!-- joint list -->
+    <joint name="${prefix}flange-hand_e_body" type="fixed">
+      <parent link="${connected_to}"/>
+      <child link="${prefix}hand_e_body"/>
+      <axis xyz="0 0 1"/>
+      <origin rpy="0 0 ${-pi/2.0}" xyz="0 0 0"/>
+    </joint>
+
     <joint name="${prefix}hand_e_body-hand_e_finger_left" type="fixed">
       <parent link="${prefix}hand_e_body" />
       <child link="${prefix}hand_e_finger_left" />

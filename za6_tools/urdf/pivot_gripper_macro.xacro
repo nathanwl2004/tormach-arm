@@ -3,7 +3,7 @@
   <xacro:macro name="pivot_gripper_macro" params="prefix connected_to">
 
     <material name="${prefix}Aluminium">
-      <color rgba="0.9 0.9 0.9 0.99"/>
+      <color rgba="0.9 0.9 0.9 1.0"/>
     </material>
 
     <!-- link list -->
@@ -93,15 +93,15 @@
     </link>
 
     <!-- joint list -->
-    <joint name="${prefix}adapter-pivot_gripper_base" type="fixed">
+    <joint name="${prefix}pivot_gripper_base_joint" type="fixed">
       <parent link="${connected_to}"/>
       <child link="${prefix}pivot_gripper_base"/>
-      <axis xyz="0 0 0"/>
+      <axis xyz="0 0 1"/>
       <origin rpy="0.0 0.0 0.0" xyz="0 0 0"/>
     </joint>
 
     <joint
-        name="${prefix}pivot_gripper_base-pivot_gripper_finger_left1"
+        name="${prefix}pivot_gripper_finger_left1_joint"
         type="fixed">
       <parent link="${prefix}pivot_gripper_base" />
       <child link="${prefix}pivot_gripper_finger_left1" />
@@ -110,7 +110,7 @@
     </joint>
 
     <joint
-        name="${prefix}pivot_gripper_base-pivot_gripper_finger_right1"
+        name="${prefix}pivot_gripper_finger_right1_joint"
         type="fixed">
       <parent link="${prefix}pivot_gripper_base" />
       <child link="${prefix}pivot_gripper_finger_right1" />
@@ -119,7 +119,7 @@
     </joint>
 
     <joint
-        name="${prefix}pivot_gripper_base-pivot_gripper_finger_left2"
+        name="${prefix}pivot_gripper_finger_left2_joint"
         type="fixed">
       <parent link="${prefix}pivot_gripper_base" />
       <child link="${prefix}pivot_gripper_finger_left2" />
@@ -128,7 +128,7 @@
     </joint>
 
     <joint
-        name="${prefix}pivot_gripper_base-pivot_gripper_finger_right2"
+        name="${prefix}pivot_gripper_finger_right2_joint"
         type="fixed">
       <parent link="${prefix}pivot_gripper_base" />
       <child link="${prefix}pivot_gripper_finger_right2" />

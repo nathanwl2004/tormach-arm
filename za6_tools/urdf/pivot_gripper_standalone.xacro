@@ -1,9 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="za6" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="$(find za6_tools)/urdf/pivot_gripper_macro.xacro"/>
-  <xacro:pivot_gripper_macro
-      prefix=""
-      connected_to="base_link"/>
 
   <material name="main_Red">
     <color rgba="0.7 0.0 0.0 0.99"/>
@@ -25,4 +22,7 @@
     <child link="base_link"/>
   </joint>
 
+  <xacro:pivot_gripper_macro
+      prefix=""
+      connected_to="base_link"/>
 </robot>
