@@ -1,16 +1,30 @@
-# tormach_za6_studio_config
+# `tormach_za_drivers`
 
-This contains the base and site config to operate a Tormach ZA6 using
-MoveIt Studio
+This repository contains the Tormach ZA robot ROS 2 drivers,
+including:
+
+- `za6_description`:  URDF and mesh files for the ZA6
+- `za6_tools`:  URDF and meshfiles for Tormach robot grippers
+- `za6_hardware`:  HAL hardware drivers for the ZA6
+- `za6_moveit_config`:  MoveIt configuration
+- `za6_bringup`:  Launch files to bring up the robot
+
+It also includes two packages for running MoveIt Studio:
+
+- `moveit_studio_za6_base_config`:  The base Studio configuration
+- `moveit_studio_za6_tending_config`:  The machine tending
+  configuration with a Tormach PCNC 1100 milling machine
 
 ## Running the ZA6 on ROS 2
 
-Run the ZA6, either real hardware or in sim mode, in a separate Docker
-container using the instructions in this section.
+Run the ZA6, either real hardware or in sim mode, in a Docker
+container using the instructions in this section.  Real hardware will
+only run on a Tormach robot controller with `RT_PREEMPT` kernel and OS
+tuning needed for real-time control.
 
 NOTE:  Running ROS 2 will update the EtherCAT master, causing the ROS
 1 controller to stop working.  See "Restore ROS 1 compatibility" below
-for more info and a fix.
+for more info and a fix.  This will be fixed in future releases.
 
 ### Log into PathPilot Docker registry
 
@@ -85,39 +99,6 @@ argument.
 
   launch_za_dist_image.sh fix-ethercat
 
-## Launch MoveIt Studio with ZA6 in simulation mode
+## Launch MoveIt Studio with ZA6 support
 
-- Start the ZA6 container as described above:
-
-        ./launch_za_dist_image.sh sim
-
-- Build a custom branch:
-
-        rm -rf build/ log
-        sudo -HE PYTHONPATH=$PYTHONPATH bash -c "
-            colcon build --install-base /opt/ros/${ROS_DISTRO} \
-                --merge-install --cmake-args
-                -DCMAKE_BUILD_TYPE=Release \
-                --event-handlers console_cohesion+ \
-                --packages-skip moveit_studio_za6_base_config \
-                    moveit_studio_za6_tending_config"
-
-- Launch the ZA6 drivers:
-
-        source /opt/ros/$ROS_DISTRO/setup.bash
-        ros2 launch za6_bringup bringup.launch sim_mode:=true
-
-In a new terminal:
-
-- Remove previous MoveIt Studio configuration files
-
-        rm -rf ~/.config/moveit_studio
-
-- Build the ZA6 site config (from your moveit_studio folder):
-
-       ./moveit_studio build
-
-- Start MoveIt Studio (without launching drivers, they are launched in
-  the ZA6 container):
-
-       ./moveit_studio run -v --no-drivers
+To run MoveIt Studio, see `moveit_studio_za6_base_config/README.md`.
