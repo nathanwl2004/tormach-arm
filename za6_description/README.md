@@ -19,8 +19,9 @@ https://wiki.ros.org/urdf
 ## Xacro operations
 
 - Convert xacro to URDF
-  `xacro -o /tmp/za6.urdf \
+  - `xacro -o /tmp/za6.urdf \
       $(ros2 pkg prefix za6_description)/share/za6_description/urdf/za6.xacro`
+  - Optionally gripper, e.g. `gripper:=pivot_gripper`
 
 - Verify URDF
   - `check_urdf /tmp/za6.urdf`

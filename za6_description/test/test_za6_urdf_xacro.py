@@ -44,6 +44,8 @@ def test_urdf_xacro():
     description_package = "za6_description"
     description_file = "za6.xacro"
     prefix = ""
+    gripper = os.environ.get("ZA_GRIPPER", "")
+    args = [f"gripper:={gripper}"] if gripper else list()
 
     description_package_dir = get_package_share_directory(description_package)
     description_file_path = os.path.join(
@@ -57,7 +59,10 @@ def test_urdf_xacro():
             "-o",
             fp.name,
             f"prefix:={prefix}",
+            *args,
         ]
+
+        print(f"xacro command:  '{' '.join(xacro_command)}'")
         xacro_process = subprocess.run(xacro_command, stdout=fp)
         assert xacro_process.returncode == 0, " --- XACRO command failed ---"
         for line in fp:

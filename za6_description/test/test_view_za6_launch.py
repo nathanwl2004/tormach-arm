@@ -31,6 +31,7 @@
 # Updated for Tormach ZA6.
 
 import pytest
+import os
 
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
@@ -43,6 +44,9 @@ from launch_testing.actions import ReadyToTest
 # Executes the given launch file and checks if all nodes can be started
 @pytest.mark.rostest
 def generate_test_description():
+    gripper = os.environ.get("ZA_GRIPPER", "")
+    args = dict(gripper=gripper) if gripper else dict()
+
     launch_arg = DeclareLaunchArgument(
         "description_package",
         default_value="za6_description",
@@ -60,6 +64,7 @@ def generate_test_description():
                 ]
             )
         ),
+        launch_arguments=args.items(),
     )
 
     return LaunchDescription([launch_arg, launch_include, ReadyToTest()])

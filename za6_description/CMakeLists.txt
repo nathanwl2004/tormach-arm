@@ -9,8 +9,17 @@ install(DIRECTORY config launch meshes urdf test
 if(BUILD_TESTING)
   find_package(ament_cmake_pytest REQUIRED)
 
-  ament_add_pytest_test(za6_urdf_xacro test/test_za6_urdf_xacro.py)
-  ament_add_pytest_test(view_za6_launch test/test_view_za6_launch.py)
+  set(grippers pivot_gripper robotiq_hand_e versabuilt_multigrip none "")
+  foreach(gripper ${grippers})
+    ament_add_pytest_test(
+      za6_${gripper}_urdf_xacro test/test_za6_urdf_xacro.py
+      ENV ZA_GRIPPER=${gripper}
+    )
+    ament_add_pytest_test(
+      view_za6_${gripper}_launch test/test_view_za6_launch.py
+      ENV ZA_GRIPPER=${gripper}
+    )
+  endforeach()
 endif()
 
 ament_package()

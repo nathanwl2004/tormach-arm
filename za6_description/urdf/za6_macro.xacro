@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="za6" params="
-    prefix tool0_trans tool0_rot
-
+    prefix
+    tool0_trans
+    tool0_rot
     tool0_fixed:=True
+    gripper:=''
 
     limit_joint_1_lower:=-2.96
     limit_joint_1_upper:=2.96
@@ -265,6 +267,24 @@
         <child link="${prefix}tool0" />
       </joint>
     </xacro:unless>
+
+    <xacro:unless value="${gripper == '' or gripper == 'none'}">
+      <!-- Gripper params supplied in macro call -->
+      <xacro:include filename="$(find za6_tools)/urdf/${gripper}_macro.xacro"/>
+      <!-- Attach gripper to ZA6 "flange" link -->
+      <xacro:element xacro:name="xacro:${gripper}_macro"
+                     prefix="${prefix}"
+                     connected_to="${prefix}flange"/>
+    </xacro:unless>
+    <xacro:if value="${gripper == '' or gripper == 'none'}">
+      <!-- No gripper params; create grasp_link & connect to flange -->
+      <link name="grasp_link" />
+      <joint name="${prefix}grasp_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="${prefix}flange" />
+        <child link="${prefix}grasp_link" />
+      </joint>
+    </xacro:if>
 
   </xacro:macro>
 </robot>

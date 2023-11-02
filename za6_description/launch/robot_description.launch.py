@@ -48,6 +48,11 @@ def generate_launch_description():
                 " fake hardware use `mock_components/GenericSystem`"
             ),
         ),
+        DeclareLaunchArgument(
+            "gripper",
+            default_value="none",
+            description="Gripper name from za6_tools package; default none",
+        ),
 
         DeclareLaunchArgument(
             "initial_positions_file",
@@ -89,6 +94,9 @@ def generate_launch_description():
                     " ",
                     "ros2_control_plugin:=",
                     LaunchConfiguration("ros2_control_plugin"),
+                    " ",
+                    "gripper:=",
+                    LaunchConfiguration("gripper"),
                     " ",
                     "initial_positions_file:=",
                     LaunchConfiguration("initial_positions_file"),

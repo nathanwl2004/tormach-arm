@@ -41,12 +41,22 @@
   <xacro:arg name="limit_joint_6_velocity" default="6.2"/>
   <xacro:arg name="limit_joint_6_effort" default="1000.0"/>
 
+  <xacro:arg name="gripper" default="none"/>
+
+  <xacro:property name="gripper" value="$(arg gripper)"/>
+
+  <!-- MoveIt Studio web preview gripper model -->
+  <xacro:attribute
+      name="web_ui_gripper"
+      value="$(find za6_tools)/urdf/${gripper}.urdf"/>
+
   <xacro:include filename="$(find za6_description)/urdf/za6_macro.xacro"/>
   <xacro:za6
       prefix="$(arg prefix)"
       tool0_trans="0 0 0"
       tool0_rot="0 0 0"
       tool0_fixed="$(arg fixed_tool)"
+      gripper="${gripper}"
 
       limit_joint_1_lower="$(arg limit_joint_1_lower)"
       limit_joint_1_upper="$(arg limit_joint_1_upper)"
@@ -129,7 +139,7 @@
   <link name="manual_grasp_link" />
   <joint name="$(arg prefix)manual_grasp_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="$(arg prefix)tool0" />
+    <parent link="$(arg prefix)grasp_link" />
     <child link="$(arg prefix)manual_grasp_link" />
   </joint>
 </robot>

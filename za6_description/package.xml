@@ -27,6 +27,9 @@
   <!-- rviz2 packages don't pull in Ogre libs -->
   <exec_depend>rviz_ogre_vendor</exec_depend>
 
+  <!-- URDFs refer to za6_tools grippers -->
+  <exec_depend>za6_tools</exec_depend>
+
   <build_export_depend>xacro</build_export_depend>
 
   <test_depend>ament_cmake_pytest</test_depend>

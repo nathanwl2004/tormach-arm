@@ -79,11 +79,19 @@ def generate_launch_description():
             description=("ros2_control plugin; default HAL hw interface"),
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "gripper",
+            default_value="",
+            description="Gripper name from za6_tools package; default none",
+        )
+    )
 
     description_package = LaunchConfiguration("description_package")
     description_file = LaunchConfiguration("description_file")
     prefix = LaunchConfiguration("prefix")
     ros2_control_plugin = LaunchConfiguration("ros2_control_plugin")
+    gripper = LaunchConfiguration("gripper")
 
     # Load URDF content via robot_description.launch.py
     # FIXME This is the right way to do this, but it causes some kind of
@@ -110,6 +118,7 @@ def generate_launch_description():
                 description_file=description_file,
                 prefix=prefix,
                 ros2_control_plugin=ros2_control_plugin,
+                gripper=gripper,
             ).items(),
         )
     )
