@@ -11,6 +11,7 @@ hardware:
     urdf_params:
       - use_mock_hardware: ${MOCK_HARDWARE:-false}
       - include_ros2_control:  true
+      - gripper:  ${ZA_GRIPPER:-none}
 
 objectives:
   objective_library_paths:
