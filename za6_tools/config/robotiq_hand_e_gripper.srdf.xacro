@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+SRDF for the Robotiq Hand-E gripper
+
+To be used with the za6_tools package urdf/robotiq_hand_e_gripper.urdf.xacro
+
+-->
+<robot name="robotiq_hand_e_gripper" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro
+      name="robotiq_hand_e_gripper_macro"
+      params="prefix robot_links:=${[]}">
+
+    <!-- Gripper kinematic chain -->
+    <group name="${prefix}robotiq_hand_e_gripper">
+      <link name="${prefix}hand_e_body"/>
+      <link name="${prefix}hand_e_finger_left"/>
+      <link name="${prefix}hand_e_finger_right"/>
+    </group>
+
+    <!-- Gripper passive joints (joints that are not actuated) -->
+    <passive_joint name="${prefix}flange-hand_e_body"/>
+    <passive_joint name="${prefix}hand_e_body-hand_e_finger_left"/>
+    <passive_joint name="${prefix}hand_e_body-hand_e_finger_right"/>
+    <passive_joint name="grasp_joint"/>
+
+    <!-- Gripper internal collisions -->
+    <disable_collisions
+        link1="${prefix}hand_e_body"
+        link2="${prefix}hand_e_finger_left"
+        reason="Adjacent"/>
+    <disable_collisions
+        link1="${prefix}hand_e_body"
+        link2="${prefix}hand_e_finger_right"
+        reason="Adjacent"/>
+    <disable_collisions
+        link1="${prefix}hand_e_finger_left"
+        link2="${prefix}hand_e_finger_right"
+        reason="Never"/>
+
+    <!-- Gripper-robot collisions -->
+    <xacro:macro name="disable_robot_collisions" params="robot_links:=^">
+      <xacro:if value="${robot_links}">
+        <xacro:property name="robot_link" value="${robot_links.pop(0)}"/>
+        <disable_collisions
+            link1="${prefix}flange-hand_e_body"
+            link2="${robot_link}"
+            reason="Never"/>
+        <disable_collisions
+            link1="${prefix}hand_e_body-hand_e_finger_left"
+            link2="${robot_link}"
+            reason="Never"/>
+        <disable_collisions
+            link1="${prefix}hand_e_body-hand_e_finger_right"
+            link2="${robot_link}"
+            reason="Never"/>
+        <!-- Recurse until robot_links is empty -->
+        <xacro:disable_robot_collisions/>
+      </xacro:if>
+    </xacro:macro>
+
+    <xacro:disable_robot_collisions robot_links="${robot_links}" />
+
+  </xacro:macro>
+</robot>

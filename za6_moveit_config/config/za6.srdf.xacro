@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+
+    This is a format for representing semantic information about the
+    robot structure.
+
+    A URDF file must exist for this robot as well, where the joints
+    and the links that are referenced are defined
+-->
+<robot name="za6" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="prefix" default=""/>
+  <xacro:arg name="gripper" default="none"/>
+
+  <!-- Main manipulator move group -->
+  <group name="manipulator">
+    <chain base_link="base_link" tip_link="grasp_link"/>
+  </group>
+
+  <!-- Pre-defined poses -->
+  <group_state name="all-zeros" group="manipulator">
+    <joint name="joint_1" value="0"/>
+    <joint name="joint_2" value="0"/>
+    <joint name="joint_3" value="0"/>
+    <joint name="joint_4" value="0"/>
+    <joint name="joint_5" value="0"/>
+    <joint name="joint_6" value="0"/>
+  </group_state>
+
+  <!-- Robot internal collisions -->
+  <disable_collisions link1="base_link" link2="link_1" reason="Adjacent"/>
+  <disable_collisions link1="base_link" link2="link_2" reason="User"/>
+  <disable_collisions link1="base_link" link2="link_3" reason="User"/>
+  <disable_collisions link1="link_1" link2="link_2" reason="Adjacent"/>
+  <disable_collisions link1="link_1" link2="link_3" reason="Never"/>
+  <disable_collisions link1="link_2" link2="link_3" reason="Adjacent"/>
+  <disable_collisions link1="link_2" link2="link_4" reason="User"/>
+  <disable_collisions link1="link_2" link2="link_5" reason="Never"/>
+  <disable_collisions link1="link_2" link2="link_6" reason="User"/>
+  <disable_collisions link1="link_3" link2="link_4" reason="Adjacent"/>
+  <disable_collisions link1="link_3" link2="link_5" reason="Never"/>
+  <disable_collisions link1="link_3" link2="link_6" reason="Never"/>
+  <disable_collisions link1="link_4" link2="link_5" reason="Adjacent"/>
+  <disable_collisions link1="link_4" link2="link_6" reason="User"/>
+  <disable_collisions link1="link_5" link2="link_6" reason="Adjacent"/>
+
+  <!-- Gripper macros -->
+  <xacro:property name="gripper" value="$(arg gripper)"/>
+  <xacro:unless value="${gripper == 'none'}">
+    <xacro:include filename="$(find za6_tools)/config/${gripper}.srdf.xacro"/>
+
+    <!-- Links 6 & 5 are always behind the gripper; link 3 is too far away -->
+    <xacro:element xacro:name="xacro:${gripper}_macro"
+                   prefix="$(arg prefix)"
+                   robot_links="${['link_3', 'link_5', 'link_6']}"/>
+
+    <!-- Define end effector chain & link to main manipulator -->
+    <end_effector
+        name="moveit_ee"
+        parent_link="$(arg prefix)tool0"
+        group="$(arg prefix)${gripper}"/>
+  </xacro:unless>
+</robot>

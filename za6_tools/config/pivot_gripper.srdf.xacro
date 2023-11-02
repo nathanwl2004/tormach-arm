@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+SRDF for the Tormach Pivot gripper
+
+To be used with the za6_tools package urdf/pivot_gripper.urdf.xacro
+
+-->
+<robot name="pivot_gripper" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro
+      name="pivot_gripper_macro"
+      params="prefix robot_links:=${[]}">
+
+    <!-- Gripper kinematic chain -->
+    <group name="${prefix}pivot_gripper">
+      <link name="${prefix}pivot_gripper_base"/>
+      <link name="${prefix}pivot_gripper_finger_left1"/>
+      <link name="${prefix}pivot_gripper_finger_right1"/>
+      <link name="${prefix}pivot_gripper_finger_left2"/>
+      <link name="${prefix}pivot_gripper_finger_right2"/>
+    </group>
+
+    <!-- Gripper passive joints (joints that are not actuated) -->
+    <passive_joint name="${prefix}pivot_gripper_base_joint"/>
+    <passive_joint name="${prefix}pivot_gripper_finger_left1_joint"/>
+    <passive_joint name="${prefix}pivot_gripper_finger_right1_joint"/>
+    <passive_joint name="${prefix}pivot_gripper_finger_left2_joint"/>
+    <passive_joint name="${prefix}pivot_gripper_finger_right2_joint"/>
+    <passive_joint name="manual_grasp_joint"/>
+    <passive_joint name="grasp_joint"/>
+
+    <!-- Gripper internal collisions -->
+    <disable_collisions
+        link1="${prefix}pivot_gripper_base"
+        link2="${prefix}pivot_gripper_finger_left1"
+        reason="Adjacent"/>
+    <disable_collisions
+        link1="${prefix}pivot_gripper_base"
+        link2="${prefix}pivot_gripper_finger_right1"
+        reason="Adjacent"/>
+    <disable_collisions
+        link1="${prefix}pivot_gripper_base"
+        link2="${prefix}pivot_gripper_finger_left2"
+        reason="Adjacent"/>
+    <disable_collisions
+        link1="${prefix}pivot_gripper_base"
+        link2="${prefix}pivot_gripper_finger_right2"
+        reason="Adjacent"/>
+    <disable_collisions
+        link1="${prefix}pivot_gripper_finger_left1"
+        link2="${prefix}pivot_gripper_finger_left2"
+        reason="Never"/>
+    <disable_collisions
+        link1="${prefix}pivot_gripper_finger_left1"
+        link2="${prefix}pivot_gripper_finger_right1"
+        reason="Never"/>
+    <disable_collisions
+        link1="${prefix}pivot_gripper_finger_left1"
+        link2="${prefix}pivot_gripper_finger_right2"
+        reason="Never"/>
+    <disable_collisions
+        link1="${prefix}pivot_gripper_finger_right1"
+        link2="${prefix}pivot_gripper_finger_right2"
+        reason="Never"/>
+    <disable_collisions
+        link1="${prefix}pivot_gripper_finger_right1"
+        link2="${prefix}pivot_gripper_finger_left2"
+        reason="Never"/>
+    <disable_collisions
+        link1="${prefix}pivot_gripper_finger_left2"
+        link2="${prefix}pivot_gripper_finger_right2"
+        reason="Never"/>
+
+    <!-- Gripper-robot collisions -->
+    <xacro:macro name="disable_robot_collisions" params="robot_links:=^">
+      <xacro:if value="${robot_links}">
+        <xacro:property name="robot_link" value="${robot_links.pop(0)}"/>
+        <disable_collisions
+            link1="${prefix}pivot_gripper_base"
+            link2="${robot_link}"
+            reason="Never"/>
+        <disable_collisions
+            link1="${prefix}pivot_gripper_finger_left1"
+            link2="${robot_link}"
+            reason="Never"/>
+        <disable_collisions
+            link1="${prefix}pivot_gripper_finger_left2"
+            link2="${robot_link}"
+            reason="Never"/>
+        <disable_collisions
+            link1="${prefix}pivot_gripper_finger_right1"
+            link2="${robot_link}"
+            reason="Never"/>
+        <disable_collisions
+            link1="${prefix}pivot_gripper_finger_right2"
+            link2="${robot_link}"
+            reason="Never"/>
+        <!-- Recurse until robot_links is empty -->
+        <xacro:disable_robot_collisions/>
+      </xacro:if>
+    </xacro:macro>
+
+    <xacro:disable_robot_collisions robot_links="${robot_links}" />
+
+  </xacro:macro>
+</robot>

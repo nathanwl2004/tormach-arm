@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+SRDF for the Versabuilt Multigrip
+
+To be used with the za6_tools package urdf/versabuilt_multigrip.urdf.xacro
+
+-->
+<robot name="versabuilt_multigrip" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro
+      name="versabuilt_multigrip_macro"
+      params="prefix robot_links:=${[]}">
+
+    <!-- Gripper kinematic chain -->
+    <group name="${prefix}versabuilt_multigrip">
+      <link name="${prefix}za6_multigrip_adapter"/>
+      <link name="${prefix}multigrip_base_and_fixed_jaw"/>
+      <link name="${prefix}multigrip_moving_jaw"/>
+    </group>
+
+    <!-- Gripper passive joints (joints that are not actuated) -->
+    <passive_joint name="${prefix}flange-multigrip_adapter"/>
+    <passive_joint name="${prefix}adapter-multigrip_base_and_fixed_jaw"/>
+    <passive_joint name="${prefix}multigrip_moving_jaw_joint"/>
+    <passive_joint name="grasp_joint"/>
+
+    <!-- Gripper internal collisions -->
+    <disable_collisions
+        link1="${prefix}flange-multigrip_adapter"
+        link2="${prefix}multigrip_moving_jaw"
+        reason="Adjacent"/>
+
+    <!-- Gripper-robot collisions -->
+    <xacro:macro name="disable_robot_collisions" params="robot_links:=^">
+      <xacro:if value="${robot_links}">
+        <xacro:property name="robot_link" value="${robot_links.pop(0)}"/>
+        <disable_collisions
+            link1="${prefix}multigrip_base_and_fixed_jaw"
+            link2="${robot_link}"
+            reason="Never"/>
+        <disable_collisions
+            link1="${prefix}multigrip_moving_jaw"
+            link2="${robot_link}"
+            reason="Never"/>
+        <!-- Recurse until robot_links is empty -->
+        <xacro:disable_robot_collisions/>
+      </xacro:if>
+    </xacro:macro>
+
+    <xacro:disable_robot_collisions robot_links="${robot_links}" />
+
+  </xacro:macro>
+</robot>
