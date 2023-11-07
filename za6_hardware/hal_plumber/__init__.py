@@ -1,6 +1,7 @@
 import subprocess
 import tempfile
 import os
+import re
 from functools import cached_property
 from hal_hw_interface.loadrt_local import loadrt_local, rtapi, hal
 from hw_device_mgr.lcec.config import LCECConfig
@@ -215,19 +216,24 @@ class HALPlumber(HALPlumberBase):
         return res
 
     def create_cgroup(self, cgname):
+        self.isolcpus = None
         self.logger.info(f"Checking cpuset cgroup '{cgname}'")
         try:
             res = self.run_cmd("cgget", "-nvr", "cpuset.cpus", cgname)
         except subprocess.CalledProcessError as e:
-            self.logger.warn(
-                f"Not creating cgroup {cgname} after error:  {str(e)}"
-            )
-            return
+            # In Jammy, this can mean the cgroup isn't yet configured
+            res = None
         if res:
             self.logger.info(f"Cpuset cgroup '{cgname}' exists:  {res}")
+            self.isolcpus = res
             return True
 
-        isolcpus = self.get_isolcpus()
+        isolcpus = self.isolcpus = self.get_isolcpus()
+        if isolcpus is None:
+            self.logger.warn(
+                "Not configuring cgroup '{cgname}': no `isolcpus=` kernel arg"
+            )
+            return False
         self.logger.info(f"Creating cpuset cgroup '{cgname}'")
         self.run_cmd("sudo", "cgcreate", "-g", f"cpuset:{cgname}")
         if not self.run_cmd("lscgroup", "-g", f"cpuset:{cgname}"):
@@ -248,17 +254,22 @@ class HALPlumber(HALPlumberBase):
             self.logger.warn(f"Unable to create cpuset cgroup '{cgname}'")
             return False
 
+    isolcpus_re = re.compile(r"([0-9]+).*")
+
     def instantiate_threads(self):
         # Init HAL thread, maybe setting cgroup
         kwargs = dict()
         cgname = self.hal_thread.get("rt_cgname", None)
+        kwargs_str = ""
         if cgname is not None and self.create_cgroup(cgname):
-            self.logger.info(f"  cgname:  {cgname}")
-            kwargs.update(cgname=cgname)
+            m = self.isolcpus_re.match(self.isolcpus)
+            isolcpu = int(m.group(1))  # Pick first CPU in group (it's easy)
+            kwargs.update(cpu=isolcpu)
+            kwargs_str += f", cpu={isolcpu}"
         thread_period = self.hal_thread["period"]
         thread_name = self.hal_thread["name"]
         self.logger.info(
-            f"Thread:  {thread_name}, {thread_period}, fp=True, {kwargs}"
+            f"Thread:  {thread_name}, {thread_period}, fp=True{kwargs_str}"
         )
         rtapi.newthread(thread_name, thread_period, fp=True, **kwargs)
         # Add functions to thread in correct order
