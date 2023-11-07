@@ -1,8 +1,21 @@
 <?xml version="1.0" ?>
 <robot name="za6" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="prefix" default=""/>
-  <xacro:include
-      filename="$(cwd)/urdf/versabuilt_multigrip_macro.xacro"/>
+  <xacro:arg name="_build" default="false"/>
+  <xacro:if value="$(arg _build)">
+    <xacro:include filename="$(cwd)/urdf/versabuilt_multigrip_macro.xacro"/>
+  </xacro:if>
+  <xacro:unless value="$(arg _build)">
+    <xacro:include
+        filename="$(find za6_tools)/urdf/versabuilt_multigrip_macro.xacro"/>
+  </xacro:unless>
+
+  <link name="tool0"/>
+  <joint name="flange-tool0" type="fixed">
+    <parent link="manual_grasp_link"/>
+    <child link="tool0"/>
+    <origin rpy="0.08726646259971647 0 -3.141592653589793" xyz="0.0 -0.016124 -0.18430"/>
+  </joint>
 
   <!-- 'flange' frame: default pose reference frame -->
   <link name="flange" />
@@ -10,4 +23,13 @@
   <xacro:versabuilt_multigrip_macro
       prefix="$(arg prefix)"
       connected_to="$(arg prefix)flange"/>
+
+  <!-- Moveit Studio requires a link name called manual_grasp_link to
+       perform quick tasks such as inspect surface -->
+  <link name="manual_grasp_link" />
+  <joint name="$(arg prefix)manual_grasp_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="$(arg prefix)grasp_link" />
+    <child link="$(arg prefix)manual_grasp_link" />
+  </joint>
 </robot>
