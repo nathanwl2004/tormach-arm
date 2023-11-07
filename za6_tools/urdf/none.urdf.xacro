@@ -1,34 +1,35 @@
 <?xml version="1.0" ?>
-<robot name="za6_robotiq_hand_e" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="za6_none" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- URDF for *no* gripper:  no geometry; tool0 is at flange -->
   <xacro:arg name="prefix" default=""/>
   <xacro:arg name="build" default="false"/>
   <xacro:if value="$(arg build)">
-    <xacro:include filename="$(cwd)/urdf/robotiq_hand_e_macro.xacro"/>
+    <xacro:include filename="$(cwd)/urdf/none_macro.xacro"/>
   </xacro:if>
   <xacro:unless value="$(arg build)">
-    <xacro:include filename="$(find za6_tools)/urdf/robotiq_hand_e_macro.xacro"/>
+    <xacro:include filename="$(find za6_tools)/urdf/none_macro.xacro"/>
   </xacro:unless>
 
   <link name="tool0"/>
   <joint name="flange-tool0" type="fixed">
     <parent link="manual_grasp_link"/>
     <child link="tool0"/>
-    <origin rpy="0.08726646259971647 0 -3.141592653589793" xyz="0.0 -0.016124 -0.18430"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
   </joint>
 
   <!-- 'flange' frame: default pose reference frame -->
   <link name="flange" />
 
-  <xacro:robotiq_hand_e_macro
+  <xacro:none_macro
       prefix="$(arg prefix)"
       connected_to="$(arg prefix)flange"/>
 
   <!-- Moveit Studio requires a link name called manual_grasp_link to
        perform quick tasks such as inspect surface -->
   <link name="manual_grasp_link" />
-  <joint name="$(arg prefix)manual_grasp_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="$(arg prefix)grasp_link" />
-    <child link="$(arg prefix)manual_grasp_link" />
+  <joint name="grasp-manual_grasp" type="fixed">
+    <parent link="grasp_link"/>
+    <child link="manual_grasp_link"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
   </joint>
 </robot>

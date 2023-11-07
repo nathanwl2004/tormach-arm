@@ -4,7 +4,7 @@ project(za6_tools)
 find_package(ament_cmake REQUIRED)
 find_package(xacro REQUIRED)
 
-set(grippers pivot_gripper robotiq_hand_e versabuilt_multigrip)
+set(grippers pivot_gripper robotiq_hand_e versabuilt_multigrip none)
 
 # Build static URDFs of grippers for MoveIt Studio web preview
 set(gripper_urdf_files "${grippers}")

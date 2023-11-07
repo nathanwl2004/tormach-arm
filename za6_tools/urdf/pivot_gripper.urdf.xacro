@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
-<robot name="za6" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="za6_pivot_gripper" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="prefix" default=""/>
-  <xacro:arg name="_build" default="false"/>
-  <xacro:if value="$(arg _build)">
+  <xacro:arg name="build" default="false"/>
+  <xacro:if value="$(arg build)">
     <xacro:include filename="$(cwd)/urdf/pivot_gripper_macro.xacro"/>
   </xacro:if>
-  <xacro:unless value="$(arg _build)">
-    <xacro:include filename="$(find za6_tools)/urdf/pivot_gripper_macro.xacro"/>
+  <xacro:unless value="$(arg build)">
+    <xacro:include filename="$(cwd)/urdf/pivot_gripper_macro.xacro"/>
   </xacro:unless>
 
   <link name="tool0"/>

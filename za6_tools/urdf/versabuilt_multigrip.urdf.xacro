@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
-<robot name="za6" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="za6_versabuilt_multigrip" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="prefix" default=""/>
-  <xacro:arg name="_build" default="false"/>
-  <xacro:if value="$(arg _build)">
+  <xacro:arg name="build" default="false"/>
+  <xacro:if value="$(arg build)">
     <xacro:include filename="$(cwd)/urdf/versabuilt_multigrip_macro.xacro"/>
   </xacro:if>
-  <xacro:unless value="$(arg _build)">
+  <xacro:unless value="$(arg build)">
     <xacro:include
         filename="$(find za6_tools)/urdf/versabuilt_multigrip_macro.xacro"/>
   </xacro:unless>
