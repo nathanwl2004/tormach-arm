@@ -17,7 +17,7 @@ xacro_add_files(${gripper_urdf_files}
 
 
 
-install(DIRECTORY config meshes urdf
+install(DIRECTORY config launch meshes rviz urdf
   DESTINATION share/${PROJECT_NAME})
 
 ament_package()
