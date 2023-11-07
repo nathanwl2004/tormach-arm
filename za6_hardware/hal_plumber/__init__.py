@@ -5,7 +5,7 @@ from functools import cached_property
 from hal_hw_interface.loadrt_local import loadrt_local, rtapi, hal
 from hw_device_mgr.lcec.config import LCECConfig
 from hw_device_mgr.config_io import ConfigIO
-from .hw_device_mgr import ZADrives
+from .hw_device_mgr import ZADrives, ZASimDrives
 
 from .base import HALPlumberBase
 from .joint import HALJointPlumberEC, HALJointPlumberSim
@@ -22,6 +22,11 @@ class HALPlumber(HALPlumberBase):
     # Subclasses must define these
     mode_name = "Invalid"
     joint_plumber_class = None
+    drive_cls = None
+
+    bus = 0
+    appTimePeriod = 1000000
+    refClockSyncCycles = 1
 
     # FIXME this should be pruned down
     num_dios = 16
@@ -99,6 +104,30 @@ class HALPlumber(HALPlumberBase):
         for ix in range(1, self.num_dios + 1):
             hal.newsig(f"din{ix:02}", hal.HAL_BIT)
             hal.newsig(f"dout{ix:02}", hal.HAL_BIT)
+
+        # Load device_config.yaml
+        device_config_path = self.params["device_config_path"]
+        self.logger.info(f"Loading device config from {device_config_path}")
+        self.device_config = ConfigIO.load_yaml_path(device_config_path)
+        bus_conf = dict(
+            appTimePeriod=self.appTimePeriod,
+            refClockSyncCycles=self.refClockSyncCycles,
+        )
+        self.device_bus_config = {0: bus_conf}
+
+        # Set device configuration
+        self.drive_cls.set_device_config(self.device_config)
+
+        # Read SDO, DC info
+        self.drive_cls.add_device_sdos_from_esi()
+        self.drive_cls.add_device_dcs_from_esi()
+
+        # Scan bus devices
+        self.params["device_configs"] = self.drive_cls.config_class.scan_bus(self.bus)
+        assert self.params["device_configs"], "No devices found!"
+        self.logger.info("Bus scan results:")
+        for conf in self.params["device_configs"]:
+            self.logger.info(f"  {conf.address}:  {conf.model_id}")
 
     def setup_drive_safety(self):
         # Desired behavior:
@@ -241,40 +270,14 @@ class HALPlumberEC(HALPlumber):
     name = "EtherCAT top HAL config"
     mode_name = "EtherCAT"
     joint_plumber_class = HALJointPlumberEC
-
-    bus = 0
-    appTimePeriod = 1000000
-    refClockSyncCycles = 1
+    drive_cls = ZADrives
 
     def init_plumbing(self):
         super().init_plumbing()
 
-        # Load device_config.yaml
-        device_config_path = self.params["device_config_path"]
-        self.logger.info(f"Loading device config from {device_config_path}")
-        self.device_config = ConfigIO.load_yaml_path(device_config_path)
-        bus_conf = dict(
-            appTimePeriod=self.appTimePeriod,
-            refClockSyncCycles=self.refClockSyncCycles,
-        )
-        self.device_bus_config = {0: bus_conf}
-
-        # Set device configuration
-        ZADrives.set_device_config(self.device_config)
-
-        # Read SDO, DC info
-        ZADrives.add_device_sdos_from_esi()
-        ZADrives.add_device_dcs_from_esi()
-
-        # Scan bus devices
-        self.params["device_configs"] = ZADrives.config_class.scan_bus(self.bus)
-        self.logger.info("Bus scan results:")
-        for conf in self.params["device_configs"]:
-            self.logger.info(f"  {conf.address}:  {conf.model_id}")
-
         # IO module signals
         self.have_itegva = False
-        itegva_dev_cls = ZADrives.get_model_by_name("ZA_E7.820.003")
+        itegva_dev_cls = self.drive_cls.get_model_by_name("ZA_E7.820.003")
         itegva_model_id = itegva_dev_cls.device_model_id()
         d_confs = self.params["device_configs"]
         if len(d_confs) > 6 and d_confs[6].model_id == itegva_model_id:
@@ -332,6 +335,16 @@ class HALPlumberSim(HALPlumber):
     name = "Sim top HAL config"
     mode_name = "sim"
     joint_plumber_class = HALJointPlumberSim
+    drive_cls = ZASimDrives
+
+    def init_plumbing(self):
+        # Read sim device configuration
+        sim_device_data_path = self.params["sim_device_data_path"]
+        self.logger.info(f"Loading device config from {sim_device_data_path}")
+        self.sim_device_data = ConfigIO.load_yaml_path(sim_device_data_path)
+        self.drive_cls.init_sim(sim_device_data=self.sim_device_data)
+
+        super().init_plumbing()
 
     def setup_drive(self):
         # See HALJointPlumberSim.connect_drive() for info
