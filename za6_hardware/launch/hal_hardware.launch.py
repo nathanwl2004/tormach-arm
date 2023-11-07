@@ -7,6 +7,7 @@ from launch.substitutions import (
     PythonExpression,
 )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.descriptions import ParameterValue
 
@@ -93,7 +94,6 @@ def generate_launch_description():
                 description_package=LaunchConfiguration("description_package"),
                 description_file=LaunchConfiguration("description_file"),
                 prefix=prefix,
-                description_package=LaunchConfiguration("description_package"),
                 ros2_control_plugin=ros2_control_plugin,
             ).items(),
         ),
@@ -382,18 +382,20 @@ def generate_launch_description():
         Node(
             package="controller_manager",
             executable="ros2_control_node",
-            parameters=[
+            parameters=[  # ROS parameters from various sources
+                # Individual keys
                 dict(
                     # Expanded robot description URDF
                     robot_description=ParameterValue(
                         robot_description_content, value_type=str
                     ),
-                    initial_joint_controllers
                 ),
+                # Controller manager controller config params
+                LaunchConfiguration("ros2_controllers_yaml"),
             ],
             output="screen",
             condition=IfCondition(LaunchConfiguration("use_fake_hardware")),
-        )
+        ),
         # Launch joint_trajectory_controller and joint_state_broadcaster
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
