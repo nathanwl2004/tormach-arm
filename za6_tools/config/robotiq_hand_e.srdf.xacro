@@ -3,16 +3,16 @@
 
 SRDF for the Robotiq Hand-E gripper
 
-To be used with the za6_tools package urdf/robotiq_hand_e_gripper.urdf.xacro
+To be used with the za6_tools package urdf/robotiq_hand_e.urdf.xacro
 
 -->
-<robot name="robotiq_hand_e_gripper" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="robotiq_hand_e" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro
-      name="robotiq_hand_e_gripper_macro"
+      name="robotiq_hand_e_macro"
       params="prefix robot_links:=${[]}">
 
     <!-- Gripper kinematic chain -->
-    <group name="${prefix}robotiq_hand_e_gripper">
+    <group name="${prefix}robotiq_hand_e">
       <link name="${prefix}hand_e_body"/>
       <link name="${prefix}hand_e_finger_left"/>
       <link name="${prefix}hand_e_finger_right"/>
@@ -43,15 +43,15 @@ To be used with the za6_tools package urdf/robotiq_hand_e_gripper.urdf.xacro
       <xacro:if value="${robot_links}">
         <xacro:property name="robot_link" value="${robot_links.pop(0)}"/>
         <disable_collisions
-            link1="${prefix}flange-hand_e_body"
+            link1="${prefix}hand_e_body"
             link2="${robot_link}"
             reason="Never"/>
         <disable_collisions
-            link1="${prefix}hand_e_body-hand_e_finger_left"
+            link1="${prefix}hand_e_finger_left"
             link2="${robot_link}"
             reason="Never"/>
         <disable_collisions
-            link1="${prefix}hand_e_body-hand_e_finger_right"
+            link1="${prefix}hand_e_finger_right"
             link2="${robot_link}"
             reason="Never"/>
         <!-- Recurse until robot_links is empty -->

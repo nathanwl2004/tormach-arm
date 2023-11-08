@@ -7,8 +7,7 @@
     </material>
 
     <!-- link list -->
-    <link name="${prefix}za6_multigrip_adapter">
-    </link>
+    <link name="${prefix}za6_multigrip_adapter"/>
 
     <link name="${prefix}multigrip_base_and_fixed_jaw">
       <visual>

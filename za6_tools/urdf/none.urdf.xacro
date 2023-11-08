@@ -7,29 +7,22 @@
     <xacro:include filename="$(cwd)/urdf/none_macro.xacro"/>
   </xacro:if>
   <xacro:unless value="$(arg build)">
-    <xacro:include filename="$(find za6_tools)/urdf/none_macro.xacro"/>
+    <xacro:include
+        filename="$(find za6_tools)/urdf/none_macro.xacro"/>
   </xacro:unless>
-
-  <link name="tool0"/>
-  <joint name="flange-tool0" type="fixed">
-    <parent link="manual_grasp_link"/>
-    <child link="tool0"/>
-    <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
-  </joint>
-
-  <!-- 'flange' frame: default pose reference frame -->
-  <link name="flange" />
-
-  <xacro:none_macro
-      prefix="$(arg prefix)"
-      connected_to="$(arg prefix)flange"/>
 
   <!-- Moveit Studio requires a link name called manual_grasp_link to
        perform quick tasks such as inspect surface -->
   <link name="manual_grasp_link" />
-  <joint name="grasp-manual_grasp" type="fixed">
-    <parent link="grasp_link"/>
-    <child link="manual_grasp_link"/>
-    <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+  <link name="tool0"/>
+  <joint name="tool0_joint" type="fixed">
+    <parent link="manual_grasp_link"/>
+    <child link="tool0"/>
+    <axis xyz="0 1 0"/>
+    <origin rpy="0 0 0" xyz="0.0 -0.016124 -0.18430"/>
   </joint>
+
+  <xacro:none_macro
+      prefix="$(arg prefix)"
+      connected_to="$(arg prefix)tool0"/>
 </robot>

@@ -26,7 +26,7 @@ To be used with the za6_tools package urdf/versabuilt_multigrip.urdf.xacro
 
     <!-- Gripper internal collisions -->
     <disable_collisions
-        link1="${prefix}flange-multigrip_adapter"
+        link1="${prefix}multigrip_base_and_fixed_jaw"
         link2="${prefix}multigrip_moving_jaw"
         reason="Adjacent"/>
 
