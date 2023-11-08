@@ -253,7 +253,7 @@
     <!-- ROS-Industrial 'tool0' frame: all-zeros tool frame -->
     <link name="${prefix}tool0" />
     <xacro:if value="${tool0_fixed}">
-      <joint name="${prefix}link_6_tool0" type="fixed">
+      <joint name="${prefix}flange_tool0" type="fixed">
         <!-- marker -->
         <origin xyz="${tool0_trans}" rpy="${tool0_rot}" />
         <parent link="${prefix}flange" />
@@ -261,29 +261,29 @@
       </joint>
     </xacro:if>
     <xacro:unless value="${tool0_fixed}">
-      <joint name="${prefix}link_6_tool0" type="floating">
+      <joint name="${prefix}flange_tool0" type="floating">
         <origin xyz="0 0 0" rpy="0 0 0" />
         <parent link="${prefix}flange" />
         <child link="${prefix}tool0" />
       </joint>
     </xacro:unless>
 
-    <xacro:unless value="${gripper == '' or gripper == 'none'}">
+    <xacro:unless value="${gripper == ''}">
       <!-- Gripper params supplied in macro call -->
       <xacro:include filename="$(find za6_tools)/urdf/${gripper}_macro.xacro"/>
-      <!-- Attach gripper to ZA6 "flange" link -->
+      <!-- Attach gripper to ZA6 "tool0" link -->
       <xacro:element xacro:name="xacro:${gripper}_macro"
                      prefix="${prefix}"
-                     connected_to="${prefix}flange"/>
+                     connected_to="${prefix}tool0"/>
     </xacro:unless>
-    <xacro:if value="${gripper == '' or gripper == 'none'}">
-      <!-- No gripper params; create grasp_link & connect to flange -->
-      <link name="grasp_link" />
-      <joint name="${prefix}grasp_joint" type="fixed">
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <parent link="${prefix}flange" />
-        <child link="${prefix}grasp_link" />
-      </joint>
+    <xacro:if value="${gripper == ''}">
+      <!-- No gripper params; use 'none' gripper URDF -->
+      <!-- Gripper params supplied in macro call -->
+      <xacro:include filename="$(find za6_tools)/urdf/none_macro.xacro"/>
+      <!-- Attach gripper to ZA6 "tool0" link -->
+      <xacro:element xacro:name="xacro:none_macro"
+                     prefix="${prefix}"
+                     connected_to="${prefix}tool0"/>
     </xacro:if>
 
   </xacro:macro>
