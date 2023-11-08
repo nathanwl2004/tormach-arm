@@ -137,7 +137,7 @@
   <link name="manual_grasp_link" />
   <joint name="$(arg prefix)manual_grasp_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="$(arg prefix)tool0" />
+    <parent link="$(arg prefix)grasp_link" />
     <child link="$(arg prefix)manual_grasp_link" />
   </joint>
 </robot>
