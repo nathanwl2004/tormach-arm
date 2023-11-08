@@ -16,7 +16,7 @@
         <geometry>
           <mesh filename="package://za6_tools/meshes/robotiq_hand-e_gripper.stl"/>
         </geometry>
-        <origin rpy="0.0 0.0 0.0" xyz="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
         <material name="${prefix}Black">
         </material>
       </visual>
@@ -24,7 +24,7 @@
         <geometry>
           <mesh filename="package://za6_tools/meshes/robotiq_hand-e_gripper_collision.stl"/>
         </geometry>
-        <origin rpy="0.0 0.0 0.0" xyz="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
       </collision>
       <inertial>
         <mass value="100"/>
@@ -69,7 +69,7 @@
       <parent link="${connected_to}"/>
       <child link="${prefix}hand_e_body"/>
       <axis xyz="0 0 1"/>
-      <origin rpy="0 0 ${-pi/2.0}" xyz="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 ${-pi/2.0}"/>
     </joint>
 
     <joint name="${prefix}hand_e_body-hand_e_finger_left" type="fixed">
@@ -91,7 +91,7 @@
     <joint name="grasp_joint" type="fixed">
       <parent link="${prefix}hand_e_body" />
       <child link="grasp_link" />
-      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <origin xyz="0.0 0.0 0.135" rpy="0.0 0.0 0.0" />
     </joint>
 
   </xacro:macro>

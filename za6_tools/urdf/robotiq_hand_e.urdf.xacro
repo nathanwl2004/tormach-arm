@@ -18,7 +18,7 @@
     <parent link="manual_grasp_link"/>
     <child link="tool0"/>
     <axis xyz="0 1 0"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin xyz="0 0 -0.135" rpy="0 0 ${pi/2.0}"/>
   </joint>
 
   <xacro:robotiq_hand_e_macro
