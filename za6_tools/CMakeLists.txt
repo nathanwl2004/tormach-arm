@@ -15,9 +15,14 @@ xacro_add_files(${gripper_urdf_files}
   TARGET gripper_urdf_files
   INSTALL DESTINATION urdf)
 
-
+configure_file(cmake/za6_tools_grippers.cmake.in za6_tools_grippers.cmake @ONLY)
 
 install(DIRECTORY config launch meshes rviz urdf
   DESTINATION share/${PROJECT_NAME})
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/za6_tools_grippers.cmake
+  DESTINATION share/${PROJECT_NAME}/cmake)
 
-ament_package()
+ament_package(
+  CONFIG_EXTRAS "za6_tools-extras.cmake"
+)
