@@ -2,10 +2,19 @@ import os
 import xacro
 import yaml
 from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
+
+    use_jspg = DeclareLaunchArgument(
+        "use_joint_state_pub_gui",
+        default_value="true",
+        description="Start joint_state_publisher_gui node",
+    )
 
     robot_description_config = xacro.process_file(
         os.path.join(
@@ -26,6 +35,7 @@ def generate_launch_description():
         executable='joint_state_publisher_gui',
         name='joint_state_publisher_gui',
         parameters=[robot_description],
+        condition=IfCondition(LaunchConfiguration("use_joint_state_pub_gui")),
     )
 
     robot_state_pub_node = Node(
@@ -52,8 +62,10 @@ def generate_launch_description():
       )
 
     return LaunchDescription(
-        [rviz_node,
-         robot_state_pub_node,
-         joint_state_pub_gui_node
-         ]
+        [
+            use_jspg,
+            rviz_node,
+            robot_state_pub_node,
+            joint_state_pub_gui_node,
+        ]
     )
