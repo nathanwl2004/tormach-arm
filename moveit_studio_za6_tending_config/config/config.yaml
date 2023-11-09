@@ -5,13 +5,12 @@ hardware:
   # Update robot description for machine tending world.
   robot_description:
     urdf:
+      # urdf_params inherited from base config
       package: "moveit_studio_za6_tending_config"
       path: "description/za6_machine_tending.xacro"
-    # Add any additional parameters required for the xacro file here
-    urdf_params:
-      - use_mock_hardware: ${MOCK_HARDWARE:-false}
-      - include_ros2_control:  true
-      - gripper:  ${ZA_GRIPPER:-none}
+    srdf:
+      package: "moveit_studio_za6_tending_config"
+      path: "config/za6.${ZA_GRIPPER:-none}.srdf"
 
 objectives:
   objective_library_paths:
