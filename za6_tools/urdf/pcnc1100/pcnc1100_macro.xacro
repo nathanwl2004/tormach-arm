@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="pcnc1100" params="prefix connected_to">
+    <!-- Tormach PCNC 1100 -->
+    <xacro:property
+        name="mesh_path"
+        value="file://$(find za6_tools)/meshes/pcnc1100"/>
+    <link name="cnc_machine">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="${mesh_path}/pcnc1100.dae" scale="1 1 1"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="${mesh_path}/pcnc1100-collision.dae" scale="1 1 1"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="cnc_machine_joint" type="fixed">
+      <parent link="${connected_to}"/>
+      <child link="cnc_machine"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+</robot>

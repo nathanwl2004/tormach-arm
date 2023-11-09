@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<robot name="pcnc1100" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include
+      filename="$(find za6_tools)/urdf/pcnc1100/pcnc1100_macro.xacro"/>
+
+  <link name="world"/>
+  <xacro:pcnc1100
+      prefix="$(arg prefix)"
+      connected_to="$(arg prefix)world"/>
+</robot>
