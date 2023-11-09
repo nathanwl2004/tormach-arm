@@ -27,7 +27,7 @@ hardware:
       package: "za6_description"
       path: "urdf/za6.xacro"
     srdf:
-      package: "za6_moveit_config"
+      package: "moveit_studio_za6_base_config"
       path: "config/za6.${ZA_GRIPPER:-none}.srdf"
     # Add any additional parameters required for the xacro file here
     urdf_params:
