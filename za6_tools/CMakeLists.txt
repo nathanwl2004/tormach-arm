@@ -4,6 +4,7 @@ project(za6_tools)
 find_package(ament_cmake REQUIRED)
 find_package(xacro REQUIRED)
 
+# The authoritative list of grippers, used by other packages
 set(grippers pivot_gripper robotiq_hand_e versabuilt_multigrip none)
 
 # Build static URDFs of grippers for MoveIt Studio web preview

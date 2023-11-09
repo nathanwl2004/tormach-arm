@@ -1,4 +1,0 @@
-hand_e: $(find za6_tools)/urdf/robotiq_hand_e.xacro
-pivot_gripper_1: $(find za6_tools)/urdf/pivot_gripper.xacro
-pivot_gripper_2: $(find za6_tools)/urdf/pivot_gripper.xacro
-versabuilt_multigrip: $(find za6_tools)/urdf/versabuilt_multigrip.xacro

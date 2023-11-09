@@ -1,1 +1,2 @@
 set(za6_tools_grippers @grippers@)
+set(za6_tools_urdf_dir ${za6_tools_DIR}/../urdf)
