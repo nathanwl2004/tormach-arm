@@ -4,7 +4,7 @@ import yaml
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction, SetLaunchConfiguration
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression, TextSubstitution
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
@@ -12,14 +12,14 @@ def create_robot_description(context):
     xacro_file = os.path.join(
         get_package_share_directory("za6_tools"),
         "urdf",
-        context.launch_configurations["gripper"] + ".urdf.xacro",
+        "gripper.urdf.xacro",
     )
     assert os.path.exists(xacro_file), f"No such file, '{xacro_file}'"
     robot_description_config = xacro.process_file(
         xacro_file,
         mappings=dict(
             prefix=context.launch_configurations["prefix"],
-            connected_to=context.launch_configurations["connected_to"],
+            gripper=context.launch_configurations["gripper"],
         )
     )
     robot_desc = robot_description_config.toxml()
@@ -33,6 +33,12 @@ def generate_launch_description():
         description="Gripper to display",
     )
 
+    prefix = DeclareLaunchArgument(
+        "prefix",
+        default_value="",
+        description="Namespace prefix",
+    )
+
     use_jspg = DeclareLaunchArgument(
         "use_joint_state_pub_gui",
         default_value="true",
@@ -41,7 +47,9 @@ def generate_launch_description():
 
 
     robot_description_config = OpaqueFunction(function=create_robot_description)
-    robot_description = LaunchConfiguration('robot_desc')
+    robot_description = dict(
+        robot_description = LaunchConfiguration('robot_desc')
+    )
 
     # joint_state_pub_node = Node(
     #     package='joint_state_publisher',
@@ -74,7 +82,11 @@ def generate_launch_description():
               [
                   get_package_share_directory("za6_tools"),
                   "rviz",
-                  [LaunchConfiguration("gripper"), ".rviz"],
+                  PythonExpression(
+                      expression=[
+                          "'", LaunchConfiguration("gripper"), "' + '.rviz'"
+                      ]
+                  ),
               ],
           ),
       ],
@@ -84,6 +96,7 @@ def generate_launch_description():
     return LaunchDescription(
         [
             gripper,
+            prefix,
             use_jspg,
             robot_description_config,
             rviz_node,
