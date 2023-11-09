@@ -10,6 +10,7 @@
 <robot name="za6" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="prefix" default=""/>
   <xacro:arg name="gripper" default="none"/>
+  <xacro:arg name="mount_link" default=""/>
 
   <!-- Main manipulator move group -->
   <group name="manipulator">
@@ -42,6 +43,13 @@
   <disable_collisions link1="link_4" link2="link_5" reason="Adjacent"/>
   <disable_collisions link1="link_4" link2="link_6" reason="User"/>
   <disable_collisions link1="link_5" link2="link_6" reason="Adjacent"/>
+
+  <!-- Robot mount -->
+  <xacro:property name="mount_link" value="$(arg mount_link)"/>
+  <xacro:if value="${mount_link != ''}">
+    <!-- Robot base may intersect with mount collision model -->
+    <disable_collisions link1="base_link" link2="${mount_link}" reason="Adjacent"/>
+  </xacro:if>
 
   <!-- Gripper macros -->
   <xacro:property name="gripper" value="$(arg gripper)"/>
