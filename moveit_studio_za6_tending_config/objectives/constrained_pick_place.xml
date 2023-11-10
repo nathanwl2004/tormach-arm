@@ -6,7 +6,7 @@
       _description="Pick and place an object with constraints on the gripper's range of motion"
       _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
-          <!-- FIXME robotiq_gripper -->
+      <!-- FIXME robotiq_gripper -->
       <Action
           ID="MoveToWaypoint"
           waypoint_name="Grasp Left"
@@ -22,7 +22,7 @@
           config_file_name="my_constraints.yaml"
           constraints="{constraints}"/>
       <SubTree ID="Open Gripper"/>
-          <!-- FIXME robotiq_gripper -->
+      <!-- FIXME robotiq_gripper -->
       <Action
           ID="MoveToWaypoint"
           controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
@@ -30,7 +30,7 @@
           waypoint_name="Gripper Down"
           use_all_planners="true"
           constraints="{constraints}"/>
-          <!-- FIXME robotiq_gripper -->
+      <!-- FIXME robotiq_gripper -->
       <Action
           ID="MoveToWaypoint"
           controller_names="/joint_trajectory_controller /robotiq_gripper_controller"

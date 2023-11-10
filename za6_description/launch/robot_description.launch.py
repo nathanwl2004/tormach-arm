@@ -53,7 +53,6 @@ def generate_launch_description():
             default_value="none",
             description="Gripper name from za6_tools package; default none",
         ),
-
         DeclareLaunchArgument(
             "initial_positions_file",
             default_value=PathJoinSubstitution(

@@ -28,14 +28,22 @@
 
 import os
 import xacro
-import yaml
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction, SetLaunchConfiguration
+from launch.actions import (
+    DeclareLaunchArgument,
+    OpaqueFunction,
+    SetLaunchConfiguration,
+)
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression, TextSubstitution
+from launch.substitutions import (
+    LaunchConfiguration,
+    PathJoinSubstitution,
+    PythonExpression,
+)
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from ament_index_python.packages import get_package_share_directory
+
 
 def create_robot_description(context):
     xacro_file = os.path.join(
@@ -49,13 +57,13 @@ def create_robot_description(context):
         mappings=dict(
             prefix=context.launch_configurations["prefix"],
             gripper=context.launch_configurations["gripper"],
-        )
+        ),
     )
     robot_desc = robot_description_config.toxml()
     return [SetLaunchConfiguration("robot_desc", robot_desc)]
 
-def generate_launch_description():
 
+def generate_launch_description():
     gripper = DeclareLaunchArgument(
         "gripper",
         default_value="pivot_gripper",
@@ -74,10 +82,9 @@ def generate_launch_description():
         description="Start joint_state_publisher_gui node",
     )
 
-
     robot_description_config = OpaqueFunction(function=create_robot_description)
     robot_description = dict(
-        robot_description = ParameterValue(
+        robot_description=ParameterValue(
             LaunchConfiguration('robot_desc'), value_type=str
         )
     )
@@ -99,30 +106,32 @@ def generate_launch_description():
         package='robot_state_publisher',
         executable='robot_state_publisher',
         output='screen',
-        parameters=[robot_description]
+        parameters=[robot_description],
     )
 
     rviz_node = Node(
-      package='rviz2',
-      executable='rviz2',
-      name='rviz2',
-      output='log',
-      arguments=[
-          '-d',
-          PathJoinSubstitution(
-              [
-                  get_package_share_directory("za6_tools"),
-                  "rviz",
-                  PythonExpression(
-                      expression=[
-                          "'", LaunchConfiguration("gripper"), "' + '.rviz'"
-                      ]
-                  ),
-              ],
-          ),
-      ],
-      parameters=[robot_description]
-      )
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='log',
+        arguments=[
+            '-d',
+            PathJoinSubstitution(
+                [
+                    get_package_share_directory("za6_tools"),
+                    "rviz",
+                    PythonExpression(
+                        expression=[
+                            "'",
+                            LaunchConfiguration("gripper"),
+                            "' + '.rviz'",
+                        ]
+                    ),
+                ],
+            ),
+        ],
+        parameters=[robot_description],
+    )
 
     return LaunchDescription(
         [

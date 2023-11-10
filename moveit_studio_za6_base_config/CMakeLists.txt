@@ -14,13 +14,8 @@ foreach(gripper ${za6_tools_grippers})
 endforeach()
 
 install(
-  DIRECTORY
-    config
-    description
-    objectives
-    ${CMAKE_CURRENT_BINARY_DIR}/urdf
-  DESTINATION
-    share/${PROJECT_NAME}
-)
+  DIRECTORY config description objectives ${CMAKE_CURRENT_BINARY_DIR}/urdf
+  DESTINATION share/${PROJECT_NAME}
+  )
 
 ament_package()

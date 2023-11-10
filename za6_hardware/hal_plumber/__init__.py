@@ -124,7 +124,9 @@ class HALPlumber(HALPlumberBase):
         self.drive_cls.add_device_dcs_from_esi()
 
         # Scan bus devices
-        self.params["device_configs"] = self.drive_cls.config_class.scan_bus(self.bus)
+        self.params["device_configs"] = self.drive_cls.config_class.scan_bus(
+            self.bus
+        )
         assert self.params["device_configs"], "No devices found!"
         self.logger.info("Bus scan results:")
         for conf in self.params["device_configs"]:
@@ -220,7 +222,7 @@ class HALPlumber(HALPlumberBase):
         self.logger.info(f"Checking cpuset cgroup '{cgname}'")
         try:
             res = self.run_cmd("cgget", "-nvr", "cpuset.cpus", cgname)
-        except subprocess.CalledProcessError as e:
+        except subprocess.CalledProcessError:
             # In Jammy, this can mean the cgroup isn't yet configured
             res = None
         if res:

@@ -10,10 +10,10 @@ set(za6_srdf_xacro ${za6_moveit_config_DIR}/../config/za6.srdf.xacro)
 # the ZA6, one for each gripper, with ZA6 base and robot_base_mount
 # collisions disabled.  With no arg, don't set robot_base_mount
 # collisions.
-function (gen_za6_gripper_srdfs)
+function(gen_za6_gripper_srdfs)
   list(LENGTH ARGN extra_count)
-  if (${extra_count} GREATER 1)
-    message(FATAL_ERROR "Too many arguments to gen_za6_gripper_srdfs()" )
+  if(${extra_count} GREATER 1)
+    message(FATAL_ERROR "Too many arguments to gen_za6_gripper_srdfs()")
   endif()
   set(robot_base_link "${ARGN}")
 
@@ -22,11 +22,12 @@ function (gen_za6_gripper_srdfs)
 
     # create a rule to generate ${output_filename} from the SRDF
     xacro_add_xacro_file(
-      ${za6_srdf_xacro} ${output_filename}
-      REMAP gripper:=${gripper} mount_link:=${robot_base_link})
+      ${za6_srdf_xacro} ${output_filename} REMAP gripper:=${gripper}
+      mount_link:=${robot_base_link}
+      )
 
     list(APPEND za6_srdf_files ${XACRO_OUTPUT_FILE})
-  endforeach(gripper)
+  endforeach()
 
   # add an abstract target to actually trigger the builds
   add_custom_target(srdf_files ALL DEPENDS ${za6_srdf_files})

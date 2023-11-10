@@ -1,11 +1,10 @@
 set(za6_tools_grippers @za6_tools_grippers@)
 set(za6_tools_urdf_dir ${za6_tools_DIR}/../urdf)
 
-function (gen_za6_tool_urdf gripper output_file)
+function(gen_za6_tool_urdf gripper output_file)
   xacro_add_xacro_file(
-    ${za6_tools_urdf_dir}/gripper.urdf.xacro
-    ${output_file}
-    REMAP gripper:=${gripper}
-  )
+    ${za6_tools_urdf_dir}/gripper.urdf.xacro ${output_file} REMAP
+    gripper:=${gripper}
+    )
   add_custom_target(${gripper}_urdf_file ALL DEPENDS ${output_file})
 endfunction()

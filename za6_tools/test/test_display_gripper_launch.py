@@ -45,7 +45,7 @@ from launch_testing.actions import ReadyToTest
 @pytest.mark.rostest
 def generate_test_description():
     args = dict(
-        gripper = os.environ.get("ZA_GRIPPER", ""),
+        gripper=os.environ.get("ZA_GRIPPER", ""),
         use_joint_state_pub_gui="false",
     )
 

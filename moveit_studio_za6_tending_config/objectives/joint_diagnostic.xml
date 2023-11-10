@@ -6,7 +6,7 @@
       _description="Move to a known pose and cycle through the min and max limits of a joint repeatedly"
       _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
-          <!-- FIXME robotiq_gripper -->
+      <!-- FIXME robotiq_gripper -->
       <Action
           ID="MoveToWaypoint"
           waypoint_name="Home"

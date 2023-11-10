@@ -31,7 +31,6 @@
 # Updated for Tormach ZA6.
 
 import pytest
-import os
 
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
