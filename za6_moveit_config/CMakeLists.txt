@@ -13,4 +13,16 @@ install(DIRECTORY config launch DESTINATION share/${PROJECT_NAME})
 install(FILES .setup_assistant DESTINATION share/${PROJECT_NAME})
 install(FILES ${XACRO_OUTPUT_FILE} DESTINATION share/${PROJECT_NAME}/config)
 
+if(BUILD_TESTING)
+
+  find_package(ament_cmake_copyright REQUIRED)
+  ament_copyright()
+
+  find_package(ament_cmake_xmllint REQUIRED)
+  ament_xmllint()
+
+  find_package(ament_cmake_pep257 REQUIRED)
+  ament_pep257()
+endif()
+
 ament_package(CONFIG_EXTRAS "za6_moveit_config-extras.cmake")
