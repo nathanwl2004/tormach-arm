@@ -8,13 +8,17 @@ https://wiki.ros.org/urdf
 
 ## Launch files in this package
 
-- `robot_description.launch.py`
-  - Generates the URDF
-  - Included from other launch files, the URDF is available via
-    `LaunchConfiguration("robot_description_content")`
-- `display_za6.launch.py`
-  - Displays the robot with joint slider controls UI
+- `robot_description.launch.py`:  Generate URDF
+  - Included from other launch files, the URDF is available via the
+    `robot_description_content` launch argument
+  - Launch args:  (see file for complete list)
+    - `gripper`:  Name of a gripper from the `za6_tools` package;
+      default `none` (no gripper)
+    - `prefix`:  Namespace prefix; default empty string
+
+- `display_za6.launch.py`:  Display robot with joint slider controls UI
   - Launch command:  `ros2 launch za6_description display_za6.launch.py`
+  - Launch args:  See `robot_description.launch.py` args, above
 
 ## Xacro operations
 
