@@ -29,14 +29,14 @@ hal_add_instcomp(src/drive_safety)
 
 if(BUILD_TESTING)
 
-  # find_package(ament_cmake_flake8 REQUIRED)
-  # ament_flake8()
-  # find_package(ament_cmake_pep257 REQUIRED)
-  # ament_pep257()
-  find_package(ament_cmake_lint_cmake REQUIRED)
-  ament_lint_cmake()
+  find_package(ament_cmake_copyright REQUIRED)
+  ament_copyright()
+
   find_package(ament_cmake_xmllint REQUIRED)
   ament_xmllint()
+
+  find_package(ament_cmake_pep257 REQUIRED)
+  ament_pep257()
 
 endif()
 
