@@ -9,10 +9,17 @@ install(
   )
 
 if(BUILD_TESTING)
-  find_package(ament_cmake_pytest REQUIRED)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
 
+  find_package(ament_cmake_copyright REQUIRED)
+  ament_copyright()
+
+  find_package(ament_cmake_xmllint REQUIRED)
+  ament_xmllint()
+
+  find_package(ament_cmake_pep257 REQUIRED)
+  ament_pep257()
+
+  find_package(ament_cmake_pytest REQUIRED)
   foreach(gripper ${za6_tools_grippers})
     ament_add_pytest_test(
       za6_${gripper}_urdf_xacro test/test_za6_urdf_xacro.py ENV
