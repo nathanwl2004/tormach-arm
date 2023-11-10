@@ -1,9 +1,7 @@
 # find_package(za6_moveit_config REQUIRED)
 
 find_package(xacro REQUIRED)
-
-# List of grippers from za6_tools
-set(grippers pivot_gripper robotiq_hand_e versabuilt_multigrip none)
+find_package(za6_tools REQUIRED)
 
 # SRDF xacro file
 set(za6_srdf_xacro ${za6_moveit_config_DIR}/../config/za6.srdf.xacro)
@@ -19,7 +17,7 @@ function (gen_za6_gripper_srdfs)
   endif()
   set(robot_base_link "${ARGN}")
 
-  foreach(gripper ${grippers})
+  foreach(gripper ${za6_tools_grippers})
     set(output_filename config/za6.${gripper}.srdf)
 
     # create a rule to generate ${output_filename} from the SRDF
