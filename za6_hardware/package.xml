@@ -4,8 +4,9 @@
   <version>0.0.1</version>
   <description>Tormach ZA robot hardware configuration</description>
 
-  <maintainer email="bdebruijn@luminize.nl">Bas de Bruijn</maintainer>
+  <maintainer email="jmorris@tormach.com">John Morris</maintainer>
   <author email="alex@machinekoder.com">Alexander Rössler</author>
+  <author email="jmorris@tormach.com">John Morris</author>
 
   <license>BSD</license>
 
@@ -31,7 +32,6 @@
   <exec_depend>rviz2</exec_depend>
   <exec_depend>machinekit</exec_depend>
   <!-- <exec_depend>ros_machinetalk</exec_depend> -->
-  <exec_depend>python3-pandas</exec_depend>
 
   <test_depend>ament_cmake_cppcheck</test_depend>
   <test_depend>ament_cmake_cpplint</test_depend>
