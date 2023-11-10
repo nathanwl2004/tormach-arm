@@ -9,6 +9,8 @@ install(DIRECTORY config launch meshes urdf test
 
 if(BUILD_TESTING)
   find_package(ament_cmake_pytest REQUIRED)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
 
   foreach(gripper ${za6_tools_grippers})
     ament_add_pytest_test(
