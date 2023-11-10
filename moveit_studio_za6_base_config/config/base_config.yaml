@@ -24,8 +24,8 @@ hardware:
   # Parameters for the robot description. A URDF and SRDF are both required.
   robot_description:
     urdf:
-      package: "za6_description"
-      path: "urdf/za6.xacro"
+      package: "moveit_studio_za6_base_config"
+      path: "description/za6.xacro"
     srdf:
       package: "moveit_studio_za6_base_config"
       path: "config/za6.${ZA_GRIPPER:-none}.srdf"

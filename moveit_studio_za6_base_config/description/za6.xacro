@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<robot name="za6" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="prefix" default=""/>
+  <xacro:arg name="fixed_tool" default="true"/>
+  <xacro:arg name="include_ros2_control" default="false"/>
+  <xacro:arg name="ros2_control_name" default="hal_hw_interface"/>
+  <xacro:arg name="use_mock_hardware" default="false"/>
+  <xacro:arg name="ros2_control_plugin"
+             default="hal_system_interface/HalSystemInterface"/>
+  <!-- Used by ros2_control fake hardware -->
+  <xacro:arg name="initial_positions_file"
+             default="$(find za6_description)/config/initial_positions.yaml"/>
+
+  <xacro:arg name="limit_joint_1_lower" default="-2.96"/>
+  <xacro:arg name="limit_joint_1_upper" default="2.96"/>
+  <xacro:arg name="limit_joint_1_velocity" default="2.0"/>
+  <xacro:arg name="limit_joint_1_effort" default="1000.0"/>
+
+  <xacro:arg name="limit_joint_2_lower" default="-1.74"/>
+  <xacro:arg name="limit_joint_2_upper" default="2.35"/>
+  <xacro:arg name="limit_joint_2_velocity" default="3.1"/>
+  <xacro:arg name="limit_joint_2_effort" default="1000.0"/>
+
+  <xacro:arg name="limit_joint_3_lower" default="-3.7"/>
+  <xacro:arg name="limit_joint_3_upper" default="1.15"/>
+  <xacro:arg name="limit_joint_3_velocity" default="3.9"/>
+  <xacro:arg name="limit_joint_3_effort" default="1000.0"/>
+
+  <xacro:arg name="limit_joint_4_lower" default="-2.6"/>
+  <xacro:arg name="limit_joint_4_upper" default="2.6"/>
+  <xacro:arg name="limit_joint_4_velocity" default="3.0"/>
+  <xacro:arg name="limit_joint_4_effort" default="1000.0"/>
+
+  <xacro:arg name="limit_joint_5_lower" default="-2.49"/>
+  <xacro:arg name="limit_joint_5_upper" default="2.49"/>
+  <xacro:arg name="limit_joint_5_velocity" default="3.8"/>
+  <xacro:arg name="limit_joint_5_effort" default="1000.0"/>
+
+  <xacro:arg name="limit_joint_6_lower" default="-6.283"/>
+  <xacro:arg name="limit_joint_6_upper" default="6.283"/>
+  <xacro:arg name="limit_joint_6_velocity" default="6.2"/>
+  <xacro:arg name="limit_joint_6_effort" default="1000.0"/>
+
+  <xacro:arg name="gripper" default="none"/>
+
+  <!-- MoveIt Studio web preview gripper model -->
+  <xacro:attribute
+      name="web_ui_gripper"
+      value="package://moveit_studio_za6_base_config/urdf/$(arg gripper).urdf"/>
+
+  <xacro:include filename="$(find za6_description)/urdf/za6_macro.xacro"/>
+  <xacro:za6
+      prefix="$(arg prefix)"
+      tool0_trans="0 0 0"
+      tool0_rot="0 0 0"
+      tool0_fixed="$(arg fixed_tool)"
+      gripper="$(arg gripper)"
+
+      limit_joint_1_lower="$(arg limit_joint_1_lower)"
+      limit_joint_1_upper="$(arg limit_joint_1_upper)"
+      limit_joint_1_velocity="$(arg limit_joint_1_velocity)"
+      limit_joint_1_effort="$(arg limit_joint_1_effort)"
+
+      limit_joint_2_lower="$(arg limit_joint_2_lower)"
+      limit_joint_2_upper="$(arg limit_joint_2_upper)"
+      limit_joint_2_velocity="$(arg limit_joint_2_velocity)"
+      limit_joint_2_effort="$(arg limit_joint_2_effort)"
+
+      limit_joint_3_lower="$(arg limit_joint_3_lower)"
+      limit_joint_3_upper="$(arg limit_joint_3_upper)"
+      limit_joint_3_velocity="$(arg limit_joint_3_velocity)"
+      limit_joint_3_effort="$(arg limit_joint_3_effort)"
+
+      limit_joint_4_lower="$(arg limit_joint_4_lower)"
+      limit_joint_4_upper="$(arg limit_joint_4_upper)"
+      limit_joint_4_velocity="$(arg limit_joint_4_velocity)"
+      limit_joint_4_effort="$(arg limit_joint_4_effort)"
+
+      limit_joint_5_lower="$(arg limit_joint_5_lower)"
+      limit_joint_5_upper="$(arg limit_joint_5_upper)"
+      limit_joint_5_velocity="$(arg limit_joint_5_velocity)"
+      limit_joint_5_effort="$(arg limit_joint_5_effort)"
+
+      limit_joint_6_lower="$(arg limit_joint_6_lower)"
+      limit_joint_6_upper="$(arg limit_joint_6_upper)"
+      limit_joint_6_velocity="$(arg limit_joint_6_velocity)"
+      limit_joint_6_effort="$(arg limit_joint_6_effort)"
+      />
+
+  <!-- ros2_control -->
+  <xacro:if value="$(arg include_ros2_control)">
+    <xacro:include filename="$(find za6_description)/urdf/za6.ros2_control.xacro"/>
+    <xacro:za6_ros2_control
+        name="$(arg ros2_control_name)"
+        prefix="$(arg prefix)"
+        initial_positions_file="$(arg initial_positions_file)"
+        use_mock_hardware="$(arg use_mock_hardware)"
+        ros2_control_plugin="$(arg ros2_control_plugin)"
+
+        limit_joint_1_lower="$(arg limit_joint_1_lower)"
+        limit_joint_1_upper="$(arg limit_joint_1_upper)"
+        limit_joint_1_velocity="$(arg limit_joint_1_velocity)"
+
+        limit_joint_2_lower="$(arg limit_joint_2_lower)"
+        limit_joint_2_upper="$(arg limit_joint_2_upper)"
+        limit_joint_2_velocity="$(arg limit_joint_2_velocity)"
+
+        limit_joint_3_lower="$(arg limit_joint_3_lower)"
+        limit_joint_3_upper="$(arg limit_joint_3_upper)"
+        limit_joint_3_velocity="$(arg limit_joint_3_velocity)"
+
+        limit_joint_4_lower="$(arg limit_joint_4_lower)"
+        limit_joint_4_upper="$(arg limit_joint_4_upper)"
+        limit_joint_4_velocity="$(arg limit_joint_4_velocity)"
+
+        limit_joint_5_lower="$(arg limit_joint_5_lower)"
+        limit_joint_5_upper="$(arg limit_joint_5_upper)"
+        limit_joint_5_velocity="$(arg limit_joint_5_velocity)"
+
+        limit_joint_6_lower="$(arg limit_joint_6_lower)"
+        limit_joint_6_upper="$(arg limit_joint_6_upper)"
+        limit_joint_6_velocity="$(arg limit_joint_6_velocity)"
+        />
+  </xacro:if>
+
+  <!-- 'world' frame: default pose reference frame -->
+  <link name="world" />
+  <joint name="world-$(arg prefix)base_link" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="world"/>
+    <child link="$(arg prefix)base_link"/>
+  </joint>
+
+  <!-- Moveit Studio requires a link name called manual_grasp_link to
+       perform quick tasks such as inspect surface -->
+  <link name="manual_grasp_link" />
+  <joint name="$(arg prefix)manual_grasp_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="$(arg prefix)grasp_link" />
+    <child link="$(arg prefix)manual_grasp_link" />
+  </joint>
+</robot>

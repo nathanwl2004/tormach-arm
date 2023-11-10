@@ -56,9 +56,8 @@ The `MOCK_HARDWARE=true` variable can be set more permanently from the
 `.env` file.
 
 Optionally, add a gripper by prepending the last command with
-e.g. `ZA_GRIPPER=pivot_gripper`.  Valid gripper names from the
-`za6_tools` package are `pivot_gripper`, `robotiq_hand_e`,
-`versabuilt_multigrip` and `none`.
+e.g. `ZA_GRIPPER=pivot_gripper`.  Valid gripper names come from the
+`za6_tools` package.
 
     MOCK_HARDWARE=true ZA_GRIPPER=pivot_gripper ./moveit_studio run -v
 
