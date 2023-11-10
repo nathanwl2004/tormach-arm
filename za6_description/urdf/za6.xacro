@@ -43,11 +43,6 @@
 
   <xacro:arg name="gripper" default="none"/>
 
-  <!-- MoveIt Studio web preview gripper model -->
-  <xacro:attribute
-      name="web_ui_gripper"
-      value="package://za6_tools/urdf/$(arg gripper).urdf"/>
-
   <xacro:include filename="$(find za6_description)/urdf/za6_macro.xacro"/>
   <xacro:za6
       prefix="$(arg prefix)"
@@ -130,14 +125,5 @@
     <axis xyz="0 0 1"/>
     <parent link="world"/>
     <child link="$(arg prefix)base_link"/>
-  </joint>
-
-  <!-- Moveit Studio requires a link name called manual_grasp_link to
-       perform quick tasks such as inspect surface -->
-  <link name="manual_grasp_link" />
-  <joint name="$(arg prefix)manual_grasp_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="$(arg prefix)grasp_link" />
-    <child link="$(arg prefix)manual_grasp_link" />
   </joint>
 </robot>
