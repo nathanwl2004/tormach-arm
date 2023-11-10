@@ -3,6 +3,16 @@
 Contains URDF file and meshes for grippers used by the ZA robot and
 for Tormach machine tools.
 
+## Display grippers
+
+Launch RViz with gripper URDFs:
+
+```bash
+ros2 launch za6_tools display_gripper.launch.py gripper:=robotiq_hand_e
+# Don't launch the joint state publisher gui:  `use_joint_state_pub_gui:=false`
+# Other `gripper:=` optons are `pivot_gripper` and `versabuilt_multigrip`
+```
+
 ## Referencing from another package URDF
 
 From another package's URDF, attach a gripper to the robot's `tool0`

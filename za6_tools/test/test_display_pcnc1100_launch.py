@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Tormach, Inc.
+# Copyright (c) 2022 FZI Forschungszentrum Informatik
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,7 +25,42 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+#
+# Author: Lukas Sackewitz
+#
+# Updated for Tormach ZA6.
 
-# find_package(za6_tools REQUIRED)
+import pytest
+import os
 
-include("${za6_tools_DIR}/za6_tools_grippers.cmake")
+from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
+from launch_ros.substitutions import FindPackageShare
+from launch_testing.actions import ReadyToTest
+
+
+# Executes the given launch file and checks if all nodes can be started
+@pytest.mark.rostest
+def generate_test_description():
+    launch_arg = DeclareLaunchArgument(
+        "description_package",
+        default_value="za6_tools",
+        description="Package with PCNC1100 URDF",
+    )
+
+    description_package = LaunchConfiguration("description_package")
+    launch_include = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution(
+                [
+                    FindPackageShare(description_package),
+                    "launch",
+                    "display_pcnc1100.launch.py",
+                ]
+            )
+        ),
+    )
+
+    return LaunchDescription([launch_arg, launch_include, ReadyToTest()])

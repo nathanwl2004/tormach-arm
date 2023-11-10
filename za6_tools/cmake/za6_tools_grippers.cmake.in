@@ -1,4 +1,4 @@
-set(za6_tools_grippers @grippers@)
+set(za6_tools_grippers @za6_tools_grippers@)
 set(za6_tools_urdf_dir ${za6_tools_DIR}/../urdf)
 
 function (gen_za6_tool_urdf gripper output_file)

@@ -7,8 +7,17 @@ Panels:
         - /Global Options1
         - /Status1
         - /RobotModel1
-        - /RobotModel1/Description Topic1
-        - /RobotModel1/Links1
+        - /RobotModel1/Link Tree1
+        - /RobotModel1/Link Tree1/manual_grasp_link1
+        - /RobotModel1/Link Tree1/manual_grasp_link1/Details1
+        - /RobotModel1/Link Tree1/manual_grasp_link1/tool01
+        - /RobotModel1/Link Tree1/manual_grasp_link1/tool01/pivot_gripper_base1
+        - /RobotModel1/Link Tree1/manual_grasp_link1/tool01/pivot_gripper_base1/grasp_link1
+        - /RobotModel1/Link Tree1/manual_grasp_link1/tool01/pivot_gripper_base1/grasp_link1/Details1
+        - /RobotModel1/Link Tree1/manual_grasp_link1/tool01/pivot_gripper_base1/pivot_gripper_finger_left11
+        - /RobotModel1/Link Tree1/manual_grasp_link1/tool01/pivot_gripper_base1/pivot_gripper_finger_left21
+        - /RobotModel1/Link Tree1/manual_grasp_link1/tool01/pivot_gripper_base1/pivot_gripper_finger_right11
+        - /RobotModel1/Link Tree1/manual_grasp_link1/tool01/pivot_gripper_base1/pivot_gripper_finger_right21
       Splitter Ratio: 0.5978260636329651
     Tree Height: 555
   - Class: rviz_common/Selection
@@ -62,53 +71,57 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /robot_description
       Enabled: true
-      Links:
+      Link Tree:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
-        Expand Tree: false
-        Link Tree Style: Links in Alphabetic Order
-        flange:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        grasp_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
+        Expand Tree: true
+        Link Tree Style: Tree of links
         manual_grasp_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        pivot_gripper_base:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pivot_gripper_finger_left1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pivot_gripper_finger_left2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pivot_gripper_finger_right1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pivot_gripper_finger_right2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        tool0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
+          Details:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          tool0:
+            Details:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            pivot_gripper_base:
+              Details:
+                Alpha: 1
+                Show Axes: false
+                Show Trail: false
+              Value: true
+              grasp_link:
+                Details:
+                  Alpha: 1
+                  Show Axes: true
+                  Show Trail: false
+              pivot_gripper_finger_left1:
+                Details:
+                  Alpha: 1
+                  Show Axes: false
+                  Show Trail: false
+                Value: true
+              pivot_gripper_finger_left2:
+                Details:
+                  Alpha: 1
+                  Show Axes: false
+                  Show Trail: false
+                Value: true
+              pivot_gripper_finger_right1:
+                Details:
+                  Alpha: 1
+                  Show Axes: false
+                  Show Trail: false
+                Value: true
+              pivot_gripper_finger_right2:
+                Details:
+                  Alpha: 1
+                  Show Axes: false
+                  Show Trail: false
+                Value: true
       Mass Properties:
         Inertia: false
         Mass: false
@@ -163,7 +176,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 10
+      Distance: 0.5269507169723511
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1

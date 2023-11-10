@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="pcnc1100" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="prefix" default=""/>
   <xacro:include
       filename="$(find za6_tools)/urdf/pcnc1100/pcnc1100_macro.xacro"/>
 

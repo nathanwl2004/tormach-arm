@@ -14,7 +14,7 @@
 
   <!-- Moveit Studio requires a link name called manual_grasp_link to
        perform quick tasks such as inspect surface -->
-  <link name="manual_grasp_link" />
+  <link name="manual_grasp_link"/>
   <link name="tool0"/>
   <joint name="tool0_joint" type="fixed">
     <parent link="manual_grasp_link"/>
