@@ -1,0 +1,147 @@
+# https://github.com/ros/rosdistro/blob/master/rosdep/base.yaml
+# https://github.com/ros/rosdistro/blob/master/rosdep/python.yaml
+pymachinetalk:
+  debian:
+    pip:
+      packages: [pymachinetalk]
+  ubuntu:
+    pip:
+      packages: [pymachinetalk]
+python-pint:
+  debian:
+    pip:
+      package: [pint]
+  ubuntu:
+    pip:
+      packages: [pint]
+oxygen-icon-theme:
+  debian: [oxygen-icon-theme]
+  ubuntu: [oxygen-icon-theme]
+
+# Python packages not in rosdistro yet
+# https://github.com/ros/rosdistro/blob/master/rosdep/python.yaml
+python-parso:
+  debian:
+    buster: [python-parso]
+    stretch:
+      pip:
+        packages: [parso]
+  ubuntu:
+    bionic: [python-parso]
+    xenial:
+      pip:
+        packages: [parso]
+    focal: [python3-parso]
+    jammy: [python3-parso]
+python3-semver:
+  debian:
+      pip:
+        packages: [semver]
+  ubuntu:
+      pip:
+        packages: [semver]
+python3-sphinxcontrib-confluencebuilder:
+  debian:
+      pip:
+        packages: [sphinxcontrib-confluencebuilder]
+  ubuntu:
+      pip:
+        packages: [sphinxcontrib-confluencebuilder]
+python3-tzlocal:
+  debian: [python3-tzlocal]
+  ubuntu: [python3-tzlocal]
+python3-aiodocker:
+  debian:
+    pip:
+      packages: ["git+https://github.com/cerna/aiodocker@import_image_quiet"]
+  ubuntu:
+    pip:
+      packages: ["git+https://github.com/cerna/aiodocker@import_image_quiet"]
+python3-dbus-next:
+  debian:
+      pip:
+        packages: [dbus-next]
+  ubuntu:
+      pip:
+        packages: [dbus-next]
+python3-aiohttp:
+  debian:
+    pip:
+      packages: [aiohttp]
+  ubuntu:
+    pip:
+      packages: [aiohttp]
+
+# Machinekit
+machinekit:
+  debian: [machinekit-hal]
+  ubuntu: [machinekit-hal]
+machinekit-dev:
+  debian: [machinekit-hal-dev]
+  ubuntu: [machinekit-hal-dev]
+linuxcnc-ethercat:
+  debian: [linuxcnc-ethercat]
+  ubuntu: [linuxcnc-ethercat]
+etherlabmaster-tools:
+  debian: [etherlabmaster-tools]
+  ubuntu: [etherlabmaster-tools]
+python3-redis:
+  debian: [python3-redis]
+  ubuntu: [python3-redis]
+# Mistakenly removed in a recent commit; PR submitted
+# https://github.com/ros/rosdistro/pull/36888
+python-attrs-pip:
+  ubuntu:
+    pip:
+      packages: [attrs]
+
+# robot_ui
+# - Not in upstream rosdep
+python3-qt5-bindings-quick:
+  debian: [python3-pyqt5.qtquick]
+  ubuntu: [python3-pyqt5.qtquick]
+# - Has python-pytest-qt-pip; good enough?
+python3-pytest-qt:
+  debian: [python3-pytestqt]
+  ubuntu: [python3-pytestqt]
+# - Not in upstream rosdep
+qml-module-qtquick-window2:
+  debian: [qml-module-qtquick-window2]
+  ubuntu: [qml-module-qtquick-window2]
+qml-module-qtquick-controls2:
+  debian: [qml-module-qtquick-controls2]
+  ubuntu: [qml-module-qtquick-controls2]
+qml-module-qtquick-layouts:
+  debian: [qml-module-qtquick-layouts]
+  ubuntu: [qml-module-qtquick-layouts]
+qml-module-qtquick-shapes:
+  debian: [qml-module-qtquick-shapes]
+  ubuntu: [qml-module-qtquick-shapes]
+qml-module-qt-labs-settings:
+  debian: [qml-module-qt-labs-settings]
+  ubuntu: [qml-module-qt-labs-settings]
+qml-module-qt-labs-platform:
+  debian: [qml-module-qt-labs-platform]
+  ubuntu: [qml-module-qt-labs-platform]
+qml-module-qt-labs-qmlmodels:
+  debian: [qml-module-qt-labs-qmlmodels]
+  ubuntu: [qml-module-qt-labs-qmlmodels]
+qml-module-qtqml-models2:
+  debian: [qml-module-qtqml-models2]
+  ubuntu: [qml-module-qtqml-models2]
+qml-module-qtscxml:
+  debian: [qml-module-qtscxml]
+  ubuntu: [qml-module-qtscxml]
+qml-module-qtwebengine:
+  debian: [qml-module-qtwebengine]
+  ubuntu: [qml-module-qtwebengine]
+python3-qasync:
+  debian:
+      pip:
+        packages: [qasync]
+  ubuntu:
+      pip:
+        packages: [qasync]
+udisks2:
+  debian: [udisks2]
+  ubuntu: [udisks2]

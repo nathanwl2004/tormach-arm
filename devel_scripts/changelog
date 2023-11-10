@@ -1,0 +1,7 @@
+PathPilotRobot:
+  Versions:
+  - Version: 0.1.0
+    Codename: ROS 2 first public release
+    CreatedAt: 2025-06-10T14:23:02-05:00
+    Changelog: >-
+      First public release of Tormach ZA Robot drivers.
