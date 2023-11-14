@@ -156,7 +156,7 @@ ROBOT_MODEL=${ROBOT_MODEL:-${DEFAULT_ROBOT_MODEL}}
 DEFAULT_ROBOT_PACKAGE=za6_robot
 ROBOT_PACKAGE=${ROBOT_PACKAGE:-${DEFAULT_ROBOT_PACKAGE}}
 # - Container name (-n)
-NAME=${NAME:-ros-${IMAGE_TYPE}}
+NAME=${NAME:-ros2-${IMAGE_TYPE}}
 # - Container name to link (-L NAME):  for sim
 LINK_CONTAINER=${LINK_CONTAINER:+--link=${LINK_CONTAINER}}
 # - Print information (-I)
