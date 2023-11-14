@@ -10,6 +10,10 @@ DEFAULT_DEBIAN_SUITE=jammy
 DOCKER_SCRIPTS_DIR="$(readlink -f $(dirname "${BASH_SOURCE[0]}"))"
 # - Build directory
 WS_DIR=${WS_DIR:-~/ros_colcon_ws}
+if test ! -d "$WS_DIR"; then
+    echo "ERROR:  Workspace directory WS_DIR='$WS_DIR' does not exist." >&2
+    exit 1
+fi
 
 # Current OS info
 # - Vendor:  debian, ubuntu

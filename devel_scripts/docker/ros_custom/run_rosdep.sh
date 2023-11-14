@@ -15,6 +15,10 @@ ROSDEP_SKIP_KEYS=(
 
     # RTI Connext requires accepting a license from RTI
     rmw_connextdds
+
+    # Only needed for MoveIt Studio pkgs
+    moveit_studio_agent
+    moveit_studio_behavior
 )
 
 for DIR in ${WS_DIR}/src /opt/ros/${ROS_DISTRO}; do

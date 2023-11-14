@@ -20,8 +20,6 @@
   <exec_depend>moveit_studio_agent</exec_depend>
   <exec_depend>moveit_studio_behavior</exec_depend>
 
-  <!-- PickNik accessory URDFs -->
-  <exec_depend>picknik_accessories</exec_depend>
   <!-- Realsense URDF -->
   <exec_depend>realsense2_description</exec_depend>
   <!-- ros-gazebo dependencies -->
