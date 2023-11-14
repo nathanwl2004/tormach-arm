@@ -25,6 +25,12 @@ REPO_DIR="$(readlink -f "${DOCKER_SCRIPTS_DIR}"/../..)"
 # - Where to cache install artifacts
 CACHE_DIR="${CACHE_DIR:-/tmp/install-cache-$(id -un)}"
 
+if test ! -d "$WS_DIR"; then
+    # Outside of `docker build`, assume workspace dir is directory where this
+    # repo is checked out into subdir `src/tormach_za_drivers`
+    WS_DIR="$(readlink -f "${REPO_DIR}/../..")"
+fi
+
 # Variables to customize in preseed.cfg
 DEBIAN_MIRROR=${DEBIAN_MIRROR:-http.us.debian.org}
 DEBIAN_SECURITY_MIRROR=${DEBIAN_SECURITY_MIRROR:-security.debian.org}

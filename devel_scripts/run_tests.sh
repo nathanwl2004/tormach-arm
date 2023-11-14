@@ -29,6 +29,8 @@ if test -z "${ENV_CI}" -a -z "$*"; then
     usage
 fi
 
+source "$(dirname $0)/env.sh"
+
 BASE_SETUP_SCRIPT=/opt/ros/${ROS_DISTRO}/setup.bash
 if test $IMAGE_TYPE = dist; then
     SETUP_SCRIPT=$BASE_SETUP_SCRIPT
@@ -37,6 +39,14 @@ else
     SETUP_SCRIPT=install/setup.bash
     DEVEL_IMAGE=true
 fi
+
+in_repo_dir() {
+    pushd $REPO_DIR
+    "$@"
+    rc=$?
+    popd
+    return $rc
+}
 
 set_all() {
     # Do the full shebang (except docs)
@@ -88,26 +98,27 @@ fi
 # Show what we're doing
 set -x
 
-if ${CLEAN_GIT:-false}; then
+if ${CLEAN_GIT:-false} && test -n "${ENV_CI}"; then
     # Clean up ignored files; uncommitted files aren't touched to make
     # this safer in a dev environment
     #
     # First, fix this error:
     # git clean -Xdf
     # fatal: detected dubious ownership in repository at '/opt/buildagent/work/185fff4ceaae512b'
-    git config --global --add safe.directory $PWD
-    git clean -Xdf
+    git config --global --add safe.directory $REPO_DIR
+    in_repo_dir git clean -Xdf
 fi
 
 if ${UPDATE_PRE_COMMIT:-false}; then
-    pre-commit autoupdate
+    in_repo_dir pre-commit autoupdate
 fi
 
 if ${RUN_FORMATTERS:-false}; then
     # Run formatters
-    pre-commit run --all-files || FAIL=1
+    in_repo_dir pre-commit run --all-files || FAIL=1
     if test -n "${FAIL}"; then
-        test -z "${ENV_CI}" || (git diff | head -500) # Show diff in CI
+        # Show diff in CI
+        test -z "${ENV_CI}" || (in_repo_dir git diff | head -500)
         exit 1
     fi
 fi
