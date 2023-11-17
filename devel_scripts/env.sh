@@ -13,6 +13,7 @@ if test -e ~/.pathpilot_ros.conf; then
 fi
 
 # Read in Docker configuration
+WS_DIR="${WS_DIR:-bogus}" # Hack around WS_DIR chicken+egg problem
 source $(dirname "${BASH_SOURCE[0]}")/docker/env.sh
 # Read in the (Base OS) package specification
 source $(dirname "${BASH_SOURCE[0]}")/docker/package-env.sh
@@ -25,11 +26,20 @@ REPO_DIR="$(readlink -f "${DOCKER_SCRIPTS_DIR}"/../..)"
 # - Where to cache install artifacts
 CACHE_DIR="${CACHE_DIR:-/tmp/install-cache-$(id -un)}"
 
-if test ! -d "$WS_DIR"; then
-    # Outside of `docker build`, assume workspace dir is directory where this
-    # repo is checked out into subdir `src/tormach_za_drivers`
-    WS_DIR="$(readlink -f "${REPO_DIR}/../..")"
+if test "$WS_DIR" = bogus; then
+    if test -d "${REPO_DIR}/../../src"; then
+        # Outside of `docker build`, assume workspace dir is directory where this
+        # repo is checked out into subdir `src/tormach_za_drivers`
+        WS_DIR="$(readlink -f "${REPO_DIR}/../..")"
+    else
+        echo "ERROR:  Unable to determine workspace directory; set WS_DIR" >&2
+        false # Exit if set -e in effect
+    fi
+elif test ! -d "$WS_DIR"; then
+    echo "ERROR:  WS_DIR '$WS_DIR' doesn't exist" >&2
+    false # Exit if set -e in effect
 fi
+test "$(pwd)" = "$WS_DIR" && IN_WS_DIR=true || IN_WS_DIR=false
 
 # Variables to customize in preseed.cfg
 DEBIAN_MIRROR=${DEBIAN_MIRROR:-http.us.debian.org}
@@ -66,6 +76,18 @@ else
     DO=
     APT_GET="env DEBIAN_FRONTEND=noninteractive apt-get"
 fi
+
+###########################
+# Utilities
+###########################
+
+in_repo_dir() {
+    pushd $REPO_DIR >/dev/null
+    "$@"
+    rc=$?
+    popd >/dev/null
+    return $rc
+}
 
 ###########################
 # Detect CPU configuration

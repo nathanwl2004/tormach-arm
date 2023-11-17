@@ -40,14 +40,6 @@ else
     DEVEL_IMAGE=true
 fi
 
-in_repo_dir() {
-    pushd $REPO_DIR
-    "$@"
-    rc=$?
-    popd
-    return $rc
-}
-
 set_all() {
     # Do the full shebang (except docs)
     SHOW_DEBUGGING=true

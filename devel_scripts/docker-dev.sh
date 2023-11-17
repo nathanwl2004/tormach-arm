@@ -256,7 +256,7 @@ if $BUILD; then
     RELEASE_VERSION=$(docker run --rm -v "$cur_dir:/tmp/version" \
         -w "/tmp/version" python:3.9.1 python3 \
         ppr_release.py get v -l)
-    GIT_SHORT_SHA=$(cd ${REPO_DIR} && git rev-parse --short HEAD)
+    GIT_SHORT_SHA=$(in_repo_dir git rev-parse --short HEAD)
 
     if ! ${USE_OVERLAY}; then
         # Build base image when -N is supplied
@@ -343,34 +343,21 @@ DOCKER_RUN_TEMP_DIRECTORY="/tmp/.pathpilotrobotrun"
 mkdir -p ${RUN_TEMP_DIRECTORY}
 DOCKER_RUN_OPTS+=(-v ${RUN_TEMP_DIRECTORY}:${DOCKER_RUN_TEMP_DIRECTORY})
 
-# Test if we are in repository and set entrypoint adequately
-IN_REPO="0"
-if git rev-parse --show-toplevel >&/dev/null; then
-    IN_REPO="1"
-fi
-
+# In devel environment, use entrypoint.sh from git repo
 DEVEL_ENTRYPOINT="${DOCKER_SCRIPTS_DIR}/ros_d_common/entrypoint.sh"
-if ((IN_REPO == 1)) && [[ -f "$DEVEL_ENTRYPOINT" ]]; then
-    log "Will use entrypoint $DEVEL_ENTRYPOINT"
+if $IN_WS_DIR && [[ -f "$DEVEL_ENTRYPOINT" ]]; then
+    log "Using entrypoint from workspace:  $DEVEL_ENTRYPOINT"
     DOCKER_RUN_OPTS+=(--entrypoint "$DEVEL_ENTRYPOINT")
 fi
 
 # Execute a ROS setup script from ROS devel configuration if exists
 # (only for DEVEL type of images, DIST ones should be encapsulated)
 if [[ "$IMAGE_TYPE" == "devel" ]]; then
-    DEVEL_SETUP_SCRIPT="${REPO_DIR}/install/setup.bash"
-    if ((IN_REPO == 1)) && [[ -f "$DEVEL_SETUP_SCRIPT" ]]; then
-        log "Will try to source $DEVEL_SETUP_SCRIPT"
+    DEVEL_SETUP_SCRIPT="${WS_DIR}/install/setup.bash"
+    if $IN_WS_DIR && [[ -f "$DEVEL_SETUP_SCRIPT" ]]; then
+        log "Sourcing workspace setup script:  $DEVEL_SETUP_SCRIPT"
         DOCKER_RUN_OPTS+=(-e ROS_SETUP="$DEVEL_SETUP_SCRIPT")
     fi
-fi
-
-# Add ROSconsole config to sourced files if exists
-ROSCONSOLE_CONFIG_FILE="${REPO_DIR}/.rosconsole.config"
-if ((IN_REPO == 1)) && [[ -f "$ROSCONSOLE_CONFIG_FILE" ]]; then
-    log "Will export ROSCONSOLE_CONFIG_FILE=$ROSCONSOLE_CONFIG_FILE"
-    echo "export ROSCONSOLE_CONFIG_FILE=$ROSCONSOLE_CONFIG_FILE" \
-        >>${RUN_TEMP_DIRECTORY}/rc.sh
 fi
 
 # Warn if image looks stale (or else suppress the warning)
