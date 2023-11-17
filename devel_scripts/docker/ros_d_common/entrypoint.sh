@@ -687,7 +687,8 @@ _main() {
     ! $LOGIN_SHELL || create_logrotate_config "$HOME" "$ETC_DIR"
 
     test -z "$IMAGE_VERSION" ||
-        echo "$IMAGE_VERSION" >"$HOME/.pathpilot_ros.lng"
+        sudo -u ${USER} bash -c \
+            "echo $IMAGE_VERSION >$HOME/.pathpilot_ros2.lng"
 
     # FIXME
     # start_rsyslog

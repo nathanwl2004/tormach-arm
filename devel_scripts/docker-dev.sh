@@ -105,8 +105,8 @@ while getopts :dt:Si:N-bT:m:P:gpBHlvn:L:GchDE:AI ARG; do
     L) LINK_CONTAINER=$OPTARG ;;
     G)
         LAST_KNOWN_GOOD=true
-        if test -f $HOME/.pathpilot_ros.lng; then
-            IMAGE_VERSION=$(sed $HOME/.pathpilot_ros.lng -e 's/\./+/')
+        if test -f $HOME/.pathpilot_ros2.lng; then
+            IMAGE_VERSION=$(sed $HOME/.pathpilot_ros2.lng -e 's/\./+/')
         fi
         ;;
     # Misc
