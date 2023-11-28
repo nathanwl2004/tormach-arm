@@ -162,7 +162,7 @@ FROM ros_custom as ros_d_common_build
 
 # Copy repo package sources and generate (but don't install)
 # dependency list
-COPY * /root/ros_colcon_ws/src/
+COPY . /root/ros_colcon_ws/src/tormach_za_drivers
 RUN ros_custom/run_rosdep.sh no_install
 
 ###################################
