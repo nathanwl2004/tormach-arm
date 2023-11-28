@@ -41,11 +41,11 @@ registry using your hub.pathpilot.com login credentials.
 
 ### Launch the Tormach ZA6 ROS 2 container
 
-Start the container with the `launch_za_dist_image.sh` script.  The
-first time will pull a new image, which may take several minutes.  Add
-`sim` if no hardware is connected.
+Start the container with the `devel_scripts/launch_za_dist_image.sh`
+script.  The first time will pull a new image, which may take several
+minutes.  Add `sim` if no hardware is connected.
 
-    ./launch_za_dist_image.sh [sim]
+    ./devel_scripts/launch_za_dist_image.sh [sim]
 
 This starts a shell in the newly-launched Docker container.
 Additional container shells may be started in new terminals.
@@ -97,7 +97,7 @@ container starts.  To revert the EtherCAT master to the older
 version for running ROS 1, run this script with the `fix-ethercat`
 argument.
 
-  launch_za_dist_image.sh fix-ethercat
+    ./devel_scripts/launch_za_dist_image.sh fix-ethercat
 
 ## Launch MoveIt Studio with ZA6 support
 
