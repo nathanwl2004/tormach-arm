@@ -40,21 +40,5 @@ echo "yaml file:///etc/ros/rosdep/pp-rosdep.yaml" |
 cp ${ROS_BASE_SCRIPTS_DIR}/pp-rosdep.yaml /etc/ros/rosdep/pp-rosdep.yaml
 rosdep update
 
-###########################
-# Install ROS from packages
-###########################
-# http://wiki.ros.org/Installation/Ubuntu
-
-# Set up ROS APT repos
-cat >/etc/apt/sources.list.d/ros-latest.list <<EOF
-deb http://packages.ros.org/ros2/ubuntu $(lsb_release -sc) main
-deb-src http://packages.ros.org/ros2/ubuntu $(lsb_release -sc) main
-EOF
-
-apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
-    --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-
-apt-get update
-
 # Install base ROS distro
 apt-get install ros-${ROS_DISTRO}-ros-base
