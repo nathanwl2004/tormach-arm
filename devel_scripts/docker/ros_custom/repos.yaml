@@ -1,36 +1,12 @@
 repositories:
   hal_ros_control:
     type: git
-    # FIXME No official Humble port yet
-    # url: https://github.com/tormach/hal_ros_control.git
-    # version:  humble-devel
-    url: https://github.com/zultron/hal_ros_control.git
-    version:  zultron/2023-06-07-humble-devel
+    url: https://github.com/tormach/hal_ros_control.git
+    version:  humble-devel
   hw_device_mgr:
     type: git
-    # FIXME Temporarily point to WIP branch until PRs merged
-    # url: https://github.com/tormach/hw_device_mgr.git
-    # version: humble-devel
-    url: https://github.com/zultron/hw_device_mgr.git
-    version: zultron/2023-05-30-humble
-  ros2_control:
-    # FIXME:  Current Humble release splits hardware_info::JointInfo
-    # interfaces into separate state_interfaces and
-    # command_interfaces, but this change hasn't yet been released
-    # into the package stream.
-    # https://github.com/ros-controls/ros2_control/commit/1796d3e7c1b3eed9c6a5b300b2c7639c1a49807d
-    # That change is needed to build ros2_control_demos, which doesn't
-    # have a Humble branch.
-    type: git
-    url: https://github.com/ros-controls/ros2_control
-    version:  humble
-  ros2_controllers:
-    # FIXME:  Removing ros-humble-* packages built from ros2_control
-    # and replacing with build from source also removes ros-humble-*
-    # packages from ros2_controllers, so pull in that source as well
-    type: git
-    url: https://github.com/ros-controls/ros2_controllers
-    version:  humble
+    url: https://github.com/tormach/hw_device_mgr.git
+    version: humble-devel
   ros2_control_demos:
     # FIXME:  hal_ros_control hal_rrbot_control uses
     # ros2_control_demos with patches to parameterize the ros2_control
@@ -38,13 +14,3 @@ repositories:
     type: git
     url: https://github.com/zultron/ros2_control_demos.git
     version: zultron/2023-04-14-humble-dev-parameterize-hardware-plugin
-  control_msgs:
-    # FIXME:  Recent changes in ros2_controllers require updates to
-    # control_msgs; the latter hasn't yet been pushed out into
-    # packages
-    #
-    # https://github.com/ros-controls/ros2_controllers/commit/c01b121bcdbc4d618265b6212afbf41ca8bcfe2a
-    # https://github.com/ros-controls/control_msgs/commit/54c7aabb5f913b63c1bfc8aad0496a9153e4819d
-    type: git
-    url: https://github.com/ros-controls/control_msgs.git
-    version: humble
