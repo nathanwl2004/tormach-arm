@@ -253,9 +253,9 @@ if $BUILD; then
     test $TARGET != $DEFAULT_TARGET || check_image_version -f
 
     cur_dir=$(realpath $(dirname $0))
-    RELEASE_VERSION=$(docker run --rm -v "$cur_dir:/tmp/version" \
-        -w "/tmp/version" python:3.9.1 python3 \
-        ppr_release.py get v -l)
+
+    RELEASE_VERSION=$(sed $cur_dir/changelog -ne '/Version:/ s/^.*Version: *// p'\
+        | tail -1)
     GIT_SHORT_SHA=$(in_repo_dir git rev-parse --short HEAD)
 
     if ! ${USE_OVERLAY}; then
