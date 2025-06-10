@@ -1,4 +1,4 @@
-# `tormach_za_drivers`
+# `tormach_za_ros2_drivers`
 
 This repository contains the Tormach ZA robot ROS 2 drivers,
 including:

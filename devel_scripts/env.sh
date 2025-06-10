@@ -29,7 +29,7 @@ CACHE_DIR="${CACHE_DIR:-/tmp/install-cache-$(id -un)}"
 if test "$WS_DIR" = bogus; then
     if test -d "${REPO_DIR}/../../src"; then
         # Outside of `docker build`, assume workspace dir is directory where this
-        # repo is checked out into subdir `src/tormach_za_drivers`
+        # repo is checked out into subdir `src/tormach_za_ros2_drivers`
         WS_DIR="$(readlink -f "${REPO_DIR}/../..")"
     else
         echo "ERROR:  Unable to determine workspace directory; set WS_DIR" >&2
