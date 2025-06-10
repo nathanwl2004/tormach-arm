@@ -6,19 +6,14 @@ HAL hardware.  It configures and launches these things:
 - The HAL realtime environment
 - Hardware drivers, either EtherCAT (`lcec` HAL component) or sim
 - `hw_device_mgr`, ROS2 node for controlling EtherCAT drive state in HAL
-  - See the [upstream project][hw_device_mgr] and the [development
-    branch used here][hw_device_mgr_dev]
+  - See the [upstream project][hw_device_mgr]
 - `hal_hw_interface`, `ros2_control` controller manager in HAL
-  - From `hal_ros_control`; see the [upstream
-    project][hal_ros_control] and the [development branch used
-    here][hal_ros_control_dev]
+  - From `hal_ros_control`; see the [upstream project][hal_ros_control]
 - `hal_io`, ROS2 node for connecting IO & other HAL pins to ROS topics
   - Also from `hal_ros_control`
 
 [hw_device_mgr]:  https://github.com/tormach/hw_device_mgr
-[hw_device_mgr_dev]:  https://github.com/zultron/hw_device_mgr/tree/zultron/2023-05-02-overlapping-pdos
 [hal_ros_control]:  https://github.com/tormach/hal_ros_control
-[hal_ros_control_dev]:  https://github.com/zultron/hal_ros_control/tree/zultron/2023-04-14-humble-devel
 
 
 ## Bring up hardware
