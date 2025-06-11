@@ -52,14 +52,3 @@ pip3 install \
 # ???
 apt-get install -y \
     machinekit-hal-dev
-
-# qmlfmt
-apt-get install -y \
-    qtbase5-dev \
-    qtdeclarative5-dev
-QMLFMT_BUILD_DIR=${QMLFMT_BUILD_DIR:-${WS_DIR}/qmlfmt}
-git clone --branch master --single-branch https://github.com/machinekoder/qmlfmt.git "${QMLFMT_BUILD_DIR}"
-cd "${QMLFMT_BUILD_DIR}"
-cmake . -DQT_CREATOR_SRC_URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/qtcreator/4.11.0-2build2/qtcreator_4.11.0.orig.tar.xz"
-make -j$(nproc)
-make install

@@ -26,7 +26,3 @@ apt-get install -y \
 # install nano
 apt-get install -y \
     nano
-
-# qmllint
-apt-get install -y \
-    qtdeclarative5-dev-tools
