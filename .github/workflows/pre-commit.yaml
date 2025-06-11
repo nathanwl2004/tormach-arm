@@ -1,0 +1,40 @@
+name: pre-commit
+
+on:
+  push:
+    branches: [ "humble" ]
+  pull_request:
+    branches: [ "humble" ]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v3
+    - name: Install pip packages
+      run: >-
+        sudo -H python3 -m pip install --break-system-packages \
+            pre-commit \
+            identify \
+            cmake_format \
+            black \
+            flake8 \
+            pep8-naming && \
+        PY_FILE=$(sudo python3 -c \
+            'from identify import extensions; print(extensions.__file__)') &&
+        sudo sed -i -e "/'kt'/ a \    \'launch\': {\'text\', \'xml\'}," \
+            $PY_FILE
+    - name: Install Ubuntu packages
+      run: >-
+        sudo apt-get install -y \
+            clang-format \
+            golang \
+            xmlindent
+    - name: Install shfmt
+      run: >-
+        sudo env GO111MODULE=on GOPATH=/usr/local/go \
+            go install mvdan.cc/sh/v3/cmd/shfmt@v3.3.1 &&
+        sudo ln -s ../go/bin/shfmt /usr/local/bin/shfmt
+
+      - uses: pre-commit/action@v3.0.1
