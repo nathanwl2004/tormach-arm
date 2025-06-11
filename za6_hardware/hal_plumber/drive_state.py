@@ -167,21 +167,20 @@ class DriveState(RosHalComponent):
             Trigger,
             self.enable_svc_name,
             self.enable_svc_cb,
-            # qos_profile=self.qos_profile
+            qos_profile=self.qos_profile
         )
-        self.logger.info(f"Service '{self.enable_svc_name}' created")
         self.disable_svc = self.node.create_service(
             Trigger,
             self.disable_svc_name,
             self.disable_svc_cb,
-            # qos_profile=self.qos_profile
+            qos_profile=self.qos_profile
         )
-        self.logger.info(f"Service '{self.disable_svc_name}' created")
+        self.logger.info(f"Service '{self.enable_svc_name}' created")
         self.zero_error_svc = self.node.create_service(
             Trigger,
             self.zero_error_svc_name,
             self.zero_error_svc_cb,
-            # qos_profile=self.qos_profile
+            qos_profile=self.qos_profile
         )
         self.logger.info(f"Service '{self.disable_svc_name}' created")
 

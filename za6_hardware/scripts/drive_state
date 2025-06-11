@@ -9,5 +9,5 @@ if __name__ == "__main__":
         format="%(asctime)s [%(levelname)s]%(name)s: %(message)s",
         level=logging.INFO,
     )
-    ds = DriveState(argv=sys.argv[1:])
+    ds = DriveState(argv=sys.argv[1:], qos_reliability_policy="RELIABLE")
     ds.main()
