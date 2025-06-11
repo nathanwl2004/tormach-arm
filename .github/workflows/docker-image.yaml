@@ -1,0 +1,20 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "humble" ]
+  pull_request:
+    branches: [ "humble" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        path: src/tormach_za_ros2_drivers
+    - name: Build the Docker image
+      run: ./src/tormach_za_ros2_drivers/devel_scripts/docker-dev.sh -b
