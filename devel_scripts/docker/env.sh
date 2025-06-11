@@ -8,8 +8,6 @@ DEFAULT_DEBIAN_SUITE=jammy
 # Directory paths
 # - The devel_scripts/docker directory
 DOCKER_SCRIPTS_DIR="$(readlink -f $(dirname "${BASH_SOURCE[0]}"))"
-# - Build directory
-WS_DIR=${WS_DIR:-~/ros_colcon_ws}
 
 # Current OS info
 # - Vendor:  debian, ubuntu

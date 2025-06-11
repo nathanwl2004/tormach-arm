@@ -13,7 +13,6 @@ if test -e ~/.pathpilot_ros.conf; then
 fi
 
 # Read in Docker configuration
-WS_DIR="${WS_DIR:-bogus}" # Hack around WS_DIR chicken+egg problem
 source $(dirname "${BASH_SOURCE[0]}")/docker/env.sh
 # Read in the (Base OS) package specification
 source $(dirname "${BASH_SOURCE[0]}")/docker/package-env.sh
@@ -22,22 +21,14 @@ source $(dirname "${BASH_SOURCE[0]}")/docker/package-env.sh
 # - The devel_scripts directory (keep this relative to DOCKER_SCRIPTS_DIR)
 DEVEL_SCRIPTS_DIR="$(readlink -f "${DOCKER_SCRIPTS_DIR}"/..)"
 # - The base repo directory
-REPO_DIR="$(readlink -f "${DOCKER_SCRIPTS_DIR}"/../..)"
+REPO_DIR="$(readlink -f "${DEVEL_SCRIPTS_DIR}"/..)"
 # - Where to cache install artifacts
 CACHE_DIR="${CACHE_DIR:-/tmp/install-cache-$(id -un)}"
 
-if test "$WS_DIR" = bogus; then
-    if test -d "${REPO_DIR}/../../src"; then
-        # Outside of `docker build`, assume workspace dir is directory where this
-        # repo is checked out into subdir `src/tormach_za_ros2_drivers`
-        WS_DIR="$(readlink -f "${REPO_DIR}/../..")"
-    else
-        echo "ERROR:  Unable to determine workspace directory; set WS_DIR" >&2
-        false # Exit if set -e in effect
-    fi
-elif test ! -d "$WS_DIR"; then
-    echo "ERROR:  WS_DIR '$WS_DIR' doesn't exist" >&2
-    false # Exit if set -e in effect
+if test -z "$WS_DIR" -a -d "${REPO_DIR}/../../src"; then
+    # Outside of `docker build`, assume workspace dir is directory where this
+    # repo is checked out into subdir `src/tormach_za_ros2_drivers`
+    WS_DIR="$(readlink -f "${REPO_DIR}/../..")"
 fi
 test "$(pwd)" = "$WS_DIR" && IN_WS_DIR=true || IN_WS_DIR=false
 

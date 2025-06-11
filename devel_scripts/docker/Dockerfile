@@ -29,6 +29,13 @@ ENV OS_VENDOR ${OS_VENDOR}
 ARG DEBIAN_SUITE
 ENV DEBIAN_SUITE ${DEBIAN_SUITE}
 
+ARG WS_DIR=/root/ros_colcon_ws
+ARG REPO_DIR=$WS_DIR/src/tormach_za_ros2_drivers
+ARG DOCKER_DIR=$REPO_DIR/devel_scripts/docker
+ARG EXPORT_DIR=$WS_DIR/ros-export
+
+WORKDIR $DOCKER_DIR/
+
 # Configure & update apt
 # - Silence some Apt warnings & enable pkg cache
 ENV DEBIAN_FRONTEND noninteractive
@@ -60,9 +67,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
 
 # Cookie variable for container build environment
 ENV ENV_COOKIE docker-build
-
-# $DOCKER_SCRIPTS_DIR
-WORKDIR /tmp/install
 
 # Settings
 COPY devel_scripts/docker/env.sh .
@@ -140,7 +144,7 @@ RUN --mount=type=cache,target=/ccache/ \
 
 FROM ros_base AS ros_custom
 
-COPY --from=ros_custom_build /root/ros_colcon_ws/ros-export/ /
+COPY --from=ros_custom_build $EXPORT_DIR/ /
 
 # Copy scripts used in later stages
 COPY devel_scripts/docker/ros_custom/ ros_custom/
@@ -155,14 +159,19 @@ RUN --mount=type=cache,target=/var/cache/apt,id=ros_custom \
 # This stage computes a final build dependency list for the packages
 # in this repo
 #
-# Since it copies src/ into the image, this leaks Tormach's
-# proprietary sources, so this stage is an out-of-band build stage
+# We don't want to bloat the image with the build workspace, so this
+# stage is an out-of-band build stage
 
 FROM ros_custom as ros_d_common_build
 
 # Copy repo package sources and generate (but don't install)
 # dependency list
-COPY . /root/ros_colcon_ws/src/tormach_za_ros2_drivers
+COPY za6_bringup    $REPO_DIR/za6_bringup
+COPY za6_description $REPO_DIR/za6_description
+COPY za6_hardware $REPO_DIR/za6_hardware
+COPY za6_moveit_config $REPO_DIR/za6_moveit_config
+COPY za6_tools $REPO_DIR/za6_tools
+
 RUN ros_custom/run_rosdep.sh no_install
 
 ###################################
@@ -182,13 +191,13 @@ COPY devel_scripts/docker/ros_d_common/ ros_d_common/
 
 # Install build deps generated in ros_d_common_build stage
 COPY --from=ros_d_common_build \
-    /tmp/install/base/install_local_package_deps.sh \
+    $DOCKER_DIR/base/install_local_package_deps.sh \
     base/install_local_package_deps.sh
 RUN --mount=type=cache,target=/var/cache/apt,id=ros_d_common \
     apt-get update \
     && bash -xe base/install_local_package_deps.sh
 # Replace any source-built packages clobbered by .deb packages
-COPY --from=ros_custom_build /root/ros_colcon_ws/ros-export/opt /opt
+COPY --from=ros_custom_build $EXPORT_DIR/opt /opt
 
 # Install misc. resources
 # - Entrypoint script
@@ -247,7 +256,12 @@ RUN ros_d_common/5-user-setup.sh
 # It is out-of-band to avoid adding bloat to the Docker image
 
 FROM ros_d_common AS ros_dist_build
-COPY * /root/ros_colcon_ws/src/
+
+COPY za6_bringup    $REPO_DIR/za6_bringup
+COPY za6_description $REPO_DIR/za6_description
+COPY za6_hardware $REPO_DIR/za6_hardware
+COPY za6_moveit_config $REPO_DIR/za6_moveit_config
+COPY za6_tools $REPO_DIR/za6_tools
 
 # Install apt and pip deps required by ROS packages
 RUN --mount=type=cache,target=/var/cache/apt,id=ros_dist \
@@ -257,7 +271,7 @@ RUN --mount=type=cache,target=/ccache/ \
     ros_custom/run_colcon_build.sh
 # Build & install again, this time into $DESTDIR
 RUN --mount=type=cache,target=/ccache/ \
-    DESTDIR=/root/ros_colcon_ws/ros-export \
+    DESTDIR=$EXPORT_DIR \
         ros_custom/run_colcon_build.sh
 
 ###################################
@@ -309,8 +323,10 @@ RUN --mount=type=cache,target=/var/cache/apt,id=package_build \
 FROM ros_d_common AS ros_dist
 
 # Copy packages built from this repo
-COPY --from=ros_dist_build /root/ros_colcon_ws/ros-export/opt /opt
-COPY --from=ros_dist_build /root/ros_colcon_ws/src/robot_command/examples/programs /opt/pathpilot/robot_examples
+COPY --from=ros_dist_build $EXPORT_DIR/opt /opt
+COPY --from=ros_dist_build \
+    $REPO_DIR/src/robot_command/examples/programs \
+    /opt/pathpilot/robot_examples
 COPY --from=base_os_package_build /opt/pathpilot/robot /opt/pathpilot/robot
 
 # Install DIST image final stuff
@@ -318,8 +334,8 @@ COPY devel_scripts/docker/ros_dist/ ros_dist/
 RUN ros_dist/0-robot-program-examples.sh
 
 # Final cleanup
-WORKDIR /home/virtualpathpilot
-RUN rm -rf /tmp/install
+WORKDIR /
+RUN rm -rf $WS_DIR
 
 # Distribution release version
 ARG RELEASE_VERSION

@@ -9,7 +9,6 @@ apt-get install -y wget
 ###########################
 # Set up ROS
 ###########################
-mkdir -p ${WS_DIR}
 
 # Configure ROS repo
 ROS_KEYRING=/usr/share/keyrings/ros.gpg
