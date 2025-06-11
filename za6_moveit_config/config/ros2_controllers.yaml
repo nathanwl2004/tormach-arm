@@ -31,6 +31,13 @@ joint_trajectory_controller:
       # Adding this causes control_node to throw exception, even
       # though it's defined in the ros2_control URDF
       # - effort
+    # Silence warning:
+    #
+    # [joint_trajectory_controller]: [Deprecated]:
+    # "allow_nonzero_velocity_at_trajectory_end" is set to true. The
+    # default behavior will change to false. (on_init() at
+    # ./src/joint_trajectory_controller.cpp:67)
+    allow_nonzero_velocity_at_trajectory_end: false
 
 streaming_controller:
   ros__parameters:
