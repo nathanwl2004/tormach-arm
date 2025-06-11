@@ -11,7 +11,6 @@ repos:
       - id: check-merge-conflict
       - id: check-symlinks
       - id: check-xml
-      - id: check-yaml
       - id: end-of-file-fixer
       - id: mixed-line-ending
         args: [--fix=lf]
@@ -88,7 +87,21 @@ repos:
       - id: flake8
         args: [--config=.flake8]
 
--   repo: https://github.com/cmake-lint/cmake-lint
-    rev: 1.4.2
-    hooks:
-      - id: cmakelint
+- repo: https://github.com/adrienverge/yamllint.git
+  rev: v1.21.0
+  hooks:
+  - id: yamllint
+    args: [--format, parsable]
+
+- repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+  rev: 0.2.3
+  hooks:
+  - id: yamlfmt
+    args: [--mapping, '2', --sequence, '2', --offset, '0', --width, '80']
+
+- repo: https://github.com/zultron/cmake-format-precommit.git
+  rev: v0.6.14
+  hooks:
+  - id: cmake-format
+  - id: cmake-lint
+    args: [--disabled-codes, C0113, C0103]
