@@ -7,10 +7,17 @@ moveit_simple_controller_manager:
     - joint_trajectory_controller
     - streaming_controller
   controller_args:
-    joint_trajectory_controller:  ["--controller-manager-timeout=180"]
+    joint_trajectory_controller:
+      - --controller-manager-timeout=180
+      - --switch-timeout=180
     # Don't activate the streaming_controller (resource conflict with
     # traj controller)
-    streaming_controller: ["--controller-manager-timeout=180", "--inactive"]
+    streaming_controller:
+      - --controller-manager-timeout=180
+      - --inactive
+    joint_state_broadcaster:
+      - --controller-manager-timeout=180
+      - --switch-timeout=180
 
   # Note:  This must have the same name as the
   # joint_trajectory_controller/JointTrajectoryController entry in
