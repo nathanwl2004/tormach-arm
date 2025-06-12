@@ -1,6 +1,7 @@
+---
 AppendOrientationConstraint:
-  constraint_frame: "world"
-  link_frame: "manual_grasp_link"
+  constraint_frame: world
+  link_frame: manual_grasp_link
   orientation:  # radians
     x: -3.14
     y: 0.0

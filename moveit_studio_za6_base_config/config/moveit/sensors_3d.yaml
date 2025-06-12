@@ -1,11 +1,12 @@
+---
 sensors:
-  - scene_scan_camera
+- scene_scan_camera
 scene_scan_camera:
   # The name of the Octomap updater plugin that we are using.
-  sensor_plugin: "moveit_studio_plugins/PointCloudServiceOctomapUpdater"
+  sensor_plugin: moveit_studio_plugins/PointCloudServiceOctomapUpdater
   # Specifies the topic to listen on for a point cloud.
   # Set to an empty topic to disable.
-  point_cloud_service_name: "/point_cloud_service"
+  point_cloud_service_name: /point_cloud_service
   # Points further than this will not be used (in meters).
   max_range: 1.5
   # Choose one of every 'point_subsample' points (select all if set to 1).
@@ -22,4 +23,4 @@ octomap_resolution: 0.01
 # Specifies the coordinate frame in which the Octomap representation will be stored.
 # Note! When an OccupancyMonitor instance is initialized by the PlanningSceneMonitor,
 # this frame parameter will not be used. Instead, the frame defaults to the planning frame.
-octomap_frame: "base_link"
+octomap_frame: base_link

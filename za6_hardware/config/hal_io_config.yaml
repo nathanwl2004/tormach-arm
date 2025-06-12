@@ -1,3 +1,4 @@
+---
 # Pin definitions
 #
 # output_pins: are read from a topic (default) or service
@@ -84,7 +85,7 @@ subscribe_pins:
     hal_type: BIT
   control_mode:
     hal_type: S32
-    initial_value:  8  # CSP
+    initial_value: 8   # CSP
 
 service_pins: {}
   # service_pins values from ROS service copied to HAL output pin

@@ -1,16 +1,17 @@
+---
 hand_e:
   data:
-    description: "Robotiq Hand-E"
+    description: Robotiq Hand-E
   pose: [0.0, 0.0, 0.1460, 0, 0, 0]
 pivot_gripper_1:
   data:
-    description: "Pivot Gripper TCP 1"
+    description: Pivot Gripper TCP 1
   pose: [-0.048, 0.0, 0.1508, 0, 0, 0]
 pivot_gripper_2:
   data:
-    description: "Pivot Gripper TCP 2"
+    description: Pivot Gripper TCP 2
   pose: [0.1628, 0.0053, 0.031, 1.57079632679, 0, 1.57079632679]
 versabuilt_multigrip:
   data:
-    description: "Versabuilt Multigrip"
+    description: Versabuilt Multigrip
   pose: [-0.03878, -0.00173, 0.13732, -1.57079632679, 3.141592653589793, -1.57079632679]

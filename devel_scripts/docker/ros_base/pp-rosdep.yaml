@@ -1,3 +1,4 @@
+---
 # https://github.com/ros/rosdistro/blob/master/rosdep/base.yaml
 # https://github.com/ros/rosdistro/blob/master/rosdep/python.yaml
 pymachinetalk:
@@ -35,35 +36,35 @@ python-parso:
     jammy: [python3-parso]
 python3-semver:
   debian:
-      pip:
-        packages: [semver]
+    pip:
+      packages: [semver]
   ubuntu:
-      pip:
-        packages: [semver]
+    pip:
+      packages: [semver]
 python3-sphinxcontrib-confluencebuilder:
   debian:
-      pip:
-        packages: [sphinxcontrib-confluencebuilder]
+    pip:
+      packages: [sphinxcontrib-confluencebuilder]
   ubuntu:
-      pip:
-        packages: [sphinxcontrib-confluencebuilder]
+    pip:
+      packages: [sphinxcontrib-confluencebuilder]
 python3-tzlocal:
   debian: [python3-tzlocal]
   ubuntu: [python3-tzlocal]
 python3-aiodocker:
   debian:
     pip:
-      packages: ["git+https://github.com/cerna/aiodocker@import_image_quiet"]
+      packages: [git+https://github.com/cerna/aiodocker@import_image_quiet]
   ubuntu:
     pip:
-      packages: ["git+https://github.com/cerna/aiodocker@import_image_quiet"]
+      packages: [git+https://github.com/cerna/aiodocker@import_image_quiet]
 python3-dbus-next:
   debian:
-      pip:
-        packages: [dbus-next]
+    pip:
+      packages: [dbus-next]
   ubuntu:
-      pip:
-        packages: [dbus-next]
+    pip:
+      packages: [dbus-next]
 python3-aiohttp:
   debian:
     pip:
@@ -137,11 +138,11 @@ qml-module-qtwebengine:
   ubuntu: [qml-module-qtwebengine]
 python3-qasync:
   debian:
-      pip:
-        packages: [qasync]
+    pip:
+      packages: [qasync]
   ubuntu:
-      pip:
-        packages: [qasync]
+    pip:
+      packages: [qasync]
 udisks2:
   debian: [udisks2]
   ubuntu: [udisks2]

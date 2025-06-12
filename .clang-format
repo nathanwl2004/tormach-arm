@@ -1,5 +1,5 @@
 ---
-BasedOnStyle:  Google
+BasedOnStyle: Google
 AccessModifierOffset: -2
 ConstructorInitializerIndentWidth: 2
 AlignEscapedNewlinesLeft: false
@@ -14,7 +14,7 @@ BreakBeforeBinaryOperators: false
 BreakBeforeTernaryOperators: false
 BreakConstructorInitializersBeforeComma: true
 BinPackParameters: true
-ColumnLimit:    80
+ColumnLimit: 80
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 DerivePointerBinding: false
 PointerBindsToType: true
@@ -31,13 +31,13 @@ PenaltyExcessCharacter: 1000
 PenaltyReturnTypeOnItsOwnLine: 90
 SpacesBeforeTrailingComments: 2
 Cpp11BracedListStyle: false
-Standard:        Auto
-IndentWidth:     2
-TabWidth:        2
-UseTab:          Never
+Standard: Auto
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
 IndentFunctionDeclarationAfterType: false
 SpacesInParentheses: false
-SpacesInAngles:  false
+SpacesInAngles: false
 SpaceInEmptyParentheses: false
 SpacesInCStyleCastParentheses: false
 SpaceAfterControlStatementKeyword: true
@@ -51,14 +51,13 @@ BreakBeforeBraces: Custom
 
 # Control of individual brace wrapping cases
 BraceWrapping:
-    AfterClass: 'true'
-    AfterControlStatement: 'true'
-    AfterEnum : 'true'
-    AfterFunction : 'true'
-    AfterNamespace : 'true'
-    AfterStruct : 'true'
-    AfterUnion : 'true'
-    BeforeCatch : 'true'
-    BeforeElse : 'true'
-    IndentBraces : 'false'
-...
+  AfterClass: 'true'
+  AfterControlStatement: 'true'
+  AfterEnum: 'true'
+  AfterFunction: 'true'
+  AfterNamespace: 'true'
+  AfterStruct: 'true'
+  AfterUnion: 'true'
+  BeforeCatch: 'true'
+  BeforeElse: 'true'
+  IndentBraces: 'false'

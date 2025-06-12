@@ -254,8 +254,8 @@ if $BUILD; then
 
     cur_dir=$(realpath $(dirname $0))
 
-    RELEASE_VERSION=$(sed $cur_dir/changelog -ne '/Version:/ s/^.*Version: *// p'\
-        | tail -1)
+    RELEASE_VERSION=$(sed $cur_dir/changelog -ne '/Version:/ s/^.*Version: *// p' |
+        tail -1)
     GIT_SHORT_SHA=$(in_repo_dir git rev-parse --short HEAD)
 
     if ! ${USE_OVERLAY}; then

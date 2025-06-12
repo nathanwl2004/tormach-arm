@@ -1,14 +1,15 @@
+---
 moveit:
   # MoveIt move group to use
-  move_group: 'manipulator'
+  move_group: manipulator
   # Name of the joints in the move group
   joint_names:
-    - joint_1
-    - joint_2
-    - joint_3
-    - joint_4
-    - joint_5
-    - joint_6
+  - joint_1
+  - joint_2
+  - joint_3
+  - joint_4
+  - joint_5
+  - joint_6
   # Specify whether the robot is allowed to replan if it detects
   # changes in the environment.
   allow_replanning: false
@@ -16,10 +17,10 @@ moveit:
   planning_time: 5.0
   # Specify which reference frame to assume for poses specified
   # without a reference frame.
-  pose_reference_frame: 'world'
+  pose_reference_frame: world
   # Specify which reference frame to use for tool frames, also used as
   # end effector link
-  tool_reference_frame: 'manual_grasp_link'
+  tool_reference_frame: manual_grasp_link
   # position tolerance that is used for reaching the goal when moving
   # to a pose
   goal_position_tolerance: 0.000001

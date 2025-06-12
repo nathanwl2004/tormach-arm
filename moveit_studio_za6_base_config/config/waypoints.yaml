@@ -1,5 +1,6 @@
+---
 - name: Grab
-  description: ""
+  description: ''
   favorite: true
   joint_state:
     header:
@@ -8,24 +9,24 @@
         sec: 0
         nanosec: 0
     name:
-      - joint_1
-      - joint_2
-      - joint_6
-      - joint_3
-      - joint_4
-      - joint_5
+    - joint_1
+    - joint_2
+    - joint_6
+    - joint_3
+    - joint_4
+    - joint_5
     position:
-      - 2.4487272727272726
-      - 1.197363636363636
-      - -0.6902426819185348
-      - 0.11386363636363583
-      - 0.09454545454545471
-      - -0.1584545454545454
+    - 2.4487272727272726
+    - 1.197363636363636
+    - -0.6902426819185348
+    - 0.11386363636363583
+    - 0.09454545454545471
+    - -0.1584545454545454
     velocity: []
     effort: []
 
 - name: Home
-  description: ""
+  description: ''
   favorite: true
   joint_state:
     header:
@@ -34,24 +35,24 @@
         sec: 0
         nanosec: 0
     name:
-      - joint_1
-      - joint_2
-      - joint_6
-      - joint_3
-      - joint_4
-      - joint_5
+    - joint_1
+    - joint_2
+    - joint_6
+    - joint_3
+    - joint_4
+    - joint_5
     position:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
     velocity: []
     effort: []
 
 - name: Down
-  description: ""
+  description: ''
   favorite: true
   joint_state:
     header:
@@ -60,12 +61,13 @@
         sec: 0
         nanosec: 0
     name: [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]
-    position: [0.6189090909090904, 0.6396363636363633, 0.799654545454545, 0.5547727272727272, 0.23636363636363633, -1.1544545454545456]
+    position: [0.6189090909090904, 0.6396363636363633, 0.799654545454545, 0.5547727272727272,
+      0.23636363636363633, -1.1544545454545456]
     velocity: []
     effort: []
 
 - name: Left Corner
-  description: ""
+  description: ''
   favorite: true
   joint_state:
     header:
@@ -74,25 +76,25 @@
         sec: 0
         nanosec: 0
     name:
-      - joint_1
-      - joint_2
-      - joint_6
-      - joint_3
-      - joint_4
-      - joint_5
+    - joint_1
+    - joint_2
+    - joint_6
+    - joint_3
+    - joint_4
+    - joint_5
     position:
-      - -0.5112727272727269
-      - 0.36077272727272747
-      - -1.6661325312502187
-      - -1.0104545454545457
-      - 0.04727272727272691
-      - 0.6564545454545456
+    - -0.5112727272727269
+    - 0.36077272727272747
+    - -1.6661325312502187
+    - -1.0104545454545457
+    - 0.04727272727272691
+    - 0.6564545454545456
     velocity: []
     effort: []
 
 
 - name: Right Corner
-  description: ""
+  description: ''
   favorite: true
   joint_state:
     header:
@@ -101,19 +103,19 @@
         sec: 0
         nanosec: 0
     name:
-      - joint_1
-      - joint_2
-      - joint_6
-      - joint_3
-      - joint_4
-      - joint_5
+    - joint_1
+    - joint_2
+    - joint_6
+    - joint_3
+    - joint_4
+    - joint_5
     position:
-      - 0.5650909090909093
-      - 0.36077272727272747
-      - -1.6661325312502187
-      - -1.0104545454545457
-      - 0.04727272727272691
-      - 0.6564545454545456
+    - 0.5650909090909093
+    - 0.36077272727272747
+    - -1.6661325312502187
+    - -1.0104545454545457
+    - 0.04727272727272691
+    - 0.6564545454545456
     velocity: []
     effort: []
 
@@ -126,18 +128,18 @@
         sec: 0
         nanosec: 0
     name:
-      - joint_1
-      - joint_2
-      - joint_6
-      - joint_3
-      - joint_4
-      - joint_5
+    - joint_1
+    - joint_2
+    - joint_6
+    - joint_3
+    - joint_4
+    - joint_5
     position:
-      - 0.08072727272727276
-      - 0.7883636363636362
-      - -1.6661325312502187
-      - 0.047727272727272396
-      - 0.04727272727272691
-      - 0.6564545454545456
+    - 0.08072727272727276
+    - 0.7883636363636362
+    - -1.6661325312502187
+    - 0.047727272727272396
+    - 0.04727272727272691
+    - 0.6564545454545456
     velocity: []
     effort: []

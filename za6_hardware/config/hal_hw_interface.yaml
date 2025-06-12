@@ -1,3 +1,4 @@
+---
 /**:
   ros__parameters:
     hardware_interface:
@@ -13,7 +14,7 @@
 
 /controller_manager:
   ros__parameters:
-    update_rate:  1000  # updates/second
+    update_rate: 1000   # updates/second
     # robot_description:  Calculated in launch file
     #
     # Unused params:

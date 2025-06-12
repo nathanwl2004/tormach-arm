@@ -1,23 +1,24 @@
+---
 # MoveIt uses this configuration for controller management
 
 moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
 
 moveit_simple_controller_manager:
   controller_names:
-    - joint_trajectory_controller
-    - streaming_controller
+  - joint_trajectory_controller
+  - streaming_controller
   controller_args:
     joint_trajectory_controller:
-      - --controller-manager-timeout=180
-      - --switch-timeout=180
+    - --controller-manager-timeout=180
+    - --switch-timeout=180
     # Don't activate the streaming_controller (resource conflict with
     # traj controller)
     streaming_controller:
-      - --controller-manager-timeout=180
-      - --inactive
+    - --controller-manager-timeout=180
+    - --inactive
     joint_state_broadcaster:
-      - --controller-manager-timeout=180
-      - --switch-timeout=180
+    - --controller-manager-timeout=180
+    - --switch-timeout=180
 
   # Note:  This must have the same name as the
   # joint_trajectory_controller/JointTrajectoryController entry in
@@ -27,20 +28,20 @@ moveit_simple_controller_manager:
     type: FollowJointTrajectory
     default: true
     joints:
-      - joint_1
-      - joint_2
-      - joint_3
-      - joint_4
-      - joint_5
-      - joint_6
+    - joint_1
+    - joint_2
+    - joint_3
+    - joint_4
+    - joint_5
+    - joint_6
   streaming_controller:
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: false
     joints:
-      - joint_1
-      - joint_2
-      - joint_3
-      - joint_4
-      - joint_5
-      - joint_6
+    - joint_1
+    - joint_2
+    - joint_3
+    - joint_4
+    - joint_5
+    - joint_6

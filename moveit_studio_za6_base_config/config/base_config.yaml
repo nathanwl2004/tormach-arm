@@ -1,3 +1,4 @@
+---
 ####################################################################
 #
 #  This configures the Tormach ZA6 robot to work with MoveIt Studio
@@ -6,7 +7,7 @@
 
 hardware:
   # Used by some hardware description packages.
-  type: "ZA6"
+  type: ZA6
 
   # Whether or not the arm is running in simulation mode.
   simulated: ${MOCK_HARDWARE:-false}
@@ -24,69 +25,69 @@ hardware:
   # Parameters for the robot description. A URDF and SRDF are both required.
   robot_description:
     urdf:
-      package: "moveit_studio_za6_base_config"
-      path: "description/za6.xacro"
+      package: moveit_studio_za6_base_config
+      path: description/za6.xacro
     srdf:
-      package: "moveit_studio_za6_base_config"
-      path: "config/za6.${ZA_GRIPPER:-none}.srdf"
+      package: moveit_studio_za6_base_config
+      path: config/za6.${ZA_GRIPPER:-none}.srdf
     # Add any additional parameters required for the xacro file here
     urdf_params:
-      - use_mock_hardware: ${MOCK_HARDWARE:-false}
-      - include_ros2_control:  true
-      - gripper:  ${ZA_GRIPPER:-none}
+    - use_mock_hardware: ${MOCK_HARDWARE:-false}
+    - include_ros2_control: true
+    - gripper: ${ZA_GRIPPER:-none}
 
 # Sets ROS global params for launch
 ros_global_params:
-  use_sim_time: False #"%>> hardware.simulated"  # Whether or not to use simulated ROS time
+  use_sim_time: false #"%>> hardware.simulated"  # Whether or not to use simulated ROS time
 
 # Optional parameters
 optional_feature_params:
-  use_joystick: False
-  use_external_webcam: False
-  use_formant_bridge: False
+  use_joystick: false
+  use_external_webcam: false
+  use_formant_bridge: false
 
 # This Configures moveit params that are in moveit_config.py
 # The majority of these files should live in the moveit/ directory.
 moveit_params:
-  joint_group_name: "manipulator"
+  joint_group_name: manipulator
 
   ompl_planning:
-    package: "moveit_studio_za6_base_config"
-    path: "config/moveit/ompl_planning.yaml"
+    package: moveit_studio_za6_base_config
+    path: config/moveit/ompl_planning.yaml
   kinematics:
-    package: "za6_moveit_config"
-    path: "config/kinematics.yaml"
+    package: za6_moveit_config
+    path: config/kinematics.yaml
   servo:
-    package: "moveit_studio_za6_base_config"
-    path: "config/moveit/za6_servo.yaml"
+    package: moveit_studio_za6_base_config
+    path: config/moveit/za6_servo.yaml
   servo_kinematics:
-    package: "za6_moveit_config"
-    path: "config/kinematics.yaml"
+    package: za6_moveit_config
+    path: config/kinematics.yaml
   pilz_cartesian_limits:
-    package: "za6_moveit_config"
-    path: "config/pilz_cartesian_limits.yaml"
+    package: za6_moveit_config
+    path: config/pilz_cartesian_limits.yaml
   joint_limits:
-    package: "za6_moveit_config"
-    path: "config/joint_limits.yaml"
+    package: za6_moveit_config
+    path: config/joint_limits.yaml
   sensors_3d:
-    package: "moveit_studio_za6_base_config"
-    path: "config/moveit/sensors_3d.yaml"
+    package: moveit_studio_za6_base_config
+    path: config/moveit/sensors_3d.yaml
 
   publish:
-    planning_scene: True
-    geometry_updates: True
-    state_updates: True
-    transforms_updates: True
+    planning_scene: true
+    geometry_updates: true
+    state_updates: true
+    transforms_updates: true
 
   trajectory_execution:
-    manage_controllers: True
+    manage_controllers: true
     allowed_execution_duration_scaling: 2.0
     allowed_goal_duration_margin: 5.0
     allowed_start_tolerance: 0.01
 
 # Additional parameters for the Studio User interface
 ui_params:
-  servo_endpoint_frame_id: "manual_grasp_link"  # Specify the grasp pose
+  servo_endpoint_frame_id: manual_grasp_link    # Specify the grasp pose
 
 # Configuration for loading objectives. Add additional plugin loaders as needed.
 objectives:
@@ -94,23 +95,23 @@ objectives:
   behavior_loader_plugins:
     core:
       # Always load MoveIt Studio core behaviors
-      - "moveit_studio::behaviors::CoreBehaviorsLoader"
+    - moveit_studio::behaviors::CoreBehaviorsLoader
   # Specify source folder for objectives and the tree_nodes_model.xml
   objective_library_paths:
     core:
-      package_name: "moveit_studio_za6_base_config"
-      relative_path: "objectives"
+      package_name: moveit_studio_za6_base_config
+      relative_path: objectives
   # Specify location of the waypoints file.
   waypoints_file:
-    package_name: "moveit_studio_za6_base_config"
-    relative_path: "config/waypoints.yaml"
+    package_name: moveit_studio_za6_base_config
+    relative_path: config/waypoints.yaml
 
 # Configuration for launching ros2_control processes.
 # [Required, if using ros2_control]
 ros2_control:
   config:
-    package: "za6_moveit_config"
-    path: "config/ros2_controllers.yaml"
+    package: za6_moveit_config
+    path: config/ros2_controllers.yaml
   # MoveIt Studio will load and activate these controllers at start up
   # to ensure they are available.
   #
@@ -119,14 +120,14 @@ ros2_control:
   #
   # [Optional, default=[]]
   controllers_active_at_startup:
-    - "joint_state_broadcaster"
-    - "streaming_controller"
+  - joint_state_broadcaster
+  - streaming_controller
   # Load but do not start these controllers so they can be activated
   # later if needed.
   #
   # [Optional, default=[]]
   controllers_inactive_at_startup:
-    - "joint_trajectory_controller"
+  - joint_trajectory_controller
   # Any controllers here will not be spawned by MoveIt Studio.
   #
   # [Optional, default=[]]

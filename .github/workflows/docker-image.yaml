@@ -1,10 +1,11 @@
+---
 name: Docker Image CI
 
 on:
   push:
-    branches: [ "humble" ]
+    branches: [humble]
   pull_request:
-    branches: [ "humble" ]
+    branches: [humble]
 
 jobs:
 

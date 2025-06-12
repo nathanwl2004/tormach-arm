@@ -1,91 +1,92 @@
+---
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
-    hooks:
-      - id: check-ast
-      - id: check-byte-order-marker
-      - id: trailing-whitespace
-      - id: check-docstring-first
-      - id: check-executables-have-shebangs
-      - id: check-json
-      - id: check-merge-conflict
-      - id: check-symlinks
-      - id: check-xml
-      - id: end-of-file-fixer
-      - id: mixed-line-ending
-        args: [--fix=lf]
-      - id: debug-statements
-      - id: detect-private-key
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+  hooks:
+  - id: check-ast
+  - id: check-byte-order-marker
+  - id: trailing-whitespace
+  - id: check-docstring-first
+  - id: check-executables-have-shebangs
+  - id: check-json
+  - id: check-merge-conflict
+  - id: check-symlinks
+  - id: check-xml
+  - id: end-of-file-fixer
+  - id: mixed-line-ending
+    args: [--fix=lf]
+  - id: debug-statements
+  - id: detect-private-key
 
--   repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
-    hooks:
-    -   id: pyupgrade
-        args: [--py37-plus, --keep-runtime-typing]
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.15.0
+  hooks:
+  - id: pyupgrade
+    args: [--py37-plus, --keep-runtime-typing]
 
 - repo: local
   hooks:
-    -   id: black
-        name: Run black code formatter
-        description: This hook formats Python code.
-        entry: env LC_ALL=C.UTF-8 black -q
-        language: system
-        args: [-S, -l, "80"]
-        types: [python]
+  - id: black
+    name: Run black code formatter
+    description: This hook formats Python code.
+    entry: env LC_ALL=C.UTF-8 black -q
+    language: system
+    args: [-S, -l, '80']
+    types: [python]
         # ignore robot program examples and templates
-        exclude: >
-            (?x)^(
-                src/robot_ui/src/robot_ui/pathpilot/robot/program/templates/.*|
-                src/robot_command/examples/programs/.*
-            )$
+    exclude: >
+      (?x)^(
+          src/robot_ui/src/robot_ui/pathpilot/robot/program/templates/.*|
+          src/robot_command/examples/programs/.*
+      )$
 
-    -   id: clang-format
-        name: Run clang-format
-        description: Clang C/C++ code formatter.
-        entry: clang-format -i
-        args: [-style=file]
-        language: system
-        types: [file, c++]
+  - id: clang-format
+    name: Run clang-format
+    description: Clang C/C++ code formatter.
+    entry: clang-format -i
+    args: [-style=file]
+    language: system
+    types: [file, c++]
         # note: formatting style in .clang-format
 
-    -   id: shfmt
-        name: Run shfmt
-        description: shfmt Shell code formatter.
-        entry: shfmt -w
-        args: [-i=4]
-        language: system
-        types: [file, shell]
+  - id: shfmt
+    name: Run shfmt
+    description: shfmt Shell code formatter.
+    entry: shfmt -w
+    args: [-i=4]
+    language: system
+    types: [file, shell]
 
-    -   id: xmlindent
-        name: Run xmlindent
-        description: xmlindent XML code formatter.
-        entry: .ci/xmlformat.sh
-        args: [-nbe, -i 2]
-        language: system
-        files: ^.*\.(xml|launch|xacro)$
+  - id: xmlindent
+    name: Run xmlindent
+    description: xmlindent XML code formatter.
+    entry: .ci/xmlformat.sh
+    args: [-nbe, -i 2]
+    language: system
+    files: ^.*\.(xml|launch|xacro)$
 
-    -   id: cmake-format
-        name: Run cmake-format
-        description: cmake-format CMakeLists.txt formatter.
-        entry: cmake-format
-        args: [-i]
-        language: system
-        files: ^(.*/CMakeLists\.txt|.*\.cmake|.*\.cmake.in)$
+  - id: cmake-format
+    name: Run cmake-format
+    description: cmake-format CMakeLists.txt formatter.
+    entry: cmake-format
+    args: [-i]
+    language: system
+    files: ^(.*/CMakeLists\.txt|.*\.cmake|.*\.cmake.in)$
 
-    -   id: docker-image-version
-        name: Check for current docker image version
-        description:  Fail if docker image is out of date and needs bump
-        entry: devel_scripts/docker-dev.sh -B
-        language: system
-        files: ^devel_scripts/docker/.*$
-        require_serial:  true
-        verbose:  false
+  - id: docker-image-version
+    name: Check for current docker image version
+    description: Fail if docker image is out of date and needs bump
+    entry: devel_scripts/docker-dev.sh -B
+    language: system
+    files: ^devel_scripts/docker/.*$
+    require_serial: true
+    verbose: false
 
--   repo: https://github.com/PyCQA/flake8
-    rev: 6.1.0
-    hooks:
-      - id: flake8
-        args: [--config=.flake8]
+- repo: https://github.com/PyCQA/flake8
+  rev: 6.1.0
+  hooks:
+  - id: flake8
+    args: [--config=.flake8]
 
 - repo: https://github.com/adrienverge/yamllint.git
   rev: v1.21.0

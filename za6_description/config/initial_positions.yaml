@@ -1,3 +1,4 @@
+---
 # Default initial positions & velocities for za6's ros2_control fake system
 
 initial_positions:

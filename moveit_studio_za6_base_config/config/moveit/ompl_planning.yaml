@@ -1,3 +1,4 @@
+---
 planner_configs:
   APSConfigDefault:
     type: geometric::AnytimePathShortening
@@ -11,7 +12,7 @@ planner_configs:
     # Optionally, planner parameters can be passed to change the
     # default:
     # "PRM[max_nearest_neighbors=5],EST[goal_bias=.5],RRT[range=10. goal_bias=.1]"
-    planners: "RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect"
+    planners: RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect
   SBLkConfigDefault:
     type: geometric::SBL
     range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
@@ -68,18 +69,18 @@ planner_configs:
 manipulator:
   default_planner_config: RRTConnectkConfigDefault
   planner_configs:
-    - APSConfigDefault
-    - SBLkConfigDefault
-    - ESTkConfigDefault
-    - LBKPIECEkConfigDefault
-    - BKPIECEkConfigDefault
-    - KPIECEkConfigDefault
-    - RRTkConfigDefault
-    - RRTConnectkConfigDefault
-    - RRTstarkConfigDefault
-    - TRRTkConfigDefault
-    - PRMkConfigDefault
-    - PRMstarkConfigDefault
+  - APSConfigDefault
+  - SBLkConfigDefault
+  - ESTkConfigDefault
+  - LBKPIECEkConfigDefault
+  - BKPIECEkConfigDefault
+  - KPIECEkConfigDefault
+  - RRTkConfigDefault
+  - RRTConnectkConfigDefault
+  - RRTstarkConfigDefault
+  - TRRTkConfigDefault
+  - PRMkConfigDefault
+  - PRMstarkConfigDefault
   enforce_constrained_state_space: true
   ## Note: commenting the following line lets moveit chose RRTConnect
   ## as default planner rather than LBKPIECE
@@ -87,14 +88,14 @@ manipulator:
   longest_valid_segment_fraction: 0.01
 gripper:
   planner_configs:
-    - SBLkConfigDefault
-    - ESTkConfigDefault
-    - LBKPIECEkConfigDefault
-    - BKPIECEkConfigDefault
-    - KPIECEkConfigDefault
-    - RRTkConfigDefault
-    - RRTConnectkConfigDefault
-    - RRTstarkConfigDefault
-    - TRRTkConfigDefault
-    - PRMkConfigDefault
-    - PRMstarkConfigDefault
+  - SBLkConfigDefault
+  - ESTkConfigDefault
+  - LBKPIECEkConfigDefault
+  - BKPIECEkConfigDefault
+  - KPIECEkConfigDefault
+  - RRTkConfigDefault
+  - RRTConnectkConfigDefault
+  - RRTstarkConfigDefault
+  - TRRTkConfigDefault
+  - PRMkConfigDefault
+  - PRMstarkConfigDefault

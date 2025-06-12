@@ -1,3 +1,4 @@
+---
 /hw_device_mgr:
   ros__parameters:
     init_timeout: 20.0  # seconds

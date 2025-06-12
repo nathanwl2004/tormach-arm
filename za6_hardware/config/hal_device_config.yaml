@@ -1,17 +1,17 @@
+---
 #
 # Inovance SV660N
--
-  vendor_id:  0x00100000
-  product_code:  0x000C010D
-  revision_no:  0x00010000
+- vendor_id: 0x00100000
+  product_code: 0x000C010D
+  revision_no: 0x00010000
 
   addresses:
-    - [0, 0]
-    - [0, 1]
-    - [0, 2]
-    - [0, 3]
-    - [0, 4]
-    - [0, 5]
+  - [0, 0]
+  - [0, 1]
+  - [0, 2]
+  - [0, 3]
+  - [0, 4]
+  - [0, 5]
 
   # Distributed clock
   dc_conf:
@@ -31,8 +31,8 @@
       pdo_mapping:
         index: 1600h
         entries:
-          - index: 6040h
-            name: control_word
+        - index: 6040h
+          name: control_word
           # Convert joint cmd reference values to drive values
           # All joints:
           # - encoder resolution: 2**23 (23bit)
@@ -80,54 +80,54 @@
           # - pos/vel cmd scale:  -66754421.443010896
           # - torque cmd scale:  -62.5
 
-          - index: 607Ah
-            name: position_reference
-            scale:
-              - 202265896.97232303
-              - 133508842.88602179
-              - 106807074.30881745
-              - 139039923.51987126
-              - 108142162.73767766
-              - -66754421.443010896
-          - index: 60B1h
-            name: velocity_reference
-            scale:
-              - 202265896.97232303
-              - 133508842.88602179
-              - 106807074.30881745
-              - 139039923.51987126
-              - 108142162.73767766
-              - -66754421.443010896
-          - index: 60B2h
-            name: torque_reference
-            scale:
-              - 2.7617824543960667
-              - 4.1841004184100417
-              - 9.8425196850393704
-              - 30.006858710562415
-              - 38.580246913580247
-              - -62.5
-          - index: 6060h
-            name: control_mode
-          - index: 60FE-01h
+        - index: 607Ah
+          name: position_reference
+          scale:
+          - 202265896.97232303
+          - 133508842.88602179
+          - 106807074.30881745
+          - 139039923.51987126
+          - 108142162.73767766
+          - -66754421.443010896
+        - index: 60B1h
+          name: velocity_reference
+          scale:
+          - 202265896.97232303
+          - 133508842.88602179
+          - 106807074.30881745
+          - 139039923.51987126
+          - 108142162.73767766
+          - -66754421.443010896
+        - index: 60B2h
+          name: torque_reference
+          scale:
+          - 2.7617824543960667
+          - 4.1841004184100417
+          - 9.8425196850393704
+          - 30.006858710562415
+          - 38.580246913580247
+          - -62.5
+        - index: 6060h
+          name: control_mode
+        - index: 60FE-01h
             # forced EtherCAT DO outputs; bits 16-18 -> DO1-DO3
-            bits:
-              - bitLen:  16  # Bits 0-15 unused
+          bits:
+          - bitLen: 16       # Bits 0-15 unused
               # Bits 16-18: DO1-DO3
-              - dout1
-              - dout2
-              - dout3  # DO3 = brake
-              - bitLen: 13  # Bits 19-31 unused
+          - dout1
+          - dout2
+          - dout3      # DO3 = brake
+          - bitLen: 13      # Bits 19-31 unused
     '3':
       # TPDOs:  Transmit PDOs ("in" from drive)
       dir: in
       pdo_mapping:
         index: 1A00h
         entries:
-          - index: 6041h
-            name: status_word
-          - index: 6061h
-            name:  control_mode_fb
+        - index: 6041h
+          name: status_word
+        - index: 6061h
+          name: control_mode_fb
           # Convert joint drive feedback values to ROS (inverse direction)
           # - pos/vel fb scale = 1.0 / (pos/vel cmd scale)
           # - torque fb scale = 1. / (torque cmd scale)
@@ -156,59 +156,59 @@
           # - pos/vel fb scale:  -1.4980281131695716e-08
           # - torque fb scale:  -0.016
 
-          - index: 6064h
-            name:  position_actual_value
-            scale:
-              - 4.9439871721768036e-09
-              - 7.4901405658478579e-09
-              - 9.3626757073098216e-09
-              - 7.1921788698127573e-09
-              - 9.2470871183306876e-09
-              - -1.4980281131695716e-08
-          - index: 606Ch
-            name:  velocity_actual_value
-            scale:
-              - 4.9439871721768036e-09
-              - 7.4901405658478579e-09
-              - 9.3626757073098216e-09
-              - 7.1921788698127573e-09
-              - 9.2470871183306876e-09
-              - -1.4980281131695716e-08
-          - index: 6077h
-            name:  torque_actual_value
-            scale:
-              - 0.36208500000000005
-              - 0.23899999999999999
-              - 0.1016
-              - 0.033325714285714285
-              - 0.025920000000000002
-              - -0.016
-          - index: 60F4h
-            name:  following_error_actual_value
-            scale:
-              - 4.9439871721768036e-09
-              - 7.4901405658478579e-09
-              - 9.3626757073098216e-09
-              - 7.1921788698127573e-09
-              - 9.2470871183306876e-09
-              - -1.4980281131695716e-08
-          - index: 60FDh
+        - index: 6064h
+          name: position_actual_value
+          scale:
+          - 4.9439871721768035e-09
+          - 7.4901405658478579e-09
+          - 9.3626757073098215e-09
+          - 7.1921788698127573e-09
+          - 9.2470871183306876e-09
+          - -1.4980281131695715e-08
+        - index: 606Ch
+          name: velocity_actual_value
+          scale:
+          - 4.9439871721768035e-09
+          - 7.4901405658478579e-09
+          - 9.3626757073098215e-09
+          - 7.1921788698127573e-09
+          - 9.2470871183306876e-09
+          - -1.4980281131695715e-08
+        - index: 6077h
+          name: torque_actual_value
+          scale:
+          - 0.36208500000000005
+          - 0.23899999999999999
+          - 0.1016
+          - 0.033325714285714285
+          - 0.025920000000000002
+          - -0.016
+        - index: 60F4h
+          name: following_error_actual_value
+          scale:
+          - 4.9439871721768035e-09
+          - 7.4901405658478579e-09
+          - 9.3626757073098215e-09
+          - 7.1921788698127573e-09
+          - 9.2470871183306876e-09
+          - -1.4980281131695715e-08
+        - index: 60FDh
             # forced EtherCAT DI inputs
-            bits:
-              - bitLen:  16  # 0-1 overtravel 2 home active; 3 to 15 N/A
+          bits:
+          - bitLen: 16       # 0-1 overtravel 2 home active; 3 to 15 N/A
               # Bits 16-20: DI1-DI5
-              - din1
-              - din2
-              - din3
-              - din4
-              - din5
-              - bitLen:  6  # 21 to 26 N/A
-              - sto1
-              - sto2
-              - sto  # STO function triggered, active low
-              - bitLen:  2  # 30 to 31 N/A
-          - index: 203Fh
-            name: error_code
+          - din1
+          - din2
+          - din3
+          - din4
+          - din5
+          - bitLen: 6       # 21 to 26 N/A
+          - sto1
+          - sto2
+          - sto      # STO function triggered, active low
+          - bitLen: 2       # 30 to 31 N/A
+        - index: 203Fh
+          name: error_code
 
   # Parameter settings
   param_values:
@@ -237,48 +237,48 @@
     # Direction of rotation
     # 0 to 1;  def. 0
     # 0:  CCW;  1:  CW (viewed from motor shaft)
-    2002-03h:  [0, 1, 1, 0, 0, 0]
+    2002-03h: [0, 1, 1, 0, 0, 0]
     #
     # Stop mode at S-ON OFF
     # -3 to 1;  def. 0
     # 0:  Coast to stop, keeping de-energized status
-    2002-06h:  0
+    2002-06h: 0
     #
     # Stop mode at No. 2 fault
     # -5 to 3; def. 2
     # 2:  Ramp to stop as defined by 6085h, keeping de-energized status
-    2002-07h:  2
+    2002-07h: 2
     #
     # Stop mode at overtravel
     # 0 to 7;  def. 1
     # 1:  Stop at zero speed, keeping position lock status
-    2002-08h:  1
+    2002-08h: 1
     #
     # Stop mode at No. 1 fault
     # 0 to 2; def. 2
     # 2:  Dynamic braking stop, keeping dynamic braking status
-    2002-09h:  2
+    2002-09h: 2
     #
     # Delay from brake output ON to command received:  def. 250 (0-500 ms)
     # - Drive will not respond to pos/vel/tor cmd within this time from brake on
-    2002-0Ah:  250
+    2002-0Ah: 250
     #
     # Delay from brake output off to motor de-energized in the
     #   standstill state:  def. 150 (50-1000ms)
     # - Upon brake off, after this time, motor will turn off
-    2002-0Bh:  150
+    2002-0Bh: 150
     #
     # Motor speed threshold at brake output OFF in the rotation state
     # 20 to 3000 RPM; def. 30
-    2002-0Ch:  30
+    2002-0Ch: 30
     # Delay from S-OFF to brake output OFF in the rotational state:
     #   def. 500 (1-1000ms)
     # - Time from motor disabled to brake signal off
-    2002-0Dh:  500
+    2002-0Dh: 500
     #
     # Warning display on the keypad
     # 0 to 1; def. 0
-    2002-10h:  0
+    2002-10h: 0
     #
     # Resistor heat dissipation coefficient
     # 10 to 100 %; def. 30
@@ -331,9 +331,9 @@
     # 39: Touch probe 2
     #
     # DI1-DI5 function selection
-    2003-03h:  0
-    2003-05h:  0
-    2003-07h:  0
+    2003-03h: 0
+    2003-05h: 0
+    2003-07h: 0
     # DI4, DI5 unused
     # 2003-09h:  0
     # 2003-0Bh:  0
@@ -342,19 +342,19 @@
     # 0 to 1; def. 0
     # 0:  Low level active
     # 1:  High level active
-    2003-04h:  0
-    2003-06h:  0
-    2003-08h:  0
-    2003-0Ah:  0
-    2003-0Ch:  0
+    2003-04h: 0
+    2003-06h: 0
+    2003-08h: 0
+    2003-0Ah: 0
+    2003-0Ch: 0
     #
     # DI1-DI5 filter time
     # 0 to 50000 ms; def. 50
-    2003-3Dh:  50
-    2003-3Eh:  50
-    2003-3Fh:  50
-    2003-40h:  50
-    2003-41h:  50
+    2003-3Dh: 50
+    2003-3Eh: 50
+    2003-3Fh: 50
+    2003-40h: 50
+    2003-41h: 50
 
     # *** 2004h Terminal Output Parameters ***
     #
@@ -398,23 +398,23 @@
     #
     # First-order low-pass filter time constant
     # 0 to 65535 ms/10; def. 0
-    2005-05h:  0
+    2005-05h: 0
     #
     # Moving average filter time constant 1
     # 0 to 10000 ms/10; def. 0
-    2005-06h:  0
+    2005-06h: 0
     #
     # Moving average filter time constant 2
     # 0 to 1280 ms/10; def. 0
-    2005-07h:  0
+    2005-07h: 0
     #
     # Numerator of electronic gear ratio
     # 0 to 4294967295; def. 1
-    2005-08h:  1
+    2005-08h: 1
     #
     # Denominator of electronic gear ratio
     # 0 to 4294967295; def. 1
-    2005-0Ah:  1
+    2005-0Ah: 1
     #
     # Speed feedforward control selection
     # - 0: No speed feedforward
@@ -426,71 +426,71 @@
     #
     # Local homing
     # 0, 6; def. 0
-    2005-1Fh:  0
+    2005-1Fh: 0
     #
     # Homing time limit
     # 0 to 65535 ms/10; def. 50000
-    2005-24h:  50000
+    2005-24h: 50000
     #
     # Local home offset
     # -1073741824 to +1073741824 encoder units; def. 0
-    2005-25h:  0
+    2005-25h: 0
     #
     # Position offset in absolute position linear mode (low 32 bits)
     # -2^31 to +(2^31 - 1) encoder units; def. 0
-    2005-2Fh:  0
+    2005-2Fh: 0
     #
     # Position offset in absolute position linear mode (high 32 bits)
     # -2^31 to +(2^31 - 1) encoder units; def. 0
-    2005-31h:  0
+    2005-31h: 0
     # Mechanical gear ratio (numerator) in the absolute position
     #   rotation mode
     # 1 to 65535; def. 1
-    2005-33h:  1
+    2005-33h: 1
     #
     # Mechanical gear ratio (denominator) in absolute position
     #   rotation mode
     # 1 to 65535; def. 1
-    2005-34h:  1
+    2005-34h: 1
     #
     # Pulses per load revolution in the absolute position rotation
     #   mode (low 32 bits)
     # 0 to (2^32 - 1) encoder units; def. 0
-    2005-35h:  0
+    2005-35h: 0
     #
     # Pulses per load revolution in the absolute position rotation
     #   mode (high 32 bits)
     # 0 to 127 encoder units; def. 0
-    2005-37h:  0
+    2005-37h: 0
 
     # *** 2006h Speed Control Parameters ***
     #
     # Speed reference
     # -6000 to +6000 RPM; def. 200
-    2006-04h:  200
+    2006-04h: 200
     #
     # Acceleration ramp time constant of speed reference
     # 0 to 65535 ms; def. 0
-    2006-06h:  0
+    2006-06h: 0
     #
     # Deceleration ramp time of speed reference
     # 0 to 65535 ms; def. 0
-    2006-07h:  0
+    2006-07h: 0
     #
     # Forward speed limit
     # 0 to 6000 RPM; def. 6000
-    2006-09h:  6000
+    2006-09h: 6000
     #
     # Reverse speed limit
     # 0 to 6000 RPM; def. 6000
-    2006-0Ah:  6000
+    2006-0Ah: 6000
     #
     # Quick stop deceleration coefficient
     # 0 to 2; def. 0
     # 0:  x1
     # 1:  x10
     # 2:  x100
-    2006-0Bh:  0
+    2006-0Bh: 0
     #
     # Torque feedforward control selection
     # 2: Use 60B2h as source of torque feedforward signal in CSP mode
@@ -499,17 +499,17 @@
     # Acceleration/Deceleration ramp time constant of jog speed
     #   reference
     # 0 to 65535 ms; def. 10
-    2006-0Dh:  10
+    2006-0Dh: 10
     #
     # Speed feedforward filter time constant
     # 1 to 2000 us; def. 0
-    2006-0Eh:  0
+    2006-0Eh: 0
 
     # *** 2007h Torque Control Parameters ***
     #
     # Torque reference value set through keypad
     # -4000 to +4000 %/10; def. 0
-    2007-04h:   0
+    2007-04h: 0
     #
     # Torque reference filter time constant 1:  0-3000 (x 0.01ms) def. 79
     2007-06h: 100
@@ -519,64 +519,64 @@
     #
     # Positive internal torque limit
     # 0 to 4000 %/10; def. 3500
-    2007-0Ah:  3500
+    2007-0Ah: 3500
     #
     # Negative internal torque limit
     # 0 to 4000 %/10; def. 3500
-    2007-0Bh:  3500
+    2007-0Bh: 3500
     #
     # Emergency stop torque
     # 0 to 4000 %/10; def. 1000
-    2007-10h:  1000
+    2007-10h: 1000
     #
     # Positive internal speed limit in torque control
     # 0 to 6000 RPM; def. 3000
-    2007-14h:  3000
+    2007-14h: 3000
     #
     # Negative internal torque limit in torque control
     # 0 to 6000 RPM; def. 3000
-    2007-15h:  3000
+    2007-15h: 3000
     #
     # Base value for torque reached
     # 0 to 4000  %/10; def 0
-    2007-16h:  0
+    2007-16h: 0
     #
     # Threshold for valid torque reach
     # 0 to 4000 %/10; def. 200
-    2007-17h:  200
+    2007-17h: 200
     #
     # Threshold for invalid torque reach
     # 0 to 4000 %/10; def. 100
-    2007-18h:  100
+    2007-18h: 100
     #
     # Field-weakening depth
     # 60 to 115 *100%; def. 115
-    2007-19h:  115
+    2007-19h: 115
     # Max. permissible demagnetizing current
     # 1 to 100 *100%; def. 100
-    2007-1Ah:  100
+    2007-1Ah: 100
     #
     # Field-weakening selection
     # 0 to 1; def. 0
     # 0: Disable; 1: Enable
-    2007-1Bh:  0
+    2007-1Bh: 0
     #
     # Field-weakening gain
     # 1 to 1000; def. 30
-    2007-1Ch:  30
+    2007-1Ch: 30
     #
     # Time constant of low-pass filter 2
     # 0 to 1000 ms/100; def. 0
-    2007-25h:  0
+    2007-25h: 0
     #
     # Torque reference filter selection
     # 0 to 1; def. 0
     # 0: First-order filter; 1: Biquad filter
-    2007-26h:  0
+    2007-26h: 0
     #
     # Biquad filter attenuation ratio
     # 0 to 50; def. 16
-    2007-27h:  16
+    2007-27h: 16
 
     # *** 2008h Gain Parameters ***
     # NB: parameter values are all integers in drives but are decimals
@@ -594,15 +594,15 @@
     #
     # 2nd speed loop gain
     # 1 to 20000 Hz/10; def. 750
-    2008-04h:  750
+    2008-04h: 750
     #
     # 2nd speed loop integral time constant
     # 15 to 51200 ms/100; def. 1061
-    2008-05h:  1061
+    2008-05h: 1061
     #
     # 2nd position loop gain
     # 1 to 20000 Hz/10; def. 1200
-    2008-06h:  1200
+    2008-06h: 1200
     #
     # Gain switchover
     # use 2008-0Ah
@@ -616,19 +616,19 @@
     #
     # Gain switchover delay
     # 0 to 10000 ms/10; def. 50
-    2008-0Bh:  50
+    2008-0Bh: 50
     #
     # Gain switchover level
     # 0 to 20000; def. 50
-    2008-0Ch:   50
+    2008-0Ch: 50
     #
     # Gain switchover dead time
     # 0 to 20000; def. 30
-    2008-0Dh:  30
+    2008-0Dh: 30
     #
     # Position gain switchover time
     # 0 to 10000 ms/10; def. 30
-    2008-0Eh:  30
+    2008-0Eh: 30
     #
     # Load moment of inertia ratio
     # 0 to 12000 %; def. 100
@@ -637,7 +637,7 @@
     #
     # Zero phase delay
     # 0 to 40 ms/10; def. 0
-    2008-12h:  0
+    2008-12h: 0
     #
     # Velocity feedforward filter * 0.01ms
     2008-13h: 100
@@ -655,7 +655,7 @@
     #
     # Speed feedback filtering option
     # 0 to 4; def. 0
-    2008-17h:   0
+    2008-17h: 0
     #
     # Velocity feedback cutoff frequency
     2008-18h: 4000
@@ -679,83 +679,83 @@
     #
     # Adaptive notch mode
     # 0 to 4; def. 3
-    2009-03h:  0
+    2009-03h: 0
     #
     # Disable inertia ratio autotune
     2009-04h: 0
     #
     # Offline inertia autotuning mode
     # 0 to 1; def. 1
-    2009-06h:  0
+    2009-06h: 0
     #
     # Maximum speed in inertia auto-tuning
     # 100 to 1000 RPM; def. 500
-    2009-07h:  500
+    2009-07h: 500
     #
     # Time constant for accelerating to the maximum speed during
     #     inertia auto-tuning
     # 20 to 800 ms; def. 125
-    2009-08h:  125
+    2009-08h: 125
     #
     # Waiting time after an individual inertia auto-tuning
     # 50 to 10000 ms; def. 800
-    2009-09h:  800
+    2009-09h: 800
     #
     # Number of motor revolutions per inertia auto-tuning
     # 0 to 10000 rev/100; def. 100
-    2009-0Ah:  100
+    2009-0Ah: 100
     #
     # Vibration threshold
     # 0 to 1000 %/10; def. 50
-    2009-0Ch:  50
+    2009-0Ch: 50
     #
     # Frequency of the 1st notch
     # 50 to 8000 Hz; def. 8000
-    2009-0Dh:  8000
+    2009-0Dh: 8000
     #
     # Width level of the 1st notch
     # 0 to 20; def. 2
-    2009-0Eh:  2
+    2009-0Eh: 2
     #
     # Depth level of the 1st notch
     # 0 to 99; def 0
-    2009-0Fh:  0
+    2009-0Fh: 0
     #
     # Frequency of the 2nd notch
     # 50 to 8000 Hz; def. 8000
-    2009-10h:  8000
+    2009-10h: 8000
     #
     # Width level of the 2nd notch
     # 0 to 20; def. 2
-    2009-11h:  2
+    2009-11h: 2
     #
     # Depth level of the 2nd notch
     # 0 to 99; def 0
-    2009-12h:  0
+    2009-12h: 0
     #
     # Frequency of the 3rd notch
     # 50 to 8000 Hz; def. 8000
-    2009-13h:  8000
+    2009-13h: 8000
     #
     # Width level of the 3rd notch
     # 0 to 20; def. 2
-    2009-14h:  2
+    2009-14h: 2
     #
     # Depth level of the 3rd notch
     # 0 to 99; def 0
-    2009-15h:  0
+    2009-15h: 0
     #
     # Frequency of the 4th notch
     # 50 to 8000 Hz; def. 8000
-    2009-16h:  8000
+    2009-16h: 8000
     #
     # Width level of the 4th notch
     # 0 to 20; def. 2
-    2009-17h:  2
+    2009-17h: 2
     #
     # Depth level of the 4th notch
     # 0 to 99; def 0
-    2009-18h:  0
+    2009-18h: 0
     #
     # Subidxs 19 read-only
 
@@ -764,31 +764,31 @@
     # Power input phase loss protection
     # 1:  Enable faults and warnings
     # - Enable voltage fluctuation alarm faults and warnings
-    200A-01h:  1
+    200A-01h: 1
     #
     # Absolute position limit
     # 0 to 2; def. 0
-    200A-02h:  0
+    200A-02h: 0
     #
     # Motor overload protection gain
     # 50 to 300 %; def. 100
-    200A-05h:  100
+    200A-05h: 100
     #
     # Overspeed threshold
     # 0 to 20000 RPM; def. 100
-    200A-09h:  0
+    200A-09h: 0
     #
     # Threshold of excessive local position following deviation
     # 0 to 2^32 - 1; def. 25185824
-    200A-0Bh:  2000000
+    200A-0Bh: 2000000
     #
     # Runaway detection
     # 0 to 1; def. 1
-    200A-0Dh:  0
+    200A-0Dh: 0
     #
     # Power module over-temperature threshold
     # 120 to 175 °C; def. 135
-    200A-13h:  150
+    200A-13h: 150
     #
     # Filter time constant of touch probe 1
     # 0 to 630 us/100; def. 200
@@ -796,11 +796,11 @@
     #
     # Filter time constant of touch probe 2
     # 0 to 630 us/100; def. 200
-    200A-15h:  200
+    200A-15h: 200
     #
     # STO function display
     # 0 to 1; def. 0
-    200A-16h:  0
+    200A-16h: 0
     #
     # Filter time constant of speed feedback display value
     # 0 to 5000 ms; def. 50
@@ -808,47 +808,47 @@
     #
     # Motor overload warning/fault selection
     # 0 to 1; def. 0
-    200A-1Bh:  0
+    200A-1Bh: 0
     #
     # Speed DO filter time constant
     # 0 to 5000 ms; def. 50
-    200A-1Ch:  50
+    200A-1Ch: 50
     #
     # Motor stall over-temperature protection time window
     # 10 to 65535 ms; def. 200
-    200A-21h:  200
+    200A-21h: 200
     #
     # Motor stall over-temperature protection
     # 0 to 1; def. 1
-    200A-22h:  1
+    200A-22h: 1
     #
     # Absolute encoder multi-turn overflow fault selection
     # 0 to 1; def. 1
-    200A-25h:  0
+    200A-25h: 0
     #
     # Overtravel compensation selection
     # 0 to 1; def. 0
-    200A-29h:  0
+    200A-29h: 0
     #
     # Regenerative resistor over-temperature threshold
     # 100 to 175 °C; def. 115
-    200A-32h:  115
+    200A-32h: 115
     #
     # Encoder communication fault tolerance threshold
     # 0 to 31; def. 3
-    200A-33h:  3
+    200A-33h: 3
     #
     # Phase loss detection filter times
     # 3 to 36; def. 20
-    200A-34h:  20
+    200A-34h: 20
     #
     # Encoder temperature protection threshold
     # 0 to 175; def. 0
-    200A-35h:  0
+    200A-35h: 0
     #
     # Runaway current threshold
     # 1000 to 4000 %/10; def. 2000
-    200A-38h:  2000
+    200A-38h: 2000
     #
     # Reset delay
     # 0 to 60000 ms; def. 10000
@@ -860,31 +860,31 @@
     #
     # Runaway speed filter time
     # 1 to 1000 ms/10; def. 20
-    200A-3Bh:  20
+    200A-3Bh: 20
     #
     # Runaway protection detection time
     # 10 to 1000 ms; def. 30
-    200A-3Ch:  30
+    200A-3Ch: 30
     #
     # Overspeed threshold
     # 0 to 20000; def. 0
-    200A-47h:  0
+    200A-47h: 0
     #
     # Maximum time of ramp-to-stop
     # 0 to 65535 ms; def. 10000
-    200A-49h:  10000
+    200A-49h: 10000
     #
     # STO disconnection filter time
     # 0 to 5 ms; def. 5
-    200A-4Ah:  5
+    200A-4Ah: 5
     #
     # STO fault tolerance filter time
     # 0 to 10 ms; def. 10
-    200A-4Bh:  10
+    200A-4Bh: 10
     #
     # STO servo off filter time
     # 0 to 25 ms; def. 20
-    200A-4Ch:  20
+    200A-4Ch: 20
 
     # *** Group 200Bh:  Monitoring Parameters ***
     #
@@ -902,11 +902,11 @@
     #
     # Offline inertia autotuning selection
     # 0 to 1; def. 0
-    200D-03h:  0
+    200D-03h: 0
     #
     # Emergency stop
     # Set to 1 to command e-stop
-    200D-06h:  0
+    200D-06h: 0
     #
     # Forced DI/DO selection switch
     # - 0: No operation
@@ -915,7 +915,7 @@
     # - 3: Forced DI and DO enabled
     # - 4: EtherCAT forced DO enabled
     # Also see 2004h
-    200D-12h:  4
+    200D-12h: 4
     #
     # Forced DI setting
     #
@@ -924,14 +924,14 @@
     #
     # 0 to 0x1F; default 0x1F
     # Bits 0-5:  DI1-DI5
-    200D-13h:  0x001F
+    200D-13h: 0x001F
     #
     # Forced DO setting:
     # 0 to 7; def. 0
     # - Bits 0-2 correspond to DO1-DO3, respectively
     # - Makes no difference with SV660N (03029065) v903.4 v902.9 fw
     # Also see 2004h
-    200D-14h:  0
+    200D-14h: 0
     #
     # Absolute encoder reset selection
     # 0 to 2; def. 0
@@ -946,13 +946,13 @@
     # - For serial communication
     # - Used in Inovance software for e.g. firmware update
     # - May be configured on keypad
-    200E-01h:  1
+    200E-01h: 1
     #
     # Update parameter values written through communication to EEPROM
     # 0 to 3; def. 3
     # - 0:  All setting not saved/volatile
     # - 3:  Save everything to EEPROM/non-volatile
-    200E-02h:  0
+    200E-02h: 0
     #
     # EtherCAT slave name
     # 0 to 65535; no default (set by master)
@@ -960,11 +960,11 @@
     #
     # EtherCAT slave alias
     # 0 to 65535; def. 0  (0=master sets address)
-    200E-16h:  0
+    200E-16h: 0
     #
     # Number of SYNC interrupts allowed by EtherCAT
     # 1 to 20; def. 8
-    200E-17h:  8
+    200E-17h: 8
     #
     # SYNC loss counter
     # 0 to 65535; def. 0
@@ -975,11 +975,11 @@
     # 0 to 2; def. 1
     # 0:  Reserved
     # 1, 2:  Synchronization 1, 2, respectively
-    200E-20h:  1
+    200E-20h: 1
     #
     # EtherCAT synchronization error threshold
     # - Unit uS; range 100-4000; default 3000
-    200E-21h:  3000
+    200E-21h: 3000
     #
     # Subidxs 03, 1A-1E, 22-26 read-only
     # Subidx 0C not described in manual
@@ -999,17 +999,17 @@
     # Stop mode at S-OFF
     # -4 to 1; default 0
     # 0:  Coast to stop, keeping de-energized status
-    605Ch:  0
+    605Ch: 0
     #
     # Halt stop option code
     # 1 to 3; def. 1
     # 1:  Ramp to stop as defined by 6084h/609Ah (HM), keeping position lock status
-    605Dh:  1
+    605Dh: 1
     #
     # Stop mode at No. 2 fault
     # -5 to 3; default 2
     # 2:  Ramp to stop as defined by 6085h, keeping de-energized status
-    605Eh:  2
+    605Eh: 2
     #
     # Modes of operation
     # 1:  PP
@@ -1017,7 +1017,7 @@
     # 8:  CSP
     # 9:  CSV
     # 10:  CST
-    6060h:  8
+    6060h: 8
     #
     # Following error window
     # 0 to (2^32 - 1) ref. units; def. 3145728 (20-bit enc.) or
@@ -1026,11 +1026,11 @@
     #
     # Following error time out
     # 0 to 65535 ms; def. 0
-    6066h:  0
+    6066h: 0
     #
     # Position window
     # 0 to (2^32 - 1); def. 734
-    6067h:  5872
+    6067h: 5872
     #
     # Position window time:  0-65535 (ms)
     # - FIXME - better servo tuning should help us narrow this window
@@ -1038,23 +1038,23 @@
     #
     # Velocity window
     # 0 to 65535 RPM; def. 10
-    606Dh:  10
+    606Dh: 10
     #
     # Velocity window time
     # 0 to 65535 ms; def. 0
-    606Eh:  0
+    606Eh: 0
     #
     # Velocity threshold
     # 0 to 65535 RPM; def. 10
-    606Fh:  10
+    606Fh: 10
     #
     # Velocity threshold time
     # 0 to 65535 ms; def. 0
-    6070h:  0
+    6070h: 0
     #
     # Max. torque
     # 0 to 3000 %/10; default 3000
-    6072h:  3000
+    6072h: 3000
     #
     # Home offset:
     # -2^31 to +(2^31 - 1) ref. units; def. 0
@@ -1062,20 +1062,20 @@
     #
     # Minimum position limit
     # -2^31 to +(2^31 - 1) ref. units; def. -2^31
-    607D-01h:  -2147483648
+    607D-01h: -2147483648
     #
     # Maximum position limit
     # -2^31 to +(2^31 - 1) ref. units; def. 2^31 - 1
-    607D-02h:  2147483647
+    607D-02h: 2147483647
     #
     # Polarity
     # 0 to 255; def. 0
     # bits 5, 6, 7 negate torque, speed, position reference polarities
-    607Eh:  0
+    607Eh: 0
     #
     # Maximum profile velocity
     # 0 to (2^32 - 1) ref. units/s; def. 104857600
-    607Fh:  104857600
+    607Fh: 104857600
     #
     # Profile velocity
     # 0 to (2^32-1) ref. units/s; def. 174762
@@ -1091,11 +1091,11 @@
     #
     # Quick stop deceleration
     # 0 to (2^32 - 1) ref. units/s/s; def. 2147483647
-    6085h:  2147483647
+    6085h: 2147483647
     #
     # Torque slope
     # 0 to (2^32 - 1) %/10/s; def. 4294967295
-    6087h:  4294967295
+    6087h: 4294967295
     #
     # Gear Ratio
     # Divide encoder counts by 1
@@ -1108,7 +1108,7 @@
     #
     # Homing method
     # 35:  Home on current position
-    6098h:  35
+    6098h: 35
     #
     # Homing speeds
     #
@@ -1126,34 +1126,34 @@
     #
     # Position offset
     # -2^31 to +(2^31 - 1) ref. units; def. 0
-    60B0h:  0
+    60B0h: 0
     #
     # Velocity offset
     # -2 31 to +(2 31 - 1) ref. units; def. 0
-    60B1h:  0
+    60B1h: 0
     #
     # Torque offset
     # -3000 to +3000 %/10; def. 0
-    60B2h:  0
+    60B2h: 0
     #
     # Touch probe function
     # 0 to 65535; def. 0
     # (each bit has meaning; 0 switches everything off)
-    60B8h:  0
+    60B8h: 0
     #
     # Positive torque limit value
     # 0-3000 x 0.1%; default 3000
     #
     # Defines the maximum torque limit of the servo drive in the
     # forward direction.
-    60E0h:  3000
+    60E0h: 3000
     #
     # Negative torque limit value
     # 0-3000 x 0.1%; default 3000
     #
     # Defines the maximum torque limit of the servo drive in the
     # reverse direction.
-    60E1h:  3000
+    60E1h: 3000
     #
     # Digital output
     # Indicates the current DO logic of the servo drive.
@@ -1170,7 +1170,7 @@
     #     (Home offset)
     # 1:  Relative homing;  6064h (Position actual value) set to 607Ch
     #     (Home offset) + current encoder feedback
-    60E6h:  0
+    60E6h: 0
     #
     # Physical output
     # 0 to FFFFFFFF; def. 0
@@ -1184,7 +1184,7 @@
     # - Bits 16, 17, 18 correspond to DO1, DO2, DO3, respectively
     # - When high, output may be forced high via 60FE-01h bits 16-18
     # - Also see 2004h, 200D-12h, 200D-14h
-    60FE-02h:  0x00070000
+    60FE-02h: 0x00070000
     #
     # Idxs 6040h, 6041h, 6071h, 607Ah, 6081-6084h, 60FE-01h, 60FFh are
     #     PDOs or N/A
@@ -1194,18 +1194,17 @@
 
 
 # Inovance IS620N
--
-  vendor_id:  0x00100000
-  product_code:  0x000C0108
-  revision_no:  0x00010001
+- vendor_id: 0x00100000
+  product_code: 0x000C0108
+  revision_no: 0x00010001
 
   addresses:
-    - [0, 0]
-    - [0, 1]
-    - [0, 2]
-    - [0, 3]
-    - [0, 4]
-    - [0, 5]
+  - [0, 0]
+  - [0, 1]
+  - [0, 2]
+  - [0, 3]
+  - [0, 4]
+  - [0, 5]
 
   # Distributed clock
   dc_conf:
@@ -1225,8 +1224,8 @@
       pdo_mapping:
         index: 1600h
         entries:
-          - index: 6040h
-            name: control_word
+        - index: 6040h
+          name: control_word
           # Convert joint cmd reference values to drive values
           # All joints:
           # - encoder resolution: 2**23 (23bit)
@@ -1274,45 +1273,45 @@
           # - pos/vel cmd scale:  -66754421.443010896
           # - torque cmd scale:  -62.5
 
-          - index: 607Ah
-            name: position_reference
-            scale:
-              - 202265896.97232303
-              - 133508842.88602179
-              - 106807074.30881745
-              - 139039923.51987126
-              - 108142162.73767766
-              - -66754421.443010896
-          - index: 60B1h
-            name: velocity_reference
-            scale:
-              - 202265896.97232303
-              - 133508842.88602179
-              - 106807074.30881745
-              - 139039923.51987126
-              - 108142162.73767766
-              - -66754421.443010896
-          - index: 60B2h
-            name: torque_reference
-            scale:
-              - 2.7617824543960667
-              - 4.1841004184100417
-              - 9.8425196850393704
-              - 30.006858710562415
-              - 38.580246913580247
-              - -62.5
-          - index: 6060h
-            name: control_mode
+        - index: 607Ah
+          name: position_reference
+          scale:
+          - 202265896.97232303
+          - 133508842.88602179
+          - 106807074.30881745
+          - 139039923.51987126
+          - 108142162.73767766
+          - -66754421.443010896
+        - index: 60B1h
+          name: velocity_reference
+          scale:
+          - 202265896.97232303
+          - 133508842.88602179
+          - 106807074.30881745
+          - 139039923.51987126
+          - 108142162.73767766
+          - -66754421.443010896
+        - index: 60B2h
+          name: torque_reference
+          scale:
+          - 2.7617824543960667
+          - 4.1841004184100417
+          - 9.8425196850393704
+          - 30.006858710562415
+          - 38.580246913580247
+          - -62.5
+        - index: 6060h
+          name: control_mode
     '3':
       # TPDOs:  Transmit PDOs ("in" from drive)
       dir: in
       pdo_mapping:
         index: 1A00h
         entries:
-          - index: 6041h
-            name: status_word
-          - index: 6061h
-            name:  control_mode_fb
+        - index: 6041h
+          name: status_word
+        - index: 6061h
+          name: control_mode_fb
           # Convert joint drive feedback values to ROS (inverse direction)
           # - pos/vel fb scale = 1.0 / (pos/vel cmd scale)
           # - torque fb scale = 1. / (torque cmd scale)
@@ -1341,44 +1340,44 @@
           # - pos/vel fb scale:  -1.4980281131695716e-08
           # - torque fb scale:  -0.016
 
-          - index: 6064h
-            name:  position_actual_value
-            scale:
-              - 4.9439871721768036e-09
-              - 7.4901405658478579e-09
-              - 9.3626757073098216e-09
-              - 7.1921788698127573e-09
-              - 9.2470871183306876e-09
-              - -1.4980281131695716e-08
-          - index: 606Ch
-            name:  velocity_actual_value
-            scale:
-              - 4.9439871721768036e-09
-              - 7.4901405658478579e-09
-              - 9.3626757073098216e-09
-              - 7.1921788698127573e-09
-              - 9.2470871183306876e-09
-              - -1.4980281131695716e-08
-          - index: 6077h
-            name:  torque_actual_value
-            scale:
-              - 0.36208500000000005
-              - 0.23899999999999999
-              - 0.1016
-              - 0.033325714285714285
-              - 0.025920000000000002
-              - -0.016
-          - index: 60F4h
-            name:  following_error_actual_value
-            scale:
-              - 4.9439871721768036e-09
-              - 7.4901405658478579e-09
-              - 9.3626757073098216e-09
-              - 7.1921788698127573e-09
-              - 9.2470871183306876e-09
-              - -1.4980281131695716e-08
-          - index: 203Fh
-            name: error_code
+        - index: 6064h
+          name: position_actual_value
+          scale:
+          - 4.9439871721768035e-09
+          - 7.4901405658478579e-09
+          - 9.3626757073098215e-09
+          - 7.1921788698127573e-09
+          - 9.2470871183306876e-09
+          - -1.4980281131695715e-08
+        - index: 606Ch
+          name: velocity_actual_value
+          scale:
+          - 4.9439871721768035e-09
+          - 7.4901405658478579e-09
+          - 9.3626757073098215e-09
+          - 7.1921788698127573e-09
+          - 9.2470871183306876e-09
+          - -1.4980281131695715e-08
+        - index: 6077h
+          name: torque_actual_value
+          scale:
+          - 0.36208500000000005
+          - 0.23899999999999999
+          - 0.1016
+          - 0.033325714285714285
+          - 0.025920000000000002
+          - -0.016
+        - index: 60F4h
+          name: following_error_actual_value
+          scale:
+          - 4.9439871721768035e-09
+          - 7.4901405658478579e-09
+          - 9.3626757073098215e-09
+          - 7.1921788698127573e-09
+          - 9.2470871183306876e-09
+          - -1.4980281131695715e-08
+        - index: 203Fh
+          name: error_code
 
   # Parameter settings
   param_values:
@@ -1435,7 +1434,7 @@
     #
     # External positive torque limit:  def. 3000
     # (Restore default after an earlier mistake in this file)
-    2007-0Ch:  3000
+    2007-0Ch: 3000
 
     # *** Gain Parameters ***
     # NB: parameter values are all integers in drives but are decimals
@@ -1558,86 +1557,84 @@
 
 
 # iTegva E7.820.001 16-ch Dig.In/16-ch Relay Out(Access_Byte)
--
-  vendor_id:  0x00000A09
-  product_code:  0x00000201
-  revision_no:  100
+- vendor_id: 0x00000A09
+  product_code: 0x00000201
+  revision_no: 100
 
   addresses:
-    - [0, 6]
+  - [0, 6]
 
   # Sync manager configuration
   sync_manager:
     '0':
       dir: out
       pdo_mapping:
-        index:  1600h
+        index: 1600h
         entries:
-          - index:  7001-01h
-            bits:
-              - dout-0
-              - dout-1
-              - dout-2
-              - dout-3
-              - dout-4
-              - dout-5
-              - dout-6
-              - dout-7
+        - index: 7001-01h
+          bits:
+          - dout-0
+          - dout-1
+          - dout-2
+          - dout-3
+          - dout-4
+          - dout-5
+          - dout-6
+          - dout-7
     '1':
       dir: out
       pdo_mapping:
-        index:  1601h
+        index: 1601h
         entries:
-          - index:  7001-02h
-            bits:
-              - dout-8
-              - dout-9
-              - dout-10
-              - dout-11
-              - dout-12
-              - dout-13
-              - dout-14
-              - dout-15
+        - index: 7001-02h
+          bits:
+          - dout-8
+          - dout-9
+          - dout-10
+          - dout-11
+          - dout-12
+          - dout-13
+          - dout-14
+          - dout-15
     '2':
       # TPDOs:  Transmit PDOs ("in" from drive)
       dir: in
       pdo_mapping:
         index: 1A00h
         entries:
-          - index: 6001-01h
-            bits:
-              - din-0
-              - din-1
-              - din-2
-              - din-3
-              - din-4
-              - din-5
-              - din-6
-              - din-7
-          - index: 6001-02h
-            bits:
-              - din-8
-              - din-9
-              - din-10
-              - din-11
-              - din-12
-              - din-13
-              - din-14
-              - din-15
+        - index: 6001-01h
+          bits:
+          - din-0
+          - din-1
+          - din-2
+          - din-3
+          - din-4
+          - din-5
+          - din-6
+          - din-7
+        - index: 6001-02h
+          bits:
+          - din-8
+          - din-9
+          - din-10
+          - din-11
+          - din-12
+          - din-13
+          - din-14
+          - din-15
 
 # Sim EtherCAT Drive
--
-  vendor_id:  0xB090C0
-  product_code:  0xB0905030
-  revision_no:  0x00000001
+- vendor_id: 0xB090C0
+  product_code: 0xB0905030
+  revision_no: 0x00000001
 
   addresses:
-    - [0, 0]
-    - [0, 1]
-    - [0, 2]
-    - [0, 3]
-    - [0, 4]
-    - [0, 5]
+  - [0, 0]
+  - [0, 1]
+  - [0, 2]
+  - [0, 3]
+  - [0, 4]
+  - [0, 5]
 
   # These sim devices aren't realistic enough to have working PDOs,
   # and SDOs can be set & read but don't actually do anything

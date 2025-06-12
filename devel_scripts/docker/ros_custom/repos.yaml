@@ -1,8 +1,9 @@
+---
 repositories:
   hal_ros_control:
     type: git
     url: https://github.com/tormach/hal_ros_control.git
-    version:  humble-devel
+    version: humble-devel
   hw_device_mgr:
     type: git
     url: https://github.com/tormach/hw_device_mgr.git

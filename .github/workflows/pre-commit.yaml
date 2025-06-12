@@ -1,10 +1,11 @@
+---
 name: pre-commit
 
 on:
   push:
-    branches: [ "humble" ]
+    branches: [humble]
   pull_request:
-    branches: [ "humble" ]
+    branches: [humble]
 
 jobs:
   pre-commit:
@@ -37,4 +38,4 @@ jobs:
             go install mvdan.cc/sh/v3/cmd/shfmt@v3.3.1 &&
         sudo ln -s ../go/bin/shfmt /usr/local/bin/shfmt
 
-      - uses: pre-commit/action@v3.0.1
+    - uses: pre-commit/action@v3.0.1
