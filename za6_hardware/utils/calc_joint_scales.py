@@ -48,7 +48,7 @@ for k in range(6):
     inv_posvel_scale = 2.0 * math.pi / (gear_ratio * 2**23)
     inv_torque_scale = nominal_torque[k] * gear_ratio / 1000.0
     lines.append(
-        f'          <!-- Convert Joint {k+1} ROS reference values to drive values (forward direction) -->'
+        f'          <!-- Convert Joint {k + 1} ROS reference values to drive values (forward direction) -->'
     )
     lines.append(
         f'          <!-- gearbox ratio: {gear_ratio:g}, encoder: 23bit, nominal torque: {nominal_torque[k]:g}Nm -->'
@@ -76,7 +76,7 @@ for k in range(6):
     )
     lines.append('')
     lines.append(
-        f'          <!-- Convert Joint {k+1} drive feedback values to ROS (inverse direction) -->'
+        f'          <!-- Convert Joint {k + 1} drive feedback values to ROS (inverse direction) -->'
     )
     lines.append(
         f'          <!-- inverse pos and vel scale = 1. / {fwd_posvel_scale:0.17g} = {inv_posvel_scale:0.17g} -->'

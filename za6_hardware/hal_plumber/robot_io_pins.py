@@ -78,10 +78,10 @@ is620n_signal_to_pin_map = {
 
 # Add in standard signals
 is620n_signal_to_pin_map.update(
-    {f"digital_in_{n+1}": (f"lcec.0.6.din-{n}", "") for n in range(14)}
+    {f"digital_in_{n + 1}": (f"lcec.0.6.din-{n}", "") for n in range(14)}
 )
 is620n_signal_to_pin_map.update(
-    {f"digital_out_{n+1}": (f"lcec.0.6.dout-{n}", "") for n in range(14)}
+    {f"digital_out_{n + 1}": (f"lcec.0.6.dout-{n}", "") for n in range(14)}
 )
 
 

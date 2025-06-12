@@ -364,8 +364,8 @@ class HALPlumberEC(HALPlumber):
                 sig = hal.Signal(f"io_module_{name}")
                 sig.link(f"lcec.0.6.slave-{name}")
             for idx in range(16):
-                hal.Signal(f"din{idx+1:02d}").link(f"lcec.0.6.din-{idx}")
-                hal.Signal(f"dout{idx+1:02d}").link(f"lcec.0.6.dout-{idx}")
+                hal.Signal(f"din{idx + 1:02d}").link(f"lcec.0.6.din-{idx}")
+                hal.Signal(f"dout{idx + 1:02d}").link(f"lcec.0.6.dout-{idx}")
 
         # Read fb at beginning of cycle, write cmd at end
         self.func_config("lcec.0.read", self.Prio.DRIVE_READ_FB)
