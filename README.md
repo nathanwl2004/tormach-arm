@@ -33,6 +33,13 @@ workspace, e.g.  `WSDIR=~/tormach_za_ros2_ws`.
         src/tormach_za_ros2_drivers
     ./src/tormach_za_ros2_drivers/devel_scripts/docker-dev.sh -b
 
+**NOTE:** Because the containerized `docker build` environment has
+limited access to the host environment, the build will fail if running
+on a Tormach controller with the EtherCAT master running.  Before
+building, stop the master:
+
+    sudo systemctl stop ethercat
+
 ## Running the ZA6 on ROS 2
 
 Run the ZA6, either real hardware or in sim mode, in a Docker
