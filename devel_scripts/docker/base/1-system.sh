@@ -54,7 +54,7 @@ update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
 locale  # check for UTF-8
 
- apt update && sudo apt install locales
+ apt update && apt install locales
 
  locale-gen en_US en_US.UTF-8
 
