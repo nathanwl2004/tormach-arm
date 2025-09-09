@@ -51,6 +51,21 @@ update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
 # setup locale
+
+locale  # check for UTF-8
+
+sudo apt update && sudo apt install locales
+
+sudo locale-gen en_US en_US.UTF-8
+
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+
+export LANG=en_US.UTF-8
+
+locale  # verify settings
+
+
+
 apt-get install -y \
     locales
 sed 's/.*#\s*\(en_US.UTF-8 UTF-8\).*/\1/' /etc/locale.gen -i
