@@ -85,7 +85,9 @@ while getopts :dt:Si:N-bT:m:P:gpBHlvn:L:GchDE:AI ARG; do
         ROBOT_PACKAGE=$OPTARG
         ;;
     g)
-        IGNORE_DIRTY_WORKDIR=1
+      # IGNORE_DIRTY_WORKDIR=1
+
+
         ;;
     # Push mode
     p) PUSH=true ;;
