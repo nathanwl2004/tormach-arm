@@ -59,8 +59,8 @@ update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 apt-get install -y \
     locales
 
-sed 's/.*#\s*\(en_US.UTF-8 UTF-8\).*/\1/' /etc/locale.gen-i 
-sed 's/.*#\s*\(C.UTF-8 UTF-8\).*/\1/' /usr/lib/locale.gen-i 
+sed 's/.*#\s*\(en_US.UTF-8 UTF-8\).*/\1/' /etc/locale.gen -i 
+sed 's/.*#\s*\(C.UTF-8 UTF-8\).*/\1/' /usr/lib/locale.gen -i 
 locale-gen
 update-locale 
 LANG=en_US.UTF-8
