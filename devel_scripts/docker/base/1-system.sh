@@ -3,7 +3,7 @@ WANT_ENV="docker-build docker-run"
 . $(dirname $0)/../env.sh
 BASE_SCRIPTS_DIR=${DOCKER_SCRIPTS_DIR}/base
 
-echo $'LANG=en_US.UTF-8\nLC_COLLATE=en_US.UTF-8' >/etc/default/locale
+echo $'LANG=en_US.UTF-8\nLC_COLLATE=C' >/etc/default/locale
 
 ###########################
 # Update system & install general dependencies
