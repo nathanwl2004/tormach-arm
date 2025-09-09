@@ -59,7 +59,7 @@ update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 apt-get install -y \
     locales
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-sed 's/.*#\s*\(en_US.UTF-8 UTF-8\).*/\1/' /pathepilot/etcher/locales-i 
+sed 's/.*#\s*\(en_US.UTF-8 UTF-8\).*/\1/' /pathepilot/etcher/locales/en-US.pak-i 
 locale-gen
 update-locale 
 LANG=en_US.UTF-8
