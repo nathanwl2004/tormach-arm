@@ -294,9 +294,9 @@ ENV TERM=dumb
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN=true
 # ENV LC_ALL=C.UTF-8
-ENV LC_COLLATE=C # changed for the commented out part
-ENV LANGUAGE=en_US.UTF-8 # changed from C.UTF-8 to en_US.UTF-8
-ENV LANG=en_US.UTF-8  # changed from C.UTF-8 to en_US.UTF-8
+ENV LC_COLLATE=C 
+ENV LANGUAGE=en_US.UTF-8 
+ENV LANG=en_US.UTF-8  
 
 # Turn off recommends on container OS
 RUN printf "%s;\n%s;\n"                 \
