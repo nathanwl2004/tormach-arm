@@ -168,7 +168,7 @@ check_workdir_clean() {
 compute_image_minor_version() {
     # Use first 8 chars of a sha1sum of files in the docker/ directory
     (
-        export LC_ALL=C.UTF-8 # Be sure sorting is consistent
+        export LC_ALL=en_US.UTF-8 # Be sure sorting is consistent
         cd $DOCKER_SCRIPTS_DIR
         find . -type f -print0 |
             sort -z |
